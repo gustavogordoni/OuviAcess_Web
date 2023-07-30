@@ -18,5 +18,5 @@
                 return null;
             }
         }               
-        require 'navbar.php';
+
     ?>
