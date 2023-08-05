@@ -13,10 +13,15 @@ html{
 }
 
 /* Sombreado CIANO*/
-.nav-item{
+.shadow{
     text-shadow: 0 0 5px #00BFFF;
 }
-/*cor dos títulos e sub-títulos*/
+
+/*Cor dos títulos e sub-títulos*/
 .container h2, h4, li{
     color:#00BFFF;
+}
+
+.login_form{
+    height: 100vh;
 }

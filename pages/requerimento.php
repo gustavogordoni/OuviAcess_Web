@@ -1,27 +1,115 @@
-    <?php
+<?php
         include 'header.php';
         include 'navbar.php';
-    ?>
+?>
 
-  
-<div class="container">
-        <!-- just to make scrolling effect possible -->
-	    <h2 class="text-center fs-2 mt-5">Sobre o Sistema</h2>
-		
-        <ol>
-            <li class="fs-4"><h4 class = "mt-4">Introdução</h4></li>
-            <p>No Brasil, foram aprovadas leis, decretos, portarias e resoluções, nas esferas: federal, estaduais e municipais, buscando reforçar a Declaração dos Direitos das Pessoas Deficientes da ONU. Apesar de todo esse aparato jurídico para regulamentar formas de integração da pessoa portadora de deficiência no contexto socioeconômico e cultural, garantindo o pleno exercício dos direitos decorrentes da Constituição, na prática esses direitos ainda não são garantidos em sua totalidade.</p>
-            <p>A falta de acessibilidade em ambientes públicos e privados é um problema que afeta a vida de muitas pessoas, especialmente aqueles com deficiências físicas. A falta de rampas de acesso, calçadas deterioradas, falta de corrimãos e outros obstáculos tornam a locomoção dessas pessoas extremamente difícil, limitando sua independência e qualidade de vida. Diante disso, o desenvolvimento de um sistema de ouvidoria voltado para denúncias e sugestões de ambientes acessíveis pode ser uma solução para ajudar a melhorar a acessibilidade em nossas cidades.</p>
-
-            <li class="fs-4"><h4 class = "mt-4">Objetivo</h4></li>
-            <p>O objetivo deste projeto integrador é desenvolver um sistema de ouvidoria voltado para denúncias e sugestões de ambientes acessíveis, como rampas de acessibilidade e calçadas deterioradas. O sistema terá como principal objetivo facilitar a solicitação de manutenção desses espaços, permitindo que as pessoas denunciem obstáculos e sugiram melhorias para tornar a circulação mais acessível para todos.</p>
-
-            <li class="fs-4"><h4 class = "mt-4">Justificativa</h4></li>
-            <p>A criação de um sistema de ouvidoria voltado para denúncias e sugestões de ambientes acessíveis é extremamente relevante para a sociedade. Além de ajudar a melhorar a qualidade de vida das pessoas com deficiência física, podendo contribuir para a criação de uma cultura de acessibilidade em nossas cidades, estimulando o cuidado e manutenção dos espaços públicos e privados. Além disso, esse sistema pode facilitar a comunicação entre os usuários e os responsáveis pela manutenção dos espaços, permitindo que as solicitações sejam recebidas e tratadas de forma mais rápida e eficiente.</p>
-            <p>Por fim, a criação de um sistema de ouvidoria pode ajudar a promover a inclusão social, permitindo que pessoas com deficiência física tenham maior acesso aos espaços públicos e possam desfrutar da cidade de forma mais livre e autônoma.</p>
-        </ol>
+<div class="container mx-auto mt-5">
+  <main>
+  <div class="py-5 text-center">
+  <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-bank d-block mx-auto mb-3" viewBox="0 0 16 16">
+                <path d="m8 0 6.61 3h.89a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H15v7a.5.5 0 0 1 .485.38l.5 2a.498.498 0 0 1-.485.62H.5a.498.498 0 0 1-.485-.62l.5-2A.501.501 0 0 1 1 13V6H.5a.5.5 0 0 1-.5-.5v-2A.5.5 0 0 1 .5 3h.89L8 0ZM3.777 3h8.447L8 1 3.777 3ZM2 6v7h1V6H2Zm2 0v7h2.5V6H4Zm3.5 0v7h1V6h-1Zm2 0v7H12V6H9.5ZM13 6v7h1V6h-1Zm2-1V4H1v1h14Zm-.39 9H1.39l-.25 1h13.72l-.25-1Z"/>
+        </svg>
+      <h2>Informe os dados solicitados para <br> registrar o requerimento no sistema</h2>
+      <!--
+      <p class="lead">Below is an example form built entirely with Bootstrap’s form controls. Each required form group has a validation state that can be triggered by attempting to submit the form without completing it.</p>
+    -->
     </div>
 
-    <?php
-        include 'footer.php'
-    ?>
+    <div class="row">
+      <div class="col-9 mx-auto">
+ 
+        <form class="needs-validation" novalidate="" action="" method="POST">
+          <div class="row g-3">
+
+            <div class="col-sm-8">
+              <label for="Name" class="form-label"><strong>Título do requerimento: </strong></label>
+              <input type="text" class="form-control" id="Name" placeholder="Ex: Falta de rampas de acesso" value="" required>
+              <div class="invalid-feedback">
+                Informe um título para seu requerimento
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <label for="country" class="form-label"><strong>Tipo:</strong></label>
+              <select class="form-select" id="country" required>
+                <option value="">Escolha uma opção</option>
+                <option>Denúncia</option>
+                <option>Sugestão</option>
+              </select>
+              <div class="invalid-feedback">
+                Selecione um tipo de requerimento
+              </div>
+            </div>
+
+            <div class="col-md-8">
+              <label for="cidade" class="form-label"><strong>Cidade: </strong></label>
+              <input type="text" class="form-control" id="cidade" placeholder="Ex: Votuporanga" required>
+              <div class="invalid-feedback">
+                Informe uma cidade válida
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <label for="cep" class="form-label"><strong>CEP: </strong></label>
+              <input type="text" class="form-control" id="cep" placeholder="XXXXX-XXX" required>
+              <div class="invalid-feedback">
+                Informe um CEP válido
+              </div>
+            </div>        
+
+            <div class="col-md-6">
+              <label for="bairro" class="form-label"><strong>Bairro: </strong></label>
+              <input type="text" class="form-control" id="bairro" placeholder="Ex: Centro" required>
+              <div class="invalid-feedback">
+                Informe um bairro válido
+              </div>
+            </div>
+            
+            <div class="col-md-6">
+              <label for="zip" class="form-label"><strong>Rua: </strong></label>
+              <input type="text" class="form-control" id="zip" placeholder="Ex: Rua Amazonas" required>
+              <div class="invalid-feedback">
+                Informe uma rua válida
+              </div>
+            </div>
+
+            <div class="col-12 input-group mt-4">
+                <label class="input-group-text" for="inputGroupFile01"><strong>Foto do local:</strong></label>
+                <input type="file" class="form-control" id="inputGroupFile01" accept="image/*">
+                <div class="invalid-feedback">
+                  Informe uma imagem do local em discussão
+                </div>
+            </div>
+
+            <div class="col-12">
+              <label for="password" class="form-label"><strong>Descrição: </strong></label>
+              <textarea class="form-control" placeholder="Insira uma descrição detalhada sobre o ambiente em discussão    " id="floatingTextarea2" style="height: 100px"></textarea>
+              <div class="invalid-feedback">
+                Insira uma descrição detalhada sobre o ambiente em discussão               
+              </div>
+            </div>
+            
+
+            <div class="col-12 form-check d-flex justify-content-center ">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+                <label class="form-check-label ms-1" for="flexCheckChecked">
+                    Enviar <strong>anonimamente</strong>
+                </label>
+            </div>
+
+
+            <div class="col-md-6">
+                <button class="w-100 btn btn-warning btn-lg mt-3" type="reset">Limpar</button>
+            </div>
+            <div class="col-md-6">
+                <button class="w-100 btn btn-primary btn-lg mt-3" type="submit">Enviar</button>
+            </div>
+
+
+        </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+<?php include 'footer.php'; ?>
