@@ -1,12 +1,12 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top border-bottom border-info" aria-label="Offcanvas navbar large">
-    <div class="container-fluid mx-4">
-      <a class="navbar-brand fs-4" href="../.">Sistema de Ouvidoria</a>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top border-bottom border-info p-1" aria-label="Offcanvas navbar large">
+    <div class="container-fluid mx-4 d-flex">
+      <img src="../image/OuviAcess_Sem_Fundo.png" alt="" width="120vw" class="d-flex mx-auto">
       <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar2" aria-controls="offcanvasNavbar2" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasNavbar2" aria-labelledby="offcanvasNavbar2Label">
         <div class="offcanvas-header">
-          <h5 class="offcanvas-title" id="offcanvasNavbar2Label">Sistema de Ouvidoria</h5>
+          <h5 class="offcanvas-title mx-auto" id="offcanvasNavbar2Label"><img src="../image/OuviAcess_Sem_Fundo.png" alt="" width="120vw"></h5>
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
@@ -31,7 +31,7 @@
             </li>
 
             <li class="nav-item mx-2">
-              <a href="../." class="nav-link<?= ativar ('historico.php')?> text-center">
+              <a href="historico.php" class="nav-link<?= ativar ('historico.php')?> text-center">
               <svg xmlns="http://www.w3.org/2000/svg" class="bi d-block mx-auto mb-1" width="15" height="15" fill="currentColor" viewBox="0 0 16 16">
                 <path d="M1 3.5A1.5 1.5 0 0 1 2.5 2h2.764c.958 0 1.76.56 2.311 1.184C7.985 3.648 8.48 4 9 4h4.5A1.5 1.5 0 0 1 15 5.5v7a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 1 12.5v-9zM2.5 3a.5.5 0 0 0-.5.5V6h12v-.5a.5.5 0 0 0-.5-.5H9c-.964 0-1.71-.629-2.174-1.154C6.374 3.334 5.82 3 5.264 3H2.5zM14 7H2v5.5a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V7z"/>
               </svg>
@@ -41,7 +41,7 @@
 
           </ul>
 
-          <div class="d-flex my-auto">
+          <div class="d-flex my-auto justify-content-evenly">
             <a href="login.php"><button type="button" class="btn btn-outline-light me-2">Login</button></a> 
             <a href="cadastro.php"><button type="button" class="btn btn-outline-warning">Cadastre-se</button></a>
           </div>
