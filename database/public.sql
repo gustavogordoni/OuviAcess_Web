@@ -2,7 +2,7 @@
 CREATE TABLE Usuario(
     id_usuario INT AUTO_INCREMENT,
     nome VARCHAR (50),
-    dd CHAR (2),
+    ddd CHAR (4),
     telefone VARCHAR (10),
     email VARCHAR(50),
     senha VARCHAR(50),

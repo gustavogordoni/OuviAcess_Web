@@ -11,12 +11,12 @@
     $senha = filter_input(INPUT_POST, "senha", FILTER_SANITIZE_SPECIAL_CHARS);
     $confirme = filter_input(INPUT_POST, "confirme", FILTER_SANITIZE_SPECIAL_CHARS);
 
-    echo "<p><b>Nome:</b> $nome</p>";
-    echo "<p><b>DDD:</b> $ddd</p>";
-    echo "<p><b>Telefone:</b> $telefone</p>";
-    echo "<p><b>Email:</b> $email</p>";
-    echo "<p><b>Password:</b> $senha</p>";
-    echo "<p><b>Confirme:</b> $confirme</p>";
+    echo "<h5><b>Nome:</b> $nome</h5>";
+    echo "<h5><b>DDD:</b> $ddd</h5>";
+    echo "<h5><b>Telefone:</b> $telefone</h5>";
+    echo "<h5><b>Email:</b> $email</h5>";
+    echo "<h5><b>Password:</b> $senha</h5>";
+    echo "<h5><b>Confirme:</b> $confirme</h5>";
   
     
     $sql = "INSERT INTO `Usuario`(`nome`, `ddd`, `telefone`, `email`, `senha`) VALUES (?, ?, ?, ?, ?)";

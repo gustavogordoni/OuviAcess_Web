@@ -1,12 +1,18 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top border-bottom border-info p-1" aria-label="Offcanvas navbar large">
-    <div class="container-fluid mx-4 d-flex">
-      <img src="../image/OuviAcess_Sem_Fundo.png" alt="" width="120vw" class="d-flex mx-auto">
+<nav class="navbar navbar-expand-lg navbar-<?= $tema ?> bg-<?= $tema ?> sticky-top border-2 border-bottom border-info p-1" aria-label="Offcanvas navbar large">
+    <div class="container-fluid mx-3 d-flex">
+      <a href="../." class="mx-auto">
+      <img src="../image/OuviAcess.png" alt="" width="120vw" class="d-flex mx-auto ms-2">
+      </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar2" aria-controls="offcanvasNavbar2" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasNavbar2" aria-labelledby="offcanvasNavbar2Label">
+      <div class="offcanvas offcanvas-start text-bg-<?= $tema ?>" tabindex="-1" id="offcanvasNavbar2" aria-labelledby="offcanvasNavbar2Label">
         <div class="offcanvas-header">
-          <h5 class="offcanvas-title mx-auto" id="offcanvasNavbar2Label"><img src="../image/OuviAcess_Sem_Fundo.png" alt="" width="120vw"></h5>
+          <h5 class="offcanvas-title mx-auto" id="offcanvasNavbar2Label">
+            <a href="../.">
+              <img src="../image/OuviAcess.png" alt="" width="120vw">
+            </a>
+          </h5>
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
@@ -42,9 +48,13 @@
           </ul>
 
           <div class="d-flex my-auto justify-content-evenly">
-            <a href="login.php"><button type="button" class="btn btn-outline-light me-2">Login</button></a> 
-            <a href="cadastro.php"><button type="button" class="btn btn-outline-warning">Cadastre-se</button></a>
+            <a href="login.php"><button type="button" class="btn btn-outline-primary mx-1">Login</button></a> 
+            <a href="cadastro.php"><button type="button" class="btn btn-outline-danger mx-1">Cadastre-se</button></a>
+            <form action="" method = "POST" class="my-auto">
+              <button value = "<?= $value ?>" type="submit" class="btn <?= $class ?> mx-1 rounded-circle p-2" id="alterar_tema" name = "tema"><?= $Dark_Light ?></button>
+            </form>
           </div>
+
 
         </div>
       </div>

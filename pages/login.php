@@ -7,7 +7,7 @@
   <form>
         <!--<img class="mb-4 d-block mx-auto" src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">-->
       
-    <img src="../image/OuviAcess_Sem_Fundo.png" alt="" width="200vw" class="mb-4 d-block mx-auto">
+    <img src="../image/OuviAcess.png" alt="" width="200vw" class="mb-4 d-block mx-auto">
 
     <!--
     <h1 class="h3 mb-3 fw-normal text-center fs-1"><strong class="shadow text-light">Bem-vindo!</strong></h1>

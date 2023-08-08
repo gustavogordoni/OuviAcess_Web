@@ -18,17 +18,17 @@
     date_default_timezone_set('America/Sao_Paulo');
     $data = date('d/m/Y');
 
-    echo "<p><b>Titulo:</b> $titulo</p>";
-    echo "<p><b>Tipo:</b> $tipo</p>";
-    echo "<p><b>Situação:</b> $situacao</p>";
-    echo "<p><b>Data:</b> $data</p>";
-    echo "<p><b>Cidade:</b> $cidade</p>";
-    echo "<p><b>CEP:</b> $cep</p>";
-    echo "<p><b>Bairro:</b>: $bairro</p>";
-    echo "<p><b>Rua:</b> $rua</p>";
-    echo "<p><b>Imagem:</b> $imagem</p>";
-    echo "<p><b>Descrição:</b> $descricao</p>";
-    echo "<p><b>Anonimo:</b> $anonimo</p>";  
+    echo "<h5><b>Titulo:</b> $titulo</h5>";
+    echo "<h5><b>Tipo:</b> $tipo</h5>";
+    echo "<h5><b>Situação:</b> $situacao</h5>";
+    echo "<h5><b>Data:</b> $data</h5>";
+    echo "<h5><b>Cidade:</b> $cidade</h5>";
+    echo "<h5><b>CEP:</b> $cep</h5>";
+    echo "<h5><b>Bairro:</b>: $bairro</h5>";
+    echo "<h5><b>Rua:</b> $rua</h5>";
+    echo "<h5><b>Imagem:</b> $imagem</h5>";
+    echo "<h5><b>Descrição:</b> $descricao</h5>";
+    echo "<h5><b>Anonimo:</b> $anonimo</h5>";
     
     $sql = "INSERT INTO `requerimento`(`titulo`, `tipo`, `situacao`, `data`, `descricao`, `cep`, `cidade`, `bairro`, `rua`) VALUES (?,?,?,?,?,?,?,?,?)";
 
