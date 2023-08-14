@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-<?= $tema ?> bg-<?= $tema ?> sticky-top border-2 border-bottom border-info p-1" aria-label="Offcanvas navbar large">
+<nav class="navbar navbar-expand-md navbar-<?= $tema ?> bg-<?= $tema ?> sticky-top border-2 border-bottom border-info p-1" aria-label="Offcanvas navbar large">
     <div class="container-fluid mx-3 d-flex">
       <a href="../." class="mx-auto">
       <img src="../image/OuviAcess.png" alt="" width="120vw" class="d-flex mx-auto ms-2">

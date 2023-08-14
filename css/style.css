@@ -3,6 +3,8 @@ p, h2, h5, li{
     font-family: "Quicksand", sans-serif;
 }
 
+/* AGR FOI?*/
+
 html{
     scroll-behavior: smooth;
 }
@@ -18,7 +20,7 @@ html{
 }
 
 /*Cor dos títulos e sub-títulos*/
-h2, h4, li, th, .modal-title{
+h2, h4, li, th, .modal-title, .cor_tema{
     color:#00BFFF;
 }
 

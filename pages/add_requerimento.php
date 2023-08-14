@@ -30,7 +30,7 @@
     echo "<h5><b>Descrição:</b> $descricao</h5>";
     echo "<h5><b>Anonimo:</b> $anonimo</h5>";
     
-    $sql = "INSERT INTO `requerimento`(`titulo`, `tipo`, `situacao`, `data`, `descricao`, `cep`, `cidade`, `bairro`, `rua`) VALUES (?,?,?,?,?,?,?,?,?)";
+    $sql = "INSERT INTO requerimento(titulo, tipo, situacao, data, descricao, cep, cidade, bairro, rua) VALUES (?,?,?,?,?,?,?,?,?)";
 
     $stmt = $conn -> prepare($sql);
 

@@ -19,7 +19,7 @@
     echo "<h5><b>Confirme:</b> $confirme</h5>";
   
     
-    $sql = "INSERT INTO `Usuario`(`nome`, `ddd`, `telefone`, `email`, `senha`) VALUES (?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO Usuario(nome, ddd, telefone, email, senha) VALUES (?, ?, ?, ?, ?)";
 
     $stmt = $conn->prepare($sql);
     

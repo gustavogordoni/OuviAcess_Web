@@ -3,13 +3,13 @@
     $class = "btn-dark";
     $tema = filter_input(INPUT_POST, "tema", FILTER_SANITIZE_SPECIAL_CHARS);
 
-    if(!isset($tema)){
+    if (!isset($tema)) {
+    if (isset($_COOKIE['tema'])) {
         $tema = $_COOKIE['tema'];
-    }    
-
-    if(!isset($tema)){
-      $tema = "light";
+    } else {
+        $tema = "dark"; // Valor padrão se não estiver definido nem na postagem nem no cookie
     }
+}
 
     if ($tema == "dark") {
       echo '<script>temaDark();</script>';
@@ -44,11 +44,11 @@
     <title>OuviAcess</title>
     <link rel="icon" href="../image/MegAfone.png" type="image/x-icon">
   
-    <link rel="stylesheet" href="../styles/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="../styles/style.css">
+    <link rel="stylesheet" href="../css/style.css">
 
 </head>
 <body>
