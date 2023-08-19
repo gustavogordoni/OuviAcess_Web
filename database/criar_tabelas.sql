@@ -17,7 +17,7 @@ CREATE TABLE Requerimento(
     situacao VARCHAR (40),
     data VARCHAR (10),
     descricao VARCHAR (1000),
-    cep VARCHAR (40),
+    cep VARCHAR (10),
     cidade VARCHAR (40),
     bairro VARCHAR (40),
     rua VARCHAR (40),

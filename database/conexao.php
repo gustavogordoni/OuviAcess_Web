@@ -10,7 +10,7 @@ try {
     $conn = new PDO(
         $string_connection,
         $conf["user"],
-        /*$conf["password"]*/
+        //$conf["password"]
     );
     if ($conf["debug"] == "true") {
         echo "<h2>Sucesso!</h2>";

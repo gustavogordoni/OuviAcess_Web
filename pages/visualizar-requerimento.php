@@ -2,7 +2,7 @@
     require 'header.php';
     require 'navbar.php';
 
-    $id = filter_input (INPUT_POST, "id", FILTER_SANITIZE_NUMBER_INT);
+    $id = filter_input (INPUT_POST, "visualizar", FILTER_SANITIZE_NUMBER_INT);
 
     require '../database/conexao.php';
 
@@ -47,8 +47,8 @@
         </strong>
     </div>
 
-    <div class="row mb-4">
-        <div class="col-12 mx-auto my-auto">                
+    <div class="row">
+        <div class="col-11 mx-auto mb-4">                
             <div class="row g-3">
                 <div class="col-md-8">
                 <label for="titulo" class="form-label"><strong>Título do requerimento: </strong></label>
@@ -96,4 +96,7 @@
   </main>
 </div>
 
-<?php require 'footer.php';?>
+<?php 
+    require 'footer.php';
+    require 'js.php';
+?>
