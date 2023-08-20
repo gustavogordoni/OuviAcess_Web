@@ -1,9 +1,8 @@
 @import url('https:fonts.googleapis.com/css?family=Quicksand:400,300,700');
 p, h2, h5, li{
+*{
     font-family: "Quicksand", sans-serif;
 }
-
-/* AGR FOI?*/
 
 html{
     scroll-behavior: smooth;
@@ -22,8 +21,4 @@ html{
 /*Cor dos títulos e sub-títulos*/
 h2, h4, li, th, .modal-title, .cor_tema{
     color:#00BFFF;
-}
-
-.login_form{
-    height: 100vh;
 }

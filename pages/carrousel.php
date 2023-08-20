@@ -9,8 +9,8 @@
       <img src="../image/img5.jpg" alt="Imagem ilustrativa de uma vaga especial para pessoas portadoras de deficiência" class="img-fluid">
       <div class="container">
         <div class="carousel-caption text-start">
-          <div class="d-inline-block px-5 p-1 bg-dark bg-opacity-50 rounded-pill border border-info border-2">
-            <h2 class="fs-2 sombreado"><strong>Juntos somos mais!</strong></h2>
+          <div class="d-inline-block px-5 pt-2 p-1 bg-dark bg-opacity-50 rounded-pill border border-info border-2">
+            <h2 class="fs-3 sombreado"><strong>Juntos somos mais!</strong></h2>
             <p class="text-light">Sabe de algum local que está necessitando de elementos <br> que promovam a acessibilidade?</p>
             <p class="text-light"><a class="btn btn-lg btn-primary rounded-pill" href="requerimento.php">Sugira!</a></p>
           </div>
@@ -21,8 +21,8 @@
       <img src="../image/vaga_acessibilidade.jpg" alt="Imagem ilustrativa de um piso tátil" class="img-fluid">
       <div class="container">
         <div class="carousel-caption">
-          <div class="d-inline-block px-5 py-1 bg-dark bg-opacity-50 rounded-pill border border-info border-2">
-            <h2 class="fs-2 sombreado"><strong>Seja bem-vindo(a) ao<br>OuviAcess!</strong></h2>
+          <div class="d-inline-block px-5 pt-2 py-1 bg-dark bg-opacity-50 rounded-pill border border-info border-2">
+            <h2 class="fs-3 sombreado"><strong>Bem-vindo(a) ao<br>OuviAcess!</strong></h2>
             <p class="text-light">Somos um Sistema de Ouvidoria que busca garantir a inclusão de todos!</p>
             <p class="text-light"><a class="btn btn-lg btn-primary rounded-pill" href="#sobre">Saiba mais</a></p>
           </div>
@@ -33,8 +33,8 @@
       <img src="../image/corrimao.jpg" alt="Imagem ilustrativa de um corrimão junto a uma rampa " class="img-fluid">
       <div class="container">
         <div class="carousel-caption text-end">
-          <div class="d-inline-block px-5 py-1 bg-dark bg-opacity-50 rounded-pill border border-info border-2">
-            <h2 class="fs-2 sombreado"><strong>Queremos te ouvir!</strong></h2>
+          <div class="d-inline-block px-5 pt-2 py-1 bg-dark bg-opacity-50 rounded-pill border border-info border-2">
+            <h2 class="fs-3 sombreado"><strong>Queremos te ouvir!</strong></h2>
             <p class="text-light">Você tem conhecimento de alguma rampa de acesso, <br> piso tátil, ou corrimão?</p>
             <p class="text-light"><a class="btn btn-lg btn-primary rounded-pill" href="requerimento.php">Denuncie!</a></p>
           </div>

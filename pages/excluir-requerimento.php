@@ -18,6 +18,7 @@ if ($result == true && $cont >= 1) {
         <h4>Requerimento excluído com SUCESSO!</h4>
     </div>
 <?php
+    header("Location: historico.php");
 } elseif ($cont == 0) {
 ?>
     <div class="alert alert-danger" role="alert">
