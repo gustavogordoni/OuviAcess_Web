@@ -72,8 +72,8 @@ include 'navbar.php';
             </div>
 
             <div class="col-12 input-group mt-4">
-              <label class="input-group-text" for="image"><strong>Foto do local:</strong></label>
-              <input type="file" class="form-control" id="image" accept="image/*" name="image">
+              <label class="input-group-text" for="imagem"><strong>Foto do local:</strong></label>
+              <input type="file" class="form-control" id="imagem" accept="image/*" name="imagem">
               <div class="invalid-feedback">
                 Informe uma imagem do local em discussão
               </div>
@@ -95,11 +95,13 @@ include 'navbar.php';
               </label>
             </div>
 
-            <div class="col-md-6">
-              <button class="w-100 btn btn-warning btn-lg mt-3" type="reset">Limpar</button>
-            </div>
-            <div class="col-md-6">
-              <button class="w-100 btn btn-primary btn-lg mt-3" type="submit">Enviar</button>
+            <div class="mt-4 col-12 row">
+              <div class="col-md-6 mb-3">
+                <button class="w-100 btn btn-warning btn-lg rounded-pill px-3" type="reset">Limpar</button>
+              </div>
+              <div class="col-md-6">
+                <button class="w-100 btn btn-primary btn-lg rounded-pill px-3" type="submit">Enviar</button>
+              </div>
             </div>
 
           </div>

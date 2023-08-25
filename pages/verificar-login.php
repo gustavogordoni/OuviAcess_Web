@@ -41,7 +41,7 @@ if ($email == $row["email"] && $senha == $row["senha"]) {
 if ($result == true && $cont >= 1) {
     //DEU CERTO
     $_SESSION["email"] = $email;
-    $_SESSION["nome"] = $row["nome"];
+    $_SESSION["id_usuario"] = $row["id_usuario"];
 ?>
     <div class="alert alert-success text-center" role="alert">
         <h4 class="text-center">Seja bem-vindo <?= $row["nome"] ?></h4>

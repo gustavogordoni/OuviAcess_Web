@@ -71,11 +71,13 @@ include 'navbar.php';
               </div>
             </div>
 
-            <div class="col-md-6">
-              <button class="w-100 btn btn-warning btn-lg mt-3" type="reset">Limpar</button>
-            </div>
-            <div class="col-md-6">
-              <button class="w-100 btn btn-primary btn-lg mt-3" type="submit">Enviar</button>
+            <div class="mt-4 col-12 row">
+              <div class="col-md-6 mb-3">
+                <button class="w-100 btn btn-warning btn-lg rounded-pill px-3" type="reset">Limpar</button>
+              </div>
+              <div class="col-md-6">
+                <button class="w-100 btn btn-primary btn-lg rounded-pill px-3" type="submit">Enviar</button>
+              </div>
             </div>
         </form>
       </div>

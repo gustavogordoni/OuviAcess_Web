@@ -47,6 +47,8 @@
 
         </ul>
 
+        <br>
+
         <div class="d-flex my-auto justify-content-evenly">
 
           <?php
