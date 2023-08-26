@@ -117,9 +117,6 @@ if (!isset($_SESSION["id_usuario"])) {
 
 <?php
 }
-include 'mensagens-historico.php';
-?>
-
-<?php
+include 'mensagens.php';
 include 'js.php';
 ?>

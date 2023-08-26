@@ -1,19 +1,5 @@
 <?php
-// ADD REQUERIMENTO
-if (isset($_SESSION["add_requerimento"]) && $_SESSION["add_requerimento"]) {
-?>
-    <div class="alert alert-success alert-dismissible fade show position-absolute bottom-0 end-0" role="alert">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill me-1" viewBox="0 0 16 16">
-            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
-        </svg>
-        Dados do requerimento gravados com <strong>SUCESSO</strong>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-
-<?php
-    unset($_SESSION["add_requerimento"]);
-}
-
+///////////////////////////  SUCESSO - REQUERIMENTO  ///////////////////////////////////////////////
 // ADD REQUERIMENTO
 if (isset($_SESSION["add_requerimento"]) && $_SESSION["add_requerimento"]) {
 ?>
@@ -74,6 +60,8 @@ if (isset($_SESSION["manteve_requerimento"]) && $_SESSION["manteve_requerimento"
     unset($_SESSION["manteve_requerimento"]);
 }
 
+
+///////////////////////////  SUCEESSO - CADASTRO  ////////////////////////////////////////////////
 // ADICIONAR CADASTRO
 if (isset($_SESSION["add_cadastro"]) && $_SESSION["add_cadastro"]) {
 ?>
@@ -88,4 +76,63 @@ if (isset($_SESSION["add_cadastro"]) && $_SESSION["add_cadastro"]) {
 <?php
     unset($_SESSION["add_cadastro"]);
 }
+
+
+///////////////////////////  ERROS - REQUERIMENTO  ////////////////////////////////////////////////
+if (isset($_SESSION["error_requerimento"])) {
+    //////// TITULO
+    if ($_SESSION["error_requerimento"] == "titulo") {
+        $titulo_erro = "Título inadequado";
+        $texto_erro = "É necessário informar um título para que seu requerimento seja gravado no sistema!";
+    }
+
+    //////// TIPO
+    if ($_SESSION["error_requerimento"] == "tipo") {
+        $titulo_erro = "Tipo do requemento inadequado";
+        $texto_erro = "É necessário informar um tipo de requerimento para ele seja gravado no sistema!";
+    }
+
+    //////// CIDADE
+    if ($_SESSION["error_requerimento"] == "cidade") {
+        $titulo_erro = "Nome da cidade está inadequado";
+        $texto_erro = "É necessário informar o nome de sua cidade para que seu requerimento seja gravado no sistema!";
+    }
+
+    //////// CEP
+    if ($_SESSION["error_requerimento"] == "cep") {
+        $titulo_erro = "CEP está inadequado";
+        $texto_erro = "É necessário informar o CEP de sua cidade para que seu requerimento seja gravado no sistema!";
+    }
+
+    //////// BAIRRO
+    if ($_SESSION["error_requerimento"] == "bairro") {
+        $titulo_erro = "Nome do bairro está inadequado";
+        $texto_erro = "É necessário informar o nome de seu bairro para que seu requerimento seja gravado no sistema!";
+    }
+
+    ////////// DESCRICÃO
+    if ($_SESSION["error_requerimento"] == "descricao") {
+        $titulo_erro = "Descrição do requerimento está inadequado";
+        $texto_erro = "É necessário informar uma descrição para que seu requerimento seja gravado no sistema!";
+    }
+
+    //////// ANONIMO
+    if ($_SESSION["error_requerimento"] == "anonimo") {
+        $titulo_erro = "Modo anonimo está inadequado";
+        $texto_erro = "Não foi possível identificar se você deseja, ou não, se identificar!";
+    }
 ?>
+
+    <div class="row d-flex align-items-center ps-4 h-100">
+        <div class="col-md-6 text-center">
+            <h1 class="mt-2 text-danger"><?= $titulo_erro ?></h1>
+            <p><?= $texto_erro ?></p>
+            <a href="requerimento.php" class="btn btn-outline-info p-2 px-4 rounded-pill fs-5 mt-2">Retornar à página de requerimento</a>
+        </div>
+        <div class="mx-auto col-md-6">
+            <img src="../image/warning.png" alt="" width="80%" class="d-block mx-auto">
+        </div>
+    </div>
+
+<?php unset($_SESSION["error_requerimento"]);
+} ?>

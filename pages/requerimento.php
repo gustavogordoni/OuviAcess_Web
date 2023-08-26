@@ -6,7 +6,6 @@ include 'navbar.php';
 <div class="container mx-auto">
   <main>
     <div class="py-3 text-center mt-4">
-
       <strong>
         <h2>Informe os dados solicitados para <br> registrar seu requerimento no sistema</h2>
       </strong>
@@ -20,16 +19,16 @@ include 'navbar.php';
           <div class="row g-3">
 
             <div class="col-md-8">
-              <label for="titulo" class="form-label"><strong>Título do requerimento: </strong></label>
-              <input type="text" class="form-control" id="titulo" placeholder="Ex: Falta de rampas de acesso" value="" name="titulo" required pattern="[A-Za-zÀ-ÿ\s]+" title="">
+              <label for="titulo" class="form-label" id="label_titulo"><strong>Título do requerimento: </strong></label>
+              <input type="text" class="form-control" id="titulo" placeholder="Ex: Falta de rampas de acesso" value="" name="titulo" required pattern="[A-Za-zÀ-ÿ\s]+" title="Insira um título que contenha apenas letras. Nenhum outro tipo de caracter será válido">
               <div class="invalid-feedback">
-                Informe um título para seu requerimento
+                Informe um título formado apenas por letras, tendo como mínimo de 10 caracteres.
               </div>
             </div>
 
             <div class="col-md-4">
               <label for="tipo" class="form-label"><strong>Tipo:</strong></label>
-              <select class="form-select" id="tipo" name="tipo" required>
+              <select class="form-select" id="tipo" name="tipo" required title="Selecione um tipo de requerimento">
                 <option value="">Escolha uma opção</option>
                 <option value="Denúncia">Denúncia</option>
                 <option value="Sugestão">Sugestão</option>
@@ -43,7 +42,7 @@ include 'navbar.php';
               <label for="cidade" class="form-label"><strong>Cidade: </strong></label>
               <input type="text" class="form-control" id="cidade" placeholder="Ex: Votuporanga" name="cidade" required pattern="[A-Za-zÀ-ÿ\s]+">
               <div class="invalid-feedback">
-                Informe uma cidade válida
+                Será aceito apenas letras, tendo como mínimo 3 caracteres.
               </div>
             </div>
 
@@ -51,7 +50,7 @@ include 'navbar.php';
               <label for="cep" class="form-label"><strong>CEP: </strong></label>
               <input type="text" class="form-control" id="cep" name="cep" required title="Digite o CEP no formato XX.XXX-XXX" placeholder="XX.XXX-XXX" pattern="\d{2}\.\d{3}-\d{3}" maxlength="10">
               <div class="invalid-feedback">
-                Informe um CEP válido
+                Informe o CEP no formato XX.XXX-XXX
               </div>
             </div>
 
@@ -83,13 +82,18 @@ include 'navbar.php';
               <label for="descricao" class="form-label"><strong>Descrição: </strong></label>
               <textarea class="form-control" placeholder="Insira uma descrição detalhada sobre o ambiente em discussão" id="descricao" style="height: 100px" name="descricao" required max="1000"></textarea>
               <div class="invalid-feedback">
-                Insira uma descrição detalhada sobre o ambiente em discussão
+                Insira uma descrição, com no mínimo 50 caracteres, sobre o ambiente em discussão
               </div>
             </div>
 
-
             <div class="col-12 form-check d-flex justify-content-center">
-              <input class="form-check-input" type="checkbox" value="true" id="anonimo" name="anonimo">
+              <?php if (!isset($_SESSION["id_usuario"])) {
+                $checked  = 'checked disabled';
+              } elseif (isset($_SESSION["id_usuario"])) {
+                $checked = 'value = "true" ';
+              } ?>
+
+              <input class="form-check-input" type="checkbox" id="anonimo" name="anonimo" <?= $checked ?>>
               <label class="form-check-label ms-1" for="anonimo">
                 Enviar <strong>anonimamente</strong>
               </label>
@@ -109,6 +113,10 @@ include 'navbar.php';
       </div>
     </div>
   </main>
+
+  <script>
+    <?php include '../js/script.js'; ?>
+  </script>
 
   <?php
   include 'footer.php';

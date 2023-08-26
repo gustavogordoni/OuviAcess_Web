@@ -53,7 +53,7 @@
 
           <?php
 
-          if (!isset($_SESSION["email"])) {
+          if (!isset($_SESSION["id_usuario"])) {
           ?>
             <a href="login.php"><button type="button" class="btn btn-outline-primary mx-1 rounded-pill">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">

@@ -33,7 +33,6 @@ function redireciona($pagina = null)
 
 if ($result == true && $cont >= 1) {
     //DEU CERTO
-    $_SESSION["email"] = $email;
     $_SESSION["id_usuario"] = $row["id_usuario"];
     $_SESSION["nome"] = $row["nome"];
 

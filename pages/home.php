@@ -57,6 +57,7 @@
 
     <?php
         unset($_SESSION["bem_vindo"]);
+        unset($_SESSION["nome"]);
     }
 
     include 'footer.php';
