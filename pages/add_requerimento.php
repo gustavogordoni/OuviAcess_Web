@@ -32,6 +32,27 @@ if (isset($titulo, $tipo, $cidade, $cep, $bairro, $rua, $descricao)) {
     $stmt = $conn->prepare($sql);
     $result = $stmt->execute([$id_usuario, $titulo, $tipo, $situacao, $data, $descricao, $cep, $cidade, $bairro, $rua]);
     echo "CAI NO IF";
+
+    function add_requerimento(){
+        if ($result = true || isset($result)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    function redireciona ($pagina = null){    
+        if(empty($pagina)){
+            $pagina = "historico.php";
+        }
+        header("Location: " . $pagina);
+    }
+    
+    if(add_requerimento()){
+        $_SESSION["add_requerimento"] = true;
+        redireciona();
+        die();
+    }
 }
 
 if ($result == true || isset($result)) {

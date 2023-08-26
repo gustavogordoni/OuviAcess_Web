@@ -2,15 +2,7 @@
 include 'header.php';
 include 'navbar.php';
 
-if (isset($_SESSION["id_usuario"])) {
-    $id_usuario = $_SESSION["id_usuario"];
-} else {
-    $id_usuario = null;
-}
-
-// AINDA NÃO ESTOU USANDO $id_usuario PARA PESQUISAR PELOS REQUERIMENTOS DO USUARIO LOGADO
-
-if (!isset($_SESSION["email"])) {
+if (!isset($_SESSION["id_usuario"])) {
 ?>
     <div class="row cor_tema d-flex align-items-center">
         <div class="col-md-6 text-center">
@@ -25,7 +17,9 @@ if (!isset($_SESSION["email"])) {
     </div>
     <?php
     exit;
-} else {
+
+} elseif (isset($_SESSION["id_usuario"])) {
+    $id_usuario = $_SESSION["id_usuario"];
 
     require '../database/conexao.php';
 
@@ -46,8 +40,7 @@ if (!isset($_SESSION["email"])) {
                 <h2 class="mt-2">Você ainda não realizou nenhum <br> <a href="requerimento.php" class="btn btn-outline-info p-2 px-4 rounded-pill fs-2 mt-2">Requerimento</a></h2>
             </div>
         </div>
-    <?php
-        exit;
+    <?php exit;
     }
     ?>
 
@@ -66,9 +59,7 @@ if (!isset($_SESSION["email"])) {
 
             <tbody class="text-center">
 
-                <?php
-                while ($row =  $stmt->fetch()) {
-                ?>
+                <?php while ($row =  $stmt->fetch()) { ?>
                     <tr>
                         <td><?= $row["id_requerimento"] ?></td>
                         <td><?= $row["titulo"] ?></td>
@@ -86,7 +77,6 @@ if (!isset($_SESSION["email"])) {
                             </form>
                         </td>
                         <td>
-                            <!--<a href="#" type="button" class="d-block my-auto mx-auto">-->
                             <form action="editar-requerimento.php" method="POST" class="form my-auto">
                                 <button class="btn btn-outline-warning my-auto mx-1 rounded-circle p-2" type="submit" value="<?= $row["id_requerimento"] ?>" name="editar">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
@@ -96,7 +86,6 @@ if (!isset($_SESSION["email"])) {
                             </form>
                         </td>
                         <td>
-                            <!--<a href="#" type="button" class="d-block my-auto mx-auto">-->
                             <button type="button" class="btn btn-outline-danger my-auto mx-1 rounded-circle p-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
                                     <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z"></path>
@@ -126,11 +115,11 @@ if (!isset($_SESSION["email"])) {
         </table>
     </div>
 
-    <!-- MODAL -->
-
-
 <?php
 }
-include 'footer.php';
+include 'mensagens-historico.php';
+?>
+
+<?php
 include 'js.php';
 ?>

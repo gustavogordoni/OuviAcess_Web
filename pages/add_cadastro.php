@@ -10,28 +10,29 @@ $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL);
 $senha = filter_input(INPUT_POST, "senha", FILTER_SANITIZE_SPECIAL_CHARS);
 $confirme = filter_input(INPUT_POST, "confirme", FILTER_SANITIZE_SPECIAL_CHARS);
 
-echo "<h5><b>Nome:</b> $nome</h5>";
-echo "<h5><b>DDD:</b> $ddd</h5>";
-echo "<h5><b>Telefone:</b> $telefone</h5>";
-echo "<h5><b>Email:</b> $email</h5>";
-echo "<h5><b>Password:</b> $senha</h5>";
-echo "<h5><b>Confirme:</b> $confirme</h5>";
-
+//$senha_hash = password_hash($senha, PASSWORD_BCRYPT);
+$senha_hash = $senha;
 
 $sql = "INSERT INTO Usuario(nome, ddd, telefone, email, senha) VALUES (?, ?, ?, ?, ?)";
-
 $stmt = $conn->prepare($sql);
+$result = $stmt->execute([$nome, $ddd, $telefone, $email, $senha_hash]);
 
-$result = $stmt->execute([$nome, $ddd, $telefone, $email, $senha]);
-
+function redireciona($pagina = null)
+{
+    if (empty($pagina)) {
+        $pagina = "verificar-login.php";
+    }
+    header("Location: " . $pagina);
+}
 
 if ($result == true) {
-?>
-    <div class="alert alert-success" role="alert">
-        <h4 class="text-success">Dados gravados com SUCESSO!</h4>
-    </div>
-<?php
-    //header("Location: historico.php");
+
+    $_SESSION["add_cadastro"] = true;
+    $_SESSION["email"] = $email;
+    $_SESSION["senha_hash"] = $senha_hash;
+    redireciona();
+    die();
+
 } else {
     $errorArray = $stmt->errorInfo();
 ?>

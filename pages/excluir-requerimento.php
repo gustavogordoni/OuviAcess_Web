@@ -1,6 +1,5 @@
 <?php
 include 'header.php';
-include 'navbar.php';
 
 $id_requerimento = filter_input(INPUT_POST, "id", FILTER_SANITIZE_NUMBER_INT);
 
@@ -30,13 +29,19 @@ $stmt = $conn->prepare($sql);
 $result = $stmt->execute([$id_requerimento, $id_usuario]);
 $cont =  $stmt->rowCount();
 
-if ($result == true && $cont >= 1) {
-?>
-    <div class="alert alert-success" role="alert">
-        <h4>Requerimento excluído com SUCESSO!</h4>
-    </div>
-<?php
-    //header("Location: historico.php");
+function redireciona($pagina = null)
+{
+    if (empty($pagina)) {
+        $pagina = "historico.php";
+    }
+    header("Location: " . $pagina);
+}
+
+if ($result == true && $cont = 1) {
+
+    $_SESSION["excluir_requerimento"] = true;
+    redireciona();
+    die();
 }
 
 if (empty($id_requerimento)) {

@@ -1,6 +1,5 @@
 <?php
 include 'header.php';
-include 'navbar.php';
 
 if (isset($_SESSION["id_usuario"])) {
     $id_usuario = $_SESSION["id_usuario"];
@@ -38,6 +37,13 @@ $stmt = $conn->prepare($sql);
 $result = $stmt->execute([$titulo, $tipo, $cidade, $cep, $bairro, $rua, $descricao, $id_requerimento, $id_usuario]);
 $cont =  $stmt->rowCount();
 
+function redireciona($pagina = null)
+{
+    if (empty($pagina)) {
+        $pagina = "historico.php";
+    }
+    header("Location: " . $pagina);
+}
 
 if (empty($id_requerimento)) {
 ?>
@@ -55,46 +61,34 @@ if (empty($id_requerimento)) {
     </div>
 <?php
     exit;
-
-} 
+}
 
 if ($result == true && $cont >= 1) {
-    ?>
-        <div class="alert alert-success alert-dismissible fade show position-absolute bottom-0 end-0" role="alert">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill me-1" viewBox="0 0 16 16">
-                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
-            </svg>
-            Dados do requerimento alterados com <strong>SUCESSO</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    <?php
+
+    $_SESSION["alterar_requerimento"] = true;
+    redireciona();
+    die();
 
 } elseif ($result == true && $cont == 0) {
-    ?>
-        <div class="alert alert-secondary alert-dismissible fade show position-absolute bottom-0 end-0" role="alert">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill me-1" viewBox="0 0 16 16">
-            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
-        </svg>
-        <strong>NENHUM</strong> dado foi alterado
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>  
-    <?php
+
+    $_SESSION["manteve_requerimento"] = true;
+    redireciona();
+    die();
 
 } else {
     $errorArray = $stmt->errorInfo();
+?>
+    <div class="row d-flex align-items-center ps-4">
+        <div class="col-md-6 text-center">
+            <h1 class="mt-2 text-danger">Falha ao ao efetuar a alteração dos dodos do requerimento</h1>
+            <p class="fs-5s"><?= $errorArray[2]; ?></p>
+            <h2><a href="historico.php" class="btn btn-outline-info p-2 px-4 rounded-pill fs-3 mt-2">Retornar ao histórico</a></h2>
+
+        </div>
+        <div class="mx-auto col-md-6">
+            <img src="../image/warning.png" alt="" width="80%" class="d-block mx-auto">
+        </div>
+    <?php
+}
+include 'js.php';
     ?>
-        <div class="row d-flex align-items-center ps-4">
-            <div class="col-md-6 text-center">
-                <h1 class="mt-2 text-danger">Falha ao ao efetuar a alteração dos dodos do requerimento</h1>
-                <p class="fs-5s"><?= $errorArray[2]; ?></p>
-                <h2><a href="historico.php" class="btn btn-outline-info p-2 px-4 rounded-pill fs-3 mt-2">Retornar ao histórico</a></h2>
-
-            </div>
-            <div class="mx-auto col-md-6">
-                <img src="../image/warning.png" alt="" width="80%" class="d-block mx-auto">
-            </div>
-        <?php
-
-    }
-    include 'js.php';
-        ?>
