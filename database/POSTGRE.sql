@@ -1,13 +1,13 @@
-CREATE TABLE Usuario (
+CREATE TABLE usuario (
     id_usuario SERIAL PRIMARY KEY,
     nome VARCHAR(50) NOT NULL,
     ddd CHAR(4) NOT NULL,
     telefone VARCHAR(10) NOT NULL,
     email VARCHAR(50) NOT NULL,
-    senha VARCHAR(50) NOT NULL
+    senha VARCHAR(50) NOT NULL,
 );
 
-CREATE TABLE Requerimento (
+CREATE TABLE requerimento (
     id_requerimento SERIAL PRIMARY KEY,
     id_usuario INT,
     titulo VARCHAR(50) NOT NULL,
@@ -24,12 +24,12 @@ CREATE TABLE Requerimento (
         REFERENCES Usuario (id_usuario)
 );
 
-CREATE TABLE Administrador (
+CREATE TABLE administrador (
     id_administrador SERIAL PRIMARY KEY,
     nome VARCHAR(50) NOT NULL,
     cpf CHAR(14) NOT NULL,
     rg CHAR(12) NOT NULL,
     telefone VARCHAR(10) NOT NULL,
     email VARCHAR(50) NOT NULL,
-    senha VARCHAR(50) NOT NULL
+    senha VARCHAR(50) NOT NULL,
 );
