@@ -1,5 +1,5 @@
 <?php
-$conf = parse_ini_file("config.ini");
+$conf = parse_ini_file("config_POSTGRE.ini");
 
 $string_connection = $conf["driver"] .
         ":dbname=" . $conf["database"] .

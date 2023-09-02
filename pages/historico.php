@@ -3,23 +3,21 @@ include 'header.php';
 include 'navbar.php';
 
 if (!isset($_SESSION["id_usuario"])) {
-?>
-    <div class="row cor_tema d-flex align-items-center">
-        <div class="col-md-6 text-center">
-            <h2 class="mt-2">Efetue sua autenticação para ter acesso ao seu histórico de requerimentos</h2>
-            <h2><a href="login.php" class="btn btn-outline-info p-2 px-4 rounded-pill fs-3 mt-2">Faça Login</a></h2>
-
-        </div>
-        <div class="mx-auto col-md-6">
-            <img src="../image/identifique-se.png" alt="" width="80%" class="d-block mx-auto">
-        </div>
-
-    </div>
-    <?php
-    exit;
-
+    $_SESSION["realizar_login"] = true;
+    include 'mensagens.php';
+    die();
 } elseif (isset($_SESSION["id_usuario"])) {
     $id_usuario = $_SESSION["id_usuario"];
+
+    /*
+function redireciona($pagina = null)
+{
+    if (empty($pagina)) {
+        $pagina = "historico.php";
+    }
+    header("Location: " . $pagina);
+}
+*/
 
     require '../database/conexao.php';
 
@@ -30,19 +28,11 @@ if (!isset($_SESSION["id_usuario"])) {
     $cont = $stmt->rowCount();
 
     if ($cont == 0) {
-    ?>
-        <div class="d-flex text-center cor_tema">
-            <div class="d-block my-auto mx-auto">
-                <div class="w-100 mx-auto">
-                    <?php include '../image/historico.svg'; ?>
-                </div>
-
-                <h2 class="mt-2">Você ainda não realizou nenhum <br> <a href="requerimento.php" class="btn btn-outline-info p-2 px-4 rounded-pill fs-2 mt-2">Requerimento</a></h2>
-            </div>
-        </div>
-    <?php exit;
+        $_SESSION["historico_vazio"] = true;
+        include 'mensagens.php';
+        die();
     }
-    ?>
+?>
 
     <div class="table-responsive mt-2">
         <table class="table table-striped table-md mb-0">

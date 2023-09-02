@@ -73,6 +73,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     const cepInput = document.getElementById("cep");
+    const labelCep = document.querySelector("label[for='cep']");
 
     cepInput.addEventListener("input", function() {
       const inputValue = cepInput.value.replace(/\D/g, ""); // Remove todos os caracteres não numéricos
@@ -95,8 +96,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
       if (isValid) {
         cepInput.classList.remove("is-invalid");
+        labelCep.classList.remove("text-danger");
       } else {
         cepInput.classList.add("is-invalid");
+        labelCep.classList.add("text-danger");
       }
     }
 

@@ -1,5 +1,12 @@
 <?php
 session_start();
+
+if ($_SERVER['REQUEST_URI'] == '404.php') {
+  header("HTTP/1.0 404 Not Found");
+  include("404.php"); // Substitua pelo caminho real para a página 404
+  exit();
+}
+
 $value = "Dark";
 $class = "btn-dark";
 $tema = filter_input(INPUT_POST, "tema", FILTER_SANITIZE_SPECIAL_CHARS);
