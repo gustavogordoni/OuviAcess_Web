@@ -1,6 +1,18 @@
 <?php
 include 'header.php';
 include 'navbar.php';
+
+if (isset($_SESSION["error_cadastro"])) {
+  $nome = $_SESSION["nome_cadastro"];
+  $ddd = $_SESSION["ddd_cadastro"];
+  $telefone = $_SESSION["telefone_cadastro"];
+  $email = $_SESSION["email_cadastro"];
+
+  unset($_SESSION["nome_cadastro"]);
+  unset($_SESSION["ddd_cadastro"]);
+  unset($_SESSION["telefone_cadastro"]);
+  unset($_SESSION["email_cadastro"]);
+}
 ?>
 
 <div class="container mx-auto">
@@ -21,7 +33,7 @@ include 'navbar.php';
 
             <div class="col-sm-12">
               <label for="nome" class="form-label" id="label_nome"><strong>Nome completo: </strong></label>
-              <input type="text" class="form-control" id="nome" name="nome" placeholder="Ex: Carlos Alberto" required pattern="[A-Za-zÀ-ÿ\s]+" title="Não informe caracteres que não sejam letras" onblur="nome();">
+              <input type="text" class="form-control" id="nome" name="nome" placeholder="Ex: Carlos Alberto" required pattern="[A-Za-zÀ-ÿ\s]+" title="Não informe caracteres que não sejam letras" onblur="nome();" value="<?php if(isset($nome)){ echo $nome; }?>">
               <div class="invalid-feedback">
                 Informe seu nome completo
               </div>
@@ -29,7 +41,7 @@ include 'navbar.php';
 
             <div class="col-sm-3">
               <label for="ddd" class="form-label"><strong>DDD: </strong></label>
-              <input type="tel" class="form-control" id="ddd" name="ddd" required pattern="\([0-9]{2}\)$" title="Digite o DDD no formato (DD)" placeholder="Ex: (17)" maxlength="4">
+              <input type="tel" class="form-control" id="ddd" name="ddd" required pattern="\([0-9]{2}\)$" title="Digite o DDD no formato (DD)" placeholder="Ex: (17)" maxlength="4" value="<?php if(isset($ddd)){ echo $ddd; }?>">
 
               <div class="invalid-feedback">
                 Informe um valor válido
@@ -38,17 +50,17 @@ include 'navbar.php';
 
             <div class="col-sm-9">
               <label for="telefone" class="form-label"><strong>Número de telefone: </strong></label>
-              <input type="tel" class="form-control" id="telefone" name="telefone" required pattern="[0-9]{4,6}-[0-9]{3,4}$" title="Digite o telefone no formato XXXXX-XXXX" placeholder="Ex: 99999-9999" maxlength="10">
+              <input type="tel" class="form-control" id="telefone" name="telefone" required pattern="[0-9]{4,6}-[0-9]{3,4}$" title="Digite o telefone no formato XXXXX-XXXX" placeholder="Ex: 99999-9999" maxlength="10" value="<?php if(isset($telefone)){ echo $telefone; }?>">
               <div class="invalid-feedback">
                 Informe um valor válido
               </div>
             </div>
 
             <div class="col-12">
-              <label for="email" class="form-label"><strong>Email: </strong><span class="text-body-secondary">(Para efetuar login)</span></label>
+              <label for="email" class="form-label"><strong>E-mail: </strong><span class="text-body-secondary">(Para efetuar login)</span></label>
               <div class="input-group has-validation">
                 <span class="input-group-text">@</span>
-                <input type="email" class="form-control" id="email" name="email" placeholder="voce@exemplo.com" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
+                <input type="email" class="form-control" id="email" name="email" placeholder="voce@exemplo.com" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" value="<?php if(isset($email)){ echo $email; }?>">
                 <div class="invalid-feedback">
                   Por favor, insira um endereço de e-mail válido para efetuar login
                 </div>
@@ -67,8 +79,6 @@ include 'navbar.php';
                 As senhas informadas não estão iguais.
               </div>
             </div>
-
-
 
             <div class="mt-4 col-12 row">
               <div class="col-md-6 mb-3">
@@ -145,7 +155,7 @@ include 'navbar.php';
     const labelNome = document.querySelector("label[for='nome']");
 
     tituloInput.addEventListener("keydown", function(event) {
-      if (event.key >= '0' && event.key <= '3') {
+      if (event.key >= '0' && event.key <= '9') {
         event.preventDefault();
       }
     });
@@ -173,6 +183,7 @@ include 'navbar.php';
   </script>
 
   <?php
+  include 'mensagens.php';
   include 'footer.php';
   include 'js.php';
   ?>

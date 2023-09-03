@@ -1,5 +1,10 @@
 <?php
 include 'header.php';
+
+if (isset($_SESSION["error_senha"])) {
+  $email = $_SESSION["error_senha"];
+  unset($_SESSION["error_senha"]);
+}
 ?>
 <div class="row p-5 py-2 my-auto h-100">
 
@@ -12,11 +17,11 @@ include 'header.php';
     </div>
 
     <div class="form-floating mb-2 col-md-7">
-      <input type="email" class="form-control" id="email" placeholder="name@example.com name=" required name="email">
+      <input type="email" class="form-control" id="email" placeholder="name@example.com name=" name="email" value="<?php if(isset($email)){ echo $email; }?>">
       <label for="email" class="ms-2">Endereço de email</label>
     </div>
     <div class="form-floating col-md-7">
-      <input type="password" class="form-control" id="floatingPassword" placeholder="Password" required name="senha">
+      <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="senha">
       <label for="floatingPassword" class="ms-2">Senha</label>
     </div>
 
@@ -33,5 +38,6 @@ include 'header.php';
 </div>
 
 <?php
+include 'mensagens.php';
 include 'js.php';
 ?>

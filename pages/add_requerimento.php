@@ -13,8 +13,7 @@ $anonimo = filter_input(INPUT_POST, "anonimo", FILTER_SANITIZE_SPECIAL_CHARS);
 
 if (isset($_SESSION["id_usuario"])) {
     $id_usuario = $_SESSION["id_usuario"];
-
-} elseif (!isset($_SESSION["id_usuario"])){
+} elseif (!isset($_SESSION["id_usuario"])) {
     $id_usuario = null;
     $anonimo = true;
     echo $anonimo;
@@ -32,44 +31,103 @@ function redireciona($pagina = null)
     }
     header("Location: " . $pagina);
 }
+function campoIncompleto($pagina = null)
+{
+    if (empty($pagina)) {
+        $pagina = "requerimento.php";
+    }
+    header("Location: " . $pagina);
+}
 
-if (empty($titulo)) {
-    $_SESSION["error_requerimento"] = "titulo";
-    include 'mensagens.php';
-    die();
+// CAMPO NÃO PREENCHIDO
+if (
+    empty($titulo) ||
+    empty($tipo) ||
+    empty($cidade) ||
+    empty($cep) ||
+    empty($bairro) ||
+    empty($rua) ||
+    empty($descricao) ||
+    ($anonimo != true && $anonimo != false)
+) {
+    $_SESSION["titulo_requerimento"] = $titulo;
+    $_SESSION["tipo_requerimento"] = $tipo;
+    $_SESSION["cidade_requerimento"] = $cidade;
+    $_SESSION["cep_requerimento"] = $cep;
+    $_SESSION["bairro_requerimento"] = $bairro;
+    $_SESSION["rua_requerimento"] = $rua;
+    $_SESSION["descricao_requerimento"] = $descricao;
+    $_SESSION["anonimo_requerimento"] = $anonimo;
+
+    if (
+        empty($titulo) &&
+        empty($tipo) &&
+        empty($cidade) &&
+        empty($cep) &&
+        empty($bairro) &&
+        empty($rua) &&
+        empty($descricao) &&
+        empty($anonimo)
+    ) {
+        $_SESSION["error_requerimento"] = "acesso_url";
+        campoIncompleto();
+        die();
+    }
+
+    if (empty($titulo)) {
+        $_SESSION["error_requerimento"] = "titulo";
+        $_SESSION["titulo_requerimento"] = null;
+        campoIncompleto();
+        die();
+    }
+    if (empty($tipo)) {
+        $_SESSION["error_requerimento"] = "tipo";
+        $_SESSION["tipo_requerimento"] = null;
+        campoIncompleto();
+        die();
+    }
+    if (empty($cidade)) {
+        $_SESSION["error_requerimento"] = "cidade";
+        $_SESSION["cidade_requerimento"] = null;
+        campoIncompleto();
+        die();
+    }
+    if (empty($cep)) {
+        $_SESSION["error_requerimento"] = "cep";
+        $_SESSION["cep_requerimento"] = null;
+        campoIncompleto();
+        die();
+    }
+    if (empty($bairro)) {
+        $_SESSION["error_requerimento"] = "bairro";
+        $_SESSION["bairro_requerimento"] = null;
+        campoIncompleto();
+        die();
+    }
+    if (empty($rua)) {
+        $_SESSION["error_requerimento"] = "rua";
+        $_SESSION["rua_requerimento"] = null;
+        campoIncompleto();
+        die();
+    }
+    if (empty($descricao)) {
+        $_SESSION["error_requerimento"] = "descricao";
+        $_SESSION["descricao_requerimento"] = null;
+        campoIncompleto();
+        die();
+    }
+    if ($anonimo != true && $anonimo != false) {
+        $_SESSION["error_requerimento"] = "anonimo";
+        $_SESSION["anonimo_requerimento"] = null;
+        campoIncompleto();
+        die();
+    }
 }
-if (empty($tipo)) {
-    $_SESSION["error_requerimento"] = "tipo";
-    include 'mensagens.php';
-    die();
-}
-if (empty($cidade)) {
-    $_SESSION["error_requerimento"] = "cidade";
-    include 'mensagens.php';
-    die();
-}
-if (empty($cep)) {
-    $_SESSION["error_requerimento"] = "cep";
-    include 'mensagens.php';
-    die();
-}
-if (empty($bairro)) {
-    $_SESSION["error_requerimento"] = "bairro";
-    include 'mensagens.php';
-    die();
-}
+
 if (empty($imagem)) {
-    $imagem = null;
-}
-if (empty($descricao)) {
-    $_SESSION["error_requerimento"] = "descricao";
-    include 'mensagens.php';
-    die();
-}
-if ($anonimo != true && $anonimo != false) {
-    $_SESSION["error_requerimento"] = "anonimo";
-    include 'mensagens.php';
-    die();
+    $imagem = "../image/img6.jpg";
+} else {
+    $imagem = "../image/" . $imagem;
 }
 
 $situacao = "Em andamento";
@@ -83,7 +141,6 @@ if ($anonimo == false) {
 
     $stmt = $conn->prepare($sql);
     $result = $stmt->execute([$id_usuario, $titulo, $tipo, $situacao, $data, $descricao, $cep, $cidade, $bairro, $rua, $imagem]);
-
 } elseif ($anonimo == true) {
     // ENVIO ANONIMO
     require '../database/conexao.php';
@@ -98,6 +155,7 @@ if ($result == true || empty($result)) {
     $_SESSION["add_requerimento"] = true;
     redireciona();
     die();
+
 } else {
     $errorArray = $stmt->errorInfo();
 ?>

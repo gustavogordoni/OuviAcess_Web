@@ -3,26 +3,6 @@
 include 'header.php';
 require '../database/conexao.php';
 
-$email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL);
-$senha = filter_input(INPUT_POST, "senha", FILTER_SANITIZE_SPECIAL_CHARS);
-
-if (isset($_SESSION["add_cadastro"]) && $_SESSION["add_cadastro"]) {
-
-$email = $_SESSION["email"];
-$senha = $_SESSION["senha_hash"];
-
-unset($_SESSION["add_cadastro"]);
-unset($_SESSION["email"]);
-unset($_SESSION["senha_hash"]);
-}
-
-$sql = "SELECT id_usuario, nome, email, senha, ddd, telefone FROM usuario WHERE email = ? AND senha = ?";
-
-$stmt = $conn->prepare($sql);
-$result = $stmt->execute([$email, $senha]);
-$row = $stmt->fetch();
-$cont =  $stmt->rowCount();
-
 function redireciona($pagina = null)
 {
     if (empty($pagina)) {
@@ -30,29 +10,81 @@ function redireciona($pagina = null)
     }
     header("Location: " . $pagina);
 }
+function falhaLogin($pagina = null)
+{
+    if (empty($pagina)) {
+        $pagina = "login.php";
+    }
+    header("Location: " . $pagina);
+}
 
-if ($result == true && $cont >= 1) {
+$email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL);
+$senha = filter_input(INPUT_POST, "senha", FILTER_SANITIZE_SPECIAL_CHARS);
+
+if (isset($_SESSION["add_cadastro"]) && $_SESSION["add_cadastro"]) {
+    $email = $_SESSION["email"];
+    $senha = $_SESSION["senha_hash"];
+    unset($_SESSION["add_cadastro"]);
+    unset($_SESSION["email"]);
+    unset($_SESSION["senha_hash"]);
+}
+
+if (empty($email) && empty($senha)) {
+    // NENHUM VALOR
+    $_SESSION["error_login"] = "acesso_url";
+    falhaLogin();
+    die();
+}
+if (empty($email)) {
+    // EMAIL VAZIO
+    $_SESSION["error_login"] = "email";
+    falhaLogin();
+    die();
+}
+if (empty($senha)) {
+    // SENHA VAZIA
+    $_SESSION["error_login"] = "senha";
+    // passar email para login
+    $_SESSION["error_senha"] = $email;
+    falhaLogin();
+    die();
+}
+
+$sql = "SELECT id_usuario, nome, email, senha FROM usuario WHERE email = ?";
+
+$stmt = $conn->prepare($sql);
+$result = $stmt->execute([$email]);
+$row = $stmt->fetch();
+$cont = $stmt->rowCount();
+
+
+if (password_verify($senha, $row['senha'])) {
     //DEU CERTO
     $_SESSION["id_usuario"] = $row["id_usuario"];
     $_SESSION["nome"] = $row["nome"];
-
     $_SESSION["bem_vindo"] = true;
     redireciona();
     die();
 
-} elseif ($cont == 0) {
+} else{
     //NÂO DEU CERTO
     unset($_SESSION["email"]);
     unset($_SESSION["nome"]);
-?>
-    <div class="alert alert-danger d-flex h-100 mb-0" role="alert">
-        <div class="mx-auto text-center my-auto">
-            <h2>FALHA ao sincronizar os dados de Login</h2>
-            <p>Não foi possível encontrar o E-mail: <?= $email ?><br> ou a senha informada</p>
-        </div>
-    </div>
-<?php
+
+    if ($cont == 0){
+        // EMAIL INCORRETO
+        $_SESSION["email_invalido"] = $email;
+        falhaLogin();
+        die();
+    }
+    elseif ($result == true && $cont >= 1) {
+        // SENHA INCORRETA
+        $_SESSION["senha_invalida"] = true;
+        // passar email para login
+        $_SESSION["error_senha"] = $email;
+        falhaLogin();
+        die();
+    }
 }
 
 include 'js.php';
-?>

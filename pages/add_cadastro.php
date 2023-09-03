@@ -17,39 +17,77 @@ function redireciona($pagina = null){
     header("Location: " . $pagina);
 }
 
-if (empty($nome)) {
-    $_SESSION["error_cadastro"] = "nome";
-    include 'mensagens.php';
-    die();
-}
-if (empty($ddd)) {
-    $_SESSION["error_cadastro"] = "ddd";
-    include 'mensagens.php';
-    die();
-}
-if (empty($telefone)) {
-    $_SESSION["error_cadastro"] = "telefone";
-    include 'mensagens.php';
-    die();
-}
-if (empty($email)) {
-    $_SESSION["error_cadastro"] = "email";
-    include 'mensagens.php';
-    die();
-}
-if (empty($senha)) {
-    $_SESSION["error_cadastro"] = "senha";
-    include 'mensagens.php';
-    die();
-}
-if (empty($confirme)) {
-    $_SESSION["error_cadastro"] = "confirme";
-    include 'mensagens.php';
-    die();
+function campoIncompleto($pagina = null){
+    if (empty($pagina)) {
+        $pagina = "cadastro.php";
+    }
+    header("Location: " . $pagina);
 }
 
-//$senha_hash = password_hash($senha, PASSWORD_BCRYPT);
-$senha_hash = $senha;
+// CAMPO NÃO PREENCHIDO
+if (
+    empty($nome) ||
+    empty($ddd) ||
+    empty($telefone) ||
+    empty($email) ||
+    empty($senha) ||
+    empty($confirme)
+){
+    $_SESSION["nome_cadastro"] = $nome;
+    $_SESSION["ddd_cadastro"] = $ddd;
+    $_SESSION["telefone_cadastro"] = $telefone;
+    $_SESSION["email_cadastro"] = $email;
+
+    if (
+        empty($nome) &&
+        empty($ddd) &&
+        empty($telefone) &&
+        empty($email) &&
+        empty($senha) &&
+        empty($confirme)
+    ) {
+        $_SESSION["error_cadastro"] = "acesso_url";
+        campoIncompleto();
+        die();
+    }
+
+    if (empty($nome)) {
+        $_SESSION["error_cadastro"] = "nome";
+        $_SESSION["nome_cadastro"] = null;
+        campoIncompleto();
+        die();
+    }
+    if (empty($ddd)) {
+        $_SESSION["error_cadastro"] = "ddd";
+        $_SESSION["ddd_cadastro"] = null;
+        campoIncompleto();
+        die();
+    }
+    if (empty($telefone)) {
+        $_SESSION["error_cadastro"] = "telefone";
+        $_SESSION["telefone_cadastro"] = null;
+        campoIncompleto();
+        die();
+    }
+    if (empty($email)) {
+        $_SESSION["error_cadastro"] = "email";
+        $_SESSION["email_cadastro"] = null;
+        campoIncompleto();
+        die();
+    }
+    if (empty($senha)) {
+        $_SESSION["error_cadastro"] = "senha";
+        campoIncompleto();
+        die();
+    }
+    if (empty($confirme)) {
+        $_SESSION["error_cadastro"] = "confirme";
+        campoIncompleto();
+        die();
+    }
+}
+
+$senha_hash = password_hash($senha, PASSWORD_BCRYPT);
 
 $sql = "INSERT INTO Usuario(nome, ddd, telefone, email, senha) VALUES (?, ?, ?, ?, ?)";
 $stmt = $conn->prepare($sql);
@@ -57,7 +95,8 @@ $result = $stmt->execute([$nome, $ddd, $telefone, $email, $senha_hash]);
 
 
 if ($result == true) {
-    function cadastroLogin($pagina = null){
+    function cadastroLogin($pagina = null)
+    {
         if (empty($pagina)) {
             $pagina = "verificar-login.php";
         }
@@ -69,7 +108,6 @@ if ($result == true) {
     $_SESSION["senha_hash"] = $senha_hash;
     cadastroLogin();
     die();
-
 } else {
     $errorArray = $stmt->errorInfo();
 ?>

@@ -9,15 +9,6 @@ if (!isset($_SESSION["id_usuario"])) {
 } elseif (isset($_SESSION["id_usuario"])) {
     $id_usuario = $_SESSION["id_usuario"];
 
-    /*
-function redireciona($pagina = null)
-{
-    if (empty($pagina)) {
-        $pagina = "historico.php";
-    }
-    header("Location: " . $pagina);
-}
-*/
 
     require '../database/conexao.php';
 
