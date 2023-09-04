@@ -1,13 +1,20 @@
 <?php
 require 'header.php';
 
-$id_requerimento = filter_input(INPUT_POST, "visualizar", FILTER_SANITIZE_NUMBER_INT);
+$id_requerimento = filter_input(INPUT_GET, "visualizar", FILTER_SANITIZE_NUMBER_INT);
+
+function facaLogin($pagina = null){
+    if (empty($pagina)) {
+        $pagina = "login.php";
+    }
+    header("Location: " . $pagina);
+}
 
 if (isset($_SESSION["id_usuario"])) {
     $id_usuario = $_SESSION["id_usuario"];
-} else {
-    $_SESSION["realizar_login"] = true;
-    include 'mensagens.php';
+} elseif (!isset($_SESSION["id_usuario"])) {
+    $_SESSION["realizar_login"] = "visualizar-requerimento";
+    facaLogin();
     die();
 }
 
@@ -19,12 +26,14 @@ if (empty($id_requerimento)) {
 
 require '../database/conexao.php';
 
-$sql = "SELECT titulo, tipo, situacao, data, descricao, cep, cidade, bairro, rua, imagem FROM requerimento WHERE id_requerimento = ? AND id_usuario = ?";
+$sql = "SELECT titulo, tipo, situacao, data, descricao, cep, cidade, bairro, rua FROM requerimento WHERE id_requerimento = ? AND id_usuario = ?";
 
 $stmt = $conn->prepare($sql);
 $result = $stmt->execute([$id_requerimento, $id_usuario]);
 $rowRequeriemento = $stmt->fetch();
 $cont =  $stmt->rowCount();
+
+$id_arquivo = 11;
 
 if ($cont == 0) {
     $_SESSION["id_requerimento_inexistente"] = true;
@@ -92,7 +101,7 @@ require 'navbar.php';
                     </div>
 
                     <?php
-                    if (isset($rowRequeriemento['imagem'])) {
+                    //if ($total == 0) {
                     ?>
                         <div class="col-12 mt-4">
                             <button type="button" class="d-block mx-auto w-25 btn btn-primary rounded-pill px-3 btn-lg" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
@@ -107,13 +116,13 @@ require 'navbar.php';
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body p-0">
-                                        <img src="<?= $rowRequeriemento['imagem'] ?>" alt="" class="d-block w-100 h-100">
+                                        <img src="mostrar-imagem.php?id=<?= $id_arquivo ?>" alt="Imagem" class="d-block w-100 h-100">
                                     </div>
                                 </div>
                             </div>
                         </div>
                     <?php
-                    }
+                    //}
                     ?>
 
                     <div class="mt-4 col-12 row">
@@ -121,7 +130,7 @@ require 'navbar.php';
                             <a class="w-100 btn btn-secondary rounded-pill px-3 btn-lg" href="historico.php">Voltar ao histórico</a>
                         </div>
                         <div class="col-md-6">
-                            <form action="editar-requerimento.php" method="POST" class="form my-auto">
+                            <form action="editar-requerimento.php" method="GET" class="form my-auto">
                                 <button class="w-100 btn btn-warning rounded-pill px-3 btn-lg" type="submit" value="<?= $id_requerimento ?>" name="editar">
                                     Alterar informações
                                 </button>

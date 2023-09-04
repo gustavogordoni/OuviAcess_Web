@@ -1,4 +1,39 @@
 <?php
+///////////////////////////  CONEXÃO COM BANCO DE DAODOS  ///////////////////////////////////////////////
+
+if (isset($_SESSION["conexao_bd"]) && basename($_SERVER["PHP_SELF"]) == "inicio.php") {
+    // SUCESSO CONEXÃO
+    if ($_SESSION["conexao_bd"] == "sucesso") {
+        $alert = "primary";
+        $svg = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill me-1" viewBox="0 0 16 16">
+        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" /></svg>';
+        $titulo_conexao = "Sucesso ao conectar-se ao banco de dados ;)";
+        $texto_conexao = "Conectado ao banco de dados <b>" . $_SESSION["sucesso_bd"] . "</b>";
+        unset($_SESSION["sucesso_bd"]);
+    }
+    // FALHA CONEXÃO
+    if ($_SESSION["conexao_bd"] == "falha") {
+        $alert = "danger";
+        $svg = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
+        <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" /></svg>';
+        $titulo_conexao = "Erro ao se conectar no banco de dados. :(";
+        $texto_conexao = $_SESSION["error_bd"];
+        unset($_SESSION["error_bd"]);
+    }
+    unset($_SESSION["conexao_bd"]);
+?>
+    <div class="alert alert-<?= $alert ?> alert-dismissible fade show position-absolute bottom-0 end-0 py-auto" role="alert">
+        <h6 class="text-center">
+            <?= $svg ?>
+            <strong><?= $titulo_conexao ?></strong>
+        </h6>
+        <p><?= $texto_conexao ?></p>
+        <button type="button" class="btn-close my-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<?php 
+}
+
+
 ///////////////////////////  SUCESSO - REQUERIMENTO  ///////////////////////////////////////////////
 if (isset($_SESSION["add_requerimento"]) || isset($_SESSION["excluir_requerimento"]) || isset($_SESSION["alterar_requerimento"])) {
     // ADD REQUERIMENTO
@@ -20,7 +55,7 @@ if (isset($_SESSION["add_requerimento"]) || isset($_SESSION["excluir_requeriment
     }
 ?>
 
-    <div class="alert alert-success alert-dismissible fade show position-absolute bottom-0 end-0" role="alert">
+    <div class="alert alert-success alert-dismissible fade show position-absolute bottom-0 end-0 py-auto" role="alert">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill me-1" viewBox="0 0 16 16">
             <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
         </svg>
@@ -33,7 +68,7 @@ if (isset($_SESSION["add_requerimento"]) || isset($_SESSION["excluir_requeriment
 // MANTEVE REQUERIMENTO
 if (isset($_SESSION["manteve_requerimento"]) && $_SESSION["manteve_requerimento"]) {
 ?>
-    <div class="alert alert-secondary alert-dismissible fade show position-absolute bottom-0 end-0" role="alert">
+    <div class="alert alert-secondary alert-dismissible fade show position-absolute bottom-0 end-0 py-auto" role="alert">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
             <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
         </svg>
@@ -49,7 +84,7 @@ if (isset($_SESSION["manteve_requerimento"]) && $_SESSION["manteve_requerimento"
 // ADICIONAR CADASTRO
 if (isset($_SESSION["add_cadastro"]) && $_SESSION["add_cadastro"]) {
 ?>
-    <div class="alert alert-success alert-dismissible fade show position-absolute bottom-0 end-0" role="alert">
+    <div class="alert alert-success alert-dismissible fade show position-absolute bottom-0 end-0 py-auto" role="alert">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill me-1" viewBox="0 0 16 16">
             <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
         </svg>
@@ -63,7 +98,7 @@ if (isset($_SESSION["add_cadastro"]) && $_SESSION["add_cadastro"]) {
 
 ///////////////////////////  ERRO AO LOGAR  ////////////////////////////////////////////////
 // FAÇA LOGIN
-if (isset($_SESSION["realizar_login"]) && $_SESSION["realizar_login"]) {
+if (isset($_SESSION["historico_anonimo"]) && $_SESSION["historico_anonimo"]) {
 ?>
     <div class="row d-flex align-items-center ps-4 h-75">
         <div class="col-md-6 text-center">
@@ -76,7 +111,57 @@ if (isset($_SESSION["realizar_login"]) && $_SESSION["realizar_login"]) {
     </div>
 
 <?php
+    unset($_SESSION["historico_anonimo"]);
+}
+
+if (isset($_SESSION["realizar_login"])) {
+    if ($_SESSION["realizar_login"] == "visualizar-requerimento") {
+        $texto_erro = "visualizar os detalhes de seus requerimentos";
+    }
+    if ($_SESSION["realizar_login"] == "editar-requerimento") {
+        $texto_erro = "editar as informações de seus requerimentos";
+    }
+    if ($_SESSION["realizar_login"] == "alterar-requerimento") {
+        $texto_erro = "alterar as informações de seus requerimentos";
+    }
+    if ($_SESSION["realizar_login"] == "excluir-requerimento") {
+        $texto_erro = "excluir seus requerimentos";
+    }
+    if ($_SESSION["realizar_login"] == "perfil") {
+        $texto_erro = "ter acessar seu perfil";
+    }
+?>
+    <div class="alert alert-danger alert-dismissible fade show position-absolute bottom-0 end-0 py-auto" role="alert">
+        <h6 class="text-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
+                <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+            </svg>
+            <strong>Faça login</strong>
+        </h6>
+        Realize sua autenticação para <?= $texto_erro ?>
+        <button type="button" class="btn-close my-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+<?php
     unset($_SESSION["realizar_login"]);
+}
+
+
+///////////////////////////  SUCESSO AO LOGAR  ////////////////////////////////////////////////
+// BEM VINDO
+if (isset($_SESSION["bem_vindo"]) && $_SESSION["bem_vindo"]) {
+?>
+    <div class="alert alert-primary alert-dismissible fade show position-absolute bottom-0 end-0 py-auto " role="alert">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
+            <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
+        </svg>
+        <strong>Seja bem-vindo <?= $_SESSION["nome"] ?></strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+<?php
+    unset($_SESSION["bem_vindo"]);
+    unset($_SESSION["nome"]);
 }
 
 ///////////////////////////  HISTORICO VAZIO  ////////////////////////////////////////////////
@@ -155,7 +240,7 @@ if (isset($_SESSION["error_requerimento"])) {
     }
 ?>
 
-    <div class="alert alert-danger alert-dismissible fade show position-absolute bottom-0 end-0" role="alert">
+    <div class="alert alert-danger alert-dismissible fade show position-absolute bottom-0 end-0 py-auto" role="alert">
         <h6 class="text-center">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
                 <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
@@ -213,9 +298,17 @@ if (isset($_SESSION["error_cadastro"])) {
         $titulo_erro = "A confirmação da senha está inadequada";
         $texto_erro = "Informe a confirmação da senha para que seu cadastro seja efetuado no sistema!";
     }
+
+    //////// EMAIL JÁ EXISTE
+    if ($_SESSION["error_cadastro"] == "email_inexistente") {
+        $titulo_erro = "E-mail já existe";
+        $texto_erro = "O e-mail informado já está cadastrado em nosso sistema!";
+    }
+
+    
 ?>
 
-    <div class="alert alert-danger alert-dismissible fade show position-absolute bottom-0 end-0" role="alert">
+    <div class="alert alert-danger alert-dismissible fade show position-absolute bottom-0 end-0 py-auto" role="alert">
         <h6 class="text-center">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
                 <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
@@ -302,17 +395,17 @@ if (isset($_SESSION["error_login"])) {
     if ($_SESSION["error_login"] == "senha") {
         $titulo_erro = "Informe sua senha para efetuar login!";
     }
-     //////// TITULO
-     if ($_SESSION["error_login"] == "acesso_url") {
+    //////// TITULO
+    if ($_SESSION["error_login"] == "acesso_url") {
         $titulo_erro = "Informe suas credenciais para efetuar login!";
     }
     ?>
 
-        <div class="alert alert-danger alert-dismissible fade show position-absolute bottom-0 end-0" role="alert">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
-                    <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
-                </svg>
-                <strong><?= $titulo_erro ?></strong>
+        <div class="alert alert-danger alert-dismissible fade show position-absolute bottom-0 end-0 py-auto" role="alert">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
+                <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+            </svg>
+            <strong><?= $titulo_erro ?></strong>
             <button type="button" class="btn-close my-auto" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
 
@@ -322,25 +415,25 @@ if (isset($_SESSION["error_login"])) {
 
 /////////////////////////// EMAIL OU SENHA INCORRETA /////////////////////////////////////////////////////
 if (isset($_SESSION["senha_invalida"]) || isset($_SESSION["email_invalido"])) {
-    ECHO "GERAL";
+    echo "GERAL";
     //////// EMAIL ERRADO
     if (isset($_SESSION["email_invalido"])) {
-        $titulo_erro = 'O e-mail: <b class="text-danger">' . $_SESSION["email_invalido"] . "</b> não existe!";
+        $titulo_erro = 'O e-mail <b class="text-danger">' . $_SESSION["email_invalido"] . "</b> não existe!";
         unset($_SESSION["email_invalido"]);
-        ECHO "email";
+        echo "email";
     }
     //////// SENHA ERRADA
     if (isset($_SESSION["senha_invalida"])) {
         $titulo_erro = "A senha informada está incorreta!";
         unset($_SESSION["senha_invalida"]);
-        ECHO "senha";
+        echo "senha";
     }
     ?>
-        <div class="alert alert-danger alert-dismissible fade show position-absolute bottom-0 end-0" role="alert">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
-                    <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
-                </svg>
-                <strong><?= $titulo_erro ?></strong>
+        <div class="alert alert-danger alert-dismissible fade show position-absolute bottom-0 end-0 py-auto" role="alert">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
+                <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+            </svg>
+            <strong><?= $titulo_erro ?></strong>
             <button type="button" class="btn-close my-auto" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
 

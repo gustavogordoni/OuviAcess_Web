@@ -6,7 +6,7 @@ require '../database/conexao.php';
 function redireciona($pagina = null)
 {
     if (empty($pagina)) {
-        $pagina = "home.php";
+        $pagina = "inicio.php";
     }
     header("Location: " . $pagina);
 }

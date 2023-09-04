@@ -1,7 +1,6 @@
 <?php
 require 'header.php';
 
-require '../database/conexao.php';
 
 $nome = filter_input(INPUT_POST, "nome", FILTER_SANITIZE_SPECIAL_CHARS);
 $ddd = filter_input(INPUT_POST, "ddd", FILTER_SANITIZE_SPECIAL_CHARS);
@@ -10,21 +9,27 @@ $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL);
 $senha = filter_input(INPUT_POST, "senha", FILTER_SANITIZE_SPECIAL_CHARS);
 $confirme = filter_input(INPUT_POST, "confirme", FILTER_SANITIZE_SPECIAL_CHARS);
 
-function redireciona($pagina = null){
+function redireciona($pagina = null)
+{
     if (empty($pagina)) {
-        $pagina = "cadastro.php";
+        $pagina = "cadastro-usuario.php";
     }
     header("Location: " . $pagina);
 }
 
-function campoIncompleto($pagina = null){
+function campoIncompleto($pagina = null)
+{
     if (empty($pagina)) {
-        $pagina = "cadastro.php";
+        $pagina = "cadastro-usuario.php";
     }
     header("Location: " . $pagina);
 }
 
 // CAMPO NÃO PREENCHIDO
+$_SESSION["nome_cadastro"] = $nome;
+$_SESSION["ddd_cadastro"] = $ddd;
+$_SESSION["telefone_cadastro"] = $telefone;
+$_SESSION["email_cadastro"] = $email;
 if (
     empty($nome) ||
     empty($ddd) ||
@@ -32,11 +37,7 @@ if (
     empty($email) ||
     empty($senha) ||
     empty($confirme)
-){
-    $_SESSION["nome_cadastro"] = $nome;
-    $_SESSION["ddd_cadastro"] = $ddd;
-    $_SESSION["telefone_cadastro"] = $telefone;
-    $_SESSION["email_cadastro"] = $email;
+) {
 
     if (
         empty($nome) &&
@@ -85,6 +86,21 @@ if (
         campoIncompleto();
         die();
     }
+}
+
+require '../database/conexao.php';
+
+$sql = "SELECT id_usuario, email FROM usuario WHERE email = ?";
+$stmt = $conn->prepare($sql);
+$result = $stmt->execute([$email]);
+$rowEmail = $stmt->fetch();
+$cont = $stmt->rowCount();
+
+if ($result == true && $cont >= 1) {
+    $_SESSION["error_cadastro"] = "email_inexistente";
+    $_SESSION["email_cadastro"] = null;
+    campoIncompleto();
+    die();
 }
 
 $senha_hash = password_hash($senha, PASSWORD_BCRYPT);

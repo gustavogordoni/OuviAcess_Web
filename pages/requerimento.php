@@ -36,7 +36,7 @@ if (isset($_SESSION["error_requerimento"])) {
     <div class="row">
       <div class="col-11 mx-auto">
 
-        <form class="needs-validation" action="add_requerimento.php" method="POST" enctype="multipart/form-data">
+        <form class="needs-validation" action="adicionar-requrimento.php" method="POST" enctype="multipart/form-data">
           <div class="row g-3">
 
             <div class="col-md-8">
@@ -105,9 +105,14 @@ if (isset($_SESSION["error_requerimento"])) {
               </div>
             </div>
 
+            <div class="col-md-12">
+              <label for="nome_imagem" class="form-label">Descrição:</label>              
+                <input type="text" name="nome_imagem" id="nome_imagem" required value="" class="form-control">              
+            </div>
+
             <div class="col-12 input-group mt-4">
-              <label class="input-group-text" for="imagem"><strong>Foto do local:</strong></label>
-              <input type="file" class="form-control" id="imagem" accept="image/*" name="imagem">
+              <label class="input-group-text" for="arquivo"><strong>Foto do local:</strong></label>
+              <input type="file" class="form-control" id="arquivo" accept="image/*" name="arquivo">
             </div>
 
             <div class="col-12">

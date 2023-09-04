@@ -1,13 +1,20 @@
 <?php
 include 'header.php';
 
-$id_requerimento = filter_input(INPUT_POST, "id", FILTER_SANITIZE_NUMBER_INT);
+$id_requerimento = filter_input(INPUT_POST, "deletar", FILTER_SANITIZE_NUMBER_INT);
+
+function facaLogin($pagina = null){
+    if (empty($pagina)) {
+        $pagina = "login.php";
+    }
+    header("Location: " . $pagina);
+}
 
 if (isset($_SESSION["id_usuario"])) {
     $id_usuario = $_SESSION["id_usuario"];
-} else {
-    $_SESSION["realizar_login"] = true;
-    include 'mensagens.php';
+} elseif (!isset($_SESSION["id_usuario"])) {
+    $_SESSION["realizar_login"] = "excluir-requerimento";
+    facaLogin();
     die();
 }
 

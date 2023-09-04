@@ -7,9 +7,10 @@ $cidade = filter_input(INPUT_POST, "cidade", FILTER_SANITIZE_SPECIAL_CHARS);
 $cep = filter_input(INPUT_POST, "cep", FILTER_SANITIZE_SPECIAL_CHARS);
 $bairro = filter_input(INPUT_POST, "bairro", FILTER_SANITIZE_SPECIAL_CHARS);
 $rua = filter_input(INPUT_POST, "rua", FILTER_SANITIZE_SPECIAL_CHARS);
-$imagem = filter_input(INPUT_POST, "imagem", FILTER_SANITIZE_SPECIAL_CHARS);
 $descricao = filter_input(INPUT_POST, "descricao", FILTER_SANITIZE_SPECIAL_CHARS);
 $anonimo = filter_input(INPUT_POST, "anonimo", FILTER_SANITIZE_SPECIAL_CHARS);
+
+$descricao = filter_input(INPUT_POST, "nome_imagem");
 
 if (isset($_SESSION["id_usuario"])) {
     $id_usuario = $_SESSION["id_usuario"];
@@ -124,12 +125,6 @@ if (
     }
 }
 
-if (empty($imagem)) {
-    $imagem = "../image/img6.jpg";
-} else {
-    $imagem = "../image/" . $imagem;
-}
-
 $situacao = "Em andamento";
 date_default_timezone_set('America/Sao_Paulo');
 $data = date('d/m/Y');
@@ -137,25 +132,50 @@ $data = date('d/m/Y');
 if ($anonimo == false) {
     // ENVIO NÃO ANONIMO
     require '../database/conexao.php';
-    $sql = "INSERT INTO requerimento(id_usuario, titulo, tipo, situacao, data, descricao, cep, cidade, bairro, rua, imagem) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+    $sql = "INSERT INTO requerimento(id_usuario, titulo, tipo, situacao, data, descricao, cep, cidade, bairro, rua) VALUES (?,?,?,?,?,?,?,?,?,?)";
 
     $stmt = $conn->prepare($sql);
-    $result = $stmt->execute([$id_usuario, $titulo, $tipo, $situacao, $data, $descricao, $cep, $cidade, $bairro, $rua, $imagem]);
+    $result = $stmt->execute([$id_usuario, $titulo, $tipo, $situacao, $data, $descricao, $cep, $cidade, $bairro, $rua]);
+
 } elseif ($anonimo == true) {
     // ENVIO ANONIMO
     require '../database/conexao.php';
-    $sql = "INSERT INTO requerimento(titulo, tipo, situacao, data, descricao, cep, cidade, bairro, rua, imagem) VALUES (?,?,?,?,?,?,?,?,?,?)";
+    $sql = "INSERT INTO requerimento(titulo, tipo, situacao, data, descricao, cep, cidade, bairro, rua) VALUES (?,?,?,?,?,?,?,?,?)";
 
     $stmt = $conn->prepare($sql);
-    $result = $stmt->execute([$titulo, $tipo, $situacao, $data, $descricao, $cep, $cidade, $bairro, $rua, $imagem]);
+    $result = $stmt->execute([$titulo, $tipo, $situacao, $data, $descricao, $cep, $cidade, $bairro, $rua]);
 }
 
-if ($result == true || empty($result)) {
-    // SUCESSO NA GRAVAÇÃO
-    $_SESSION["add_requerimento"] = true;
-    redireciona();
-    die();
+if ($result == true) {
+    // SUCESSO NA GRAVAÇÃO DO REQUERIMENTO
+    if (!empty($_FILES['arquivo']['name'])) {
+        // HÁ IMAGEM PARA ENVIAR
 
+        $nome = $_FILES['arquivo']['name'];
+        $tamanho = $_FILES['arquivo']['size'];
+        $tipo = $_FILES['arquivo']['type'];
+        $extensao = pathinfo($nome, PATHINFO_EXTENSION);
+        // Read in a binary file
+        $data = file_get_contents($_FILES['arquivo']['tmp_name']);
+        // Escape the binary data
+        $dados_arquivo = bin2hex($data);
+
+        $sql = "INSERT INTO arquivo(descricao, nome, tipo, tamanho, dados_arquivo)
+        VALUES ('$descricao', '$nome', '$tipo', '$tamanho', decode('{$dados_arquivo}' , 'hex'));";
+
+        $result = pg_query($conn_imagem, $sql);
+
+        if ($result == true) {
+            $_SESSION["add_requerimento"] = true;
+            redireciona();
+            die();
+        }
+    } elseif (empty($_FILES['arquivo']['name'])) {
+        // NÃO HÁ IMAGEM PARA ENVIAR
+        $_SESSION["add_requerimento"] = true;
+        redireciona();
+        die();
+    }
 } else {
     $errorArray = $stmt->errorInfo();
 ?>

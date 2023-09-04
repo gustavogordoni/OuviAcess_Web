@@ -1,13 +1,20 @@
 <?php
 include 'header.php';
 
-$id_requerimento = filter_input(INPUT_POST, "editar", FILTER_SANITIZE_NUMBER_INT);
+$id_requerimento = filter_input(INPUT_GET, "editar", FILTER_SANITIZE_NUMBER_INT);
+
+function facaLogin($pagina = null){
+    if (empty($pagina)) {
+        $pagina = "login.php";
+    }
+    header("Location: " . $pagina);
+}
 
 if (isset($_SESSION["id_usuario"])) {
     $id_usuario = $_SESSION["id_usuario"];
-} else {
-    $_SESSION["realizar_login"] = true;
-    include 'mensagens.php';
+} elseif (!isset($_SESSION["id_usuario"])) {
+    $_SESSION["realizar_login"] = "editar-requerimento";
+    facaLogin();
     die();
 }
 
@@ -49,7 +56,7 @@ include 'navbar.php';
                     <form class="needs-validation" action="alterar-requerimento.php" method="POST">
                         <div class="row g-3">
                             <div class="col-md-8">
-                                <input type="hidden" name="id_requerimento" id="id_requerimento" value="<?= $id_requerimento ?>">
+                                <input type="hidden" name="id_requerimento" id="alterar" value="<?= $id_requerimento ?>">
 
                                 <label for="titulo" class="form-label"><strong>Título do requerimento: </strong></label>
                                 <input type="text" class="form-control" id="titulo" value="<?= $rowRequeriemento['titulo'] ?>" name="titulo">
