@@ -1,9 +1,9 @@
 <?php
 require_once '../database/conexao.php';
 
-$id_arquivo = filter_input(INPUT_GET, "id");
+$id_requerimento = filter_input(INPUT_GET, "id");
 
-$sql = "SELECT dados_arquivo FROM arquivo WHERE id_arquivo = $id_arquivo";
+$sql = "SELECT dados_arquivo FROM arquivo WHERE id_requerimento = $id_requerimento";
 $result = pg_query($conn_imagem, $sql);
 $dados = pg_fetch_assoc($result);
 $dados_arquivo = $dados["dados_arquivo"];

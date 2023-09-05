@@ -3,7 +3,8 @@ require 'header.php';
 
 $id_requerimento = filter_input(INPUT_GET, "visualizar", FILTER_SANITIZE_NUMBER_INT);
 
-function facaLogin($pagina = null){
+function facaLogin($pagina = null)
+{
     if (empty($pagina)) {
         $pagina = "login.php";
     }
@@ -33,7 +34,6 @@ $result = $stmt->execute([$id_requerimento, $id_usuario]);
 $rowRequeriemento = $stmt->fetch();
 $cont =  $stmt->rowCount();
 
-$id_arquivo = 11;
 
 if ($cont == 0) {
     $_SESSION["id_requerimento_inexistente"] = true;
@@ -97,30 +97,45 @@ require 'navbar.php';
 
                     <div class="col-12">
                         <label for="descricao" class="form-label"><strong>Descrição: </strong></label>
-                        <textarea class="form-control" id="descricao" style="height: 150px" name="descricao"><?= $rowRequeriemento['descricao'] ?></textarea>
+                        <textarea readonly class="form-control" id="descricao" style="height: 150px" name="descricao"><?= $rowRequeriemento['descricao'] ?></textarea>
                     </div>
 
                     <?php
                     //if ($total == 0) {
                     ?>
-                        <div class="col-12 mt-4">
-                            <button type="button" class="d-block mx-auto w-25 btn btn-primary rounded-pill px-3 btn-lg" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                Abrir imagem
-                            </button>
-                        </div>
+                    <div class="col-12 mt-4">
+                        <button type="button" class="d-block mx-auto w-25 btn btn-primary rounded-pill px-3 btn-lg" data-bs-toggle="modal" data-bs-target="#exampleModalFullscreen">
+                            Abrir imagem
+                        </button>
+                    </div>
 
+                    <!--
                         <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                            <div class="modal-dialog  modal-dialog-centered">
+                            <div class="modal-dialog modal-fullscreen">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
-                                    <div class="modal-body p-0">
-                                        <img src="mostrar-imagem.php?id=<?= $id_arquivo ?>" alt="Imagem" class="d-block w-100 h-100">
+                                    <div class="modal-body p-0 text-center">
+                                       
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    -->
+
+                    <div class="modal fade" id="exampleModalFullscreen" tabindex="-1" aria-labelledby="exampleModalFullscreenLabel" style="display: none;" aria-hidden="true">
+                        <div class="modal-dialog modal-fullscreen">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <img src="mostrar-imagem.php?id=<?= $id_requerimento ?>" alt="Imagem" class="d-block h-100 mx-auto">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <?php
                     //}
                     ?>

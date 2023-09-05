@@ -3,7 +3,8 @@ include 'header.php';
 
 $id_requerimento = filter_input(INPUT_POST, "alterar", FILTER_SANITIZE_NUMBER_INT);
 
-function facaLogin($pagina = null){
+function facaLogin($pagina = null)
+{
     if (empty($pagina)) {
         $pagina = "login.php";
     }
@@ -18,7 +19,8 @@ if (isset($_SESSION["id_usuario"])) {
     die();
 }
 
-function redireciona($pagina = null){
+function redireciona($pagina = null)
+{
     if (empty($pagina)) {
         $pagina = "historico.php";
     }
@@ -50,15 +52,34 @@ $result = $stmt->execute([$titulo, $tipo, $cidade, $cep, $bairro, $rua, $descric
 $cont =  $stmt->rowCount();
 
 if ($result == true && $cont >= 1) {
+/*
+    if (!empty($_FILES['arquivo']['name'])) {
+        $nome = $_FILES['arquivo']['name'];
+        $tamanho = $_FILES['arquivo']['size'];
+        $tipo = $_FILES['arquivo']['type'];
+        $extensao = pathinfo($nome, PATHINFO_EXTENSION);
+        // Read in a binary file
+        $data = file_get_contents($_FILES['arquivo']['tmp_name']);
+        // Escape the binary data
+        $dados_arquivo = bin2hex($data);
+
+        ECHO "CAIU NO IF";
+
+        //$sql = "INSERT INTO arquivo(id_requerimento, descricao, nome, tipo, tamanho, dados_arquivo)
+        //VALUES ($id_requerimento,'$nome_imagem', '$nome', '$tipo', '$tamanho', decode('{$dados_arquivo}' , 'hex'));";
+        $sql = "UPDATE arquivo SET nome = $nome, dados_arquivo = decode('{$dados_arquivo}' , 'hex') WHERE id_requerimento = $id_requerimento";
+
+        $result = pg_query($conn_imagem, $sql);
+    }
+    */
+
     $_SESSION["alterar_requerimento"] = true;
     redireciona();
     die();
-
 } elseif ($result == true && $cont == 0) {
     $_SESSION["manteve_requerimento"] = true;
     redireciona();
     die();
-
 } else {
     $errorArray = $stmt->errorInfo();
 ?>
@@ -75,4 +96,4 @@ if ($result == true && $cont >= 1) {
     <?php
 }
 include 'js.php';
-?>
+    ?>

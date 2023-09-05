@@ -3,7 +3,8 @@ include 'header.php';
 
 $id_requerimento = filter_input(INPUT_GET, "editar", FILTER_SANITIZE_NUMBER_INT);
 
-function facaLogin($pagina = null){
+function facaLogin($pagina = null)
+{
     if (empty($pagina)) {
         $pagina = "login.php";
     }
@@ -41,89 +42,94 @@ if ($cont == 0) {
 
 
 include 'navbar.php';
-    ?>
+?>
 
-    <div class="container mx-auto">
-        <main>
-            <div class="py-3 text-center mt-4">
-                <strong>
-                    <h2>Altere as informações desejadas</h2>
-                </strong>
-            </div>
+<div class="container mx-auto">
+    <main>
+        <div class="py-3 text-center mt-4">
+            <strong>
+                <h2>Altere as informações desejadas</h2>
+            </strong>
+        </div>
 
-            <div class="row">
-                <div class="col-11 mx-auto mb-4">
-                    <form class="needs-validation" action="alterar-requerimento.php" method="POST">
-                        <div class="row g-3">
-                            <div class="col-md-8">
-                                <input type="hidden" name="id_requerimento" id="alterar" value="<?= $id_requerimento ?>">
+        <div class="row">
+            <div class="col-11 mx-auto mb-4">
+                <form class="needs-validation" action="alterar-requerimento.php" method="POST">
+                    <div class="row g-3">
+                        <div class="col-md-8">
+                            <input type="hidden" name="alterar" id="alterar" value="<?= $id_requerimento ?>">
 
-                                <label for="titulo" class="form-label"><strong>Título do requerimento: </strong></label>
-                                <input type="text" class="form-control" id="titulo" value="<?= $rowRequeriemento['titulo'] ?>" name="titulo">
+                            <label for="titulo" class="form-label"><strong>Título do requerimento: </strong></label>
+                            <input type="text" class="form-control" id="titulo" value="<?= $rowRequeriemento['titulo'] ?>" name="titulo">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="tipo" class="form-label"><strong>Tipo:</strong></label>
+                            <select class="form-select" id="tipo" name="tipo">
+                                <?php
+                                if ($rowRequeriemento['tipo'] == "Denúncia") { ?>
+                                    <option value="Denúncia">Denúncia</option>
+                                    <option value="Sugestão">Sugestão</option>
+                                <?php
+                                } elseif ($rowRequeriemento['tipo'] == "Sugestão") { ?>
+                                    <option value="Sugestão">Sugestão</option>
+                                    <option value="Denúncia">Denúncia</option>
+                                <?php
+                                }
+                                ?>
+                            </select>
+                        </div>
+
+                        <div class="col-md-8">
+                            <label for="cidade" class="form-label"><strong>Cidade: </strong></label>
+                            <input type="text" class="form-control" id="cidade" name="cidade" value="<?= $rowRequeriemento['cidade'] ?>">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="cep" class="form-label"><strong>CEP: </strong></label>
+                            <input type="text" class="form-control" id="cep" name="cep" value="<?= $rowRequeriemento['cep'] ?>">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="bairro" class="form-label"><strong>Bairro: </strong></label>
+                            <input type="text" class="form-control" id="bairro" name="bairro" value="<?= $rowRequeriemento['bairro'] ?>">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="rua" class="form-label"><strong>Rua: </strong></label>
+                            <input type="text" class="form-control" id="rua" name="rua" value="<?= $rowRequeriemento['rua'] ?>">
+                        </div>
+
+                        <div class="col-12 input-group mt-4">
+                            <label class="input-group-text px-5" for="arquivo"><strong>Foto do local:</strong></label>
+                            <input type="file" class="form-control" id="arquivo" accept="image/*" name="arquivo">
+                        </div>
+
+                        <div class="col-12">
+                            <label for="descricao" class="form-label"><strong>Descrição: </strong></label>
+                            <textarea class="form-control" id="descricao" style="height: 150px" name="descricao"><?= $rowRequeriemento['descricao'] ?></textarea>
+                        </div>
+
+
+                        <div class="mt-5 col-12 row">
+                            <div class="col-md-6 mb-3">
+                                <a class="w-100 btn btn-secondary rounded-pill px-3 btn-lg" href="historico.php">Voltar ao histórico</a>
                             </div>
-
-                            <div class="col-md-4">
-                                <label for="tipo" class="form-label"><strong>Tipo:</strong></label>
-                                <select class="form-select" id="tipo" name="tipo">
-                                    <?php
-                                    if ($rowRequeriemento['tipo'] == "Denúncia") { ?>
-                                        <option value="Denúncia">Denúncia</option>
-                                        <option value="Sugestão">Sugestão</option>
-                                    <?php
-                                    } elseif ($rowRequeriemento['tipo'] == "Sugestão") { ?>
-                                        <option value="Sugestão">Sugestão</option>
-                                        <option value="Denúncia">Denúncia</option>
-                                    <?php
-                                    }
-                                    ?>
-                                </select>
-                            </div>
-
-                            <div class="col-md-8">
-                                <label for="cidade" class="form-label"><strong>Cidade: </strong></label>
-                                <input type="text" class="form-control" id="cidade" name="cidade" value="<?= $rowRequeriemento['cidade'] ?>">
-                            </div>
-
-                            <div class="col-md-4">
-                                <label for="cep" class="form-label"><strong>CEP: </strong></label>
-                                <input type="text" class="form-control" id="cep" name="cep" value="<?= $rowRequeriemento['cep'] ?>">
-                            </div>
-
                             <div class="col-md-6">
-                                <label for="bairro" class="form-label"><strong>Bairro: </strong></label>
-                                <input type="text" class="form-control" id="bairro" name="bairro" value="<?= $rowRequeriemento['bairro'] ?>">
-                            </div>
-
-                            <div class="col-md-6">
-                                <label for="rua" class="form-label"><strong>Rua: </strong></label>
-                                <input type="text" class="form-control" id="rua" name="rua" value="<?= $rowRequeriemento['rua'] ?>">
-                            </div>
-
-                            <div class="col-12">
-                                <label for="descricao" class="form-label"><strong>Descrição: </strong></label>
-                                <textarea class="form-control" id="descricao" style="height: 150px" name="descricao"><?= $rowRequeriemento['descricao'] ?></textarea>
-                            </div>
-
-
-                            <div class="mt-5 col-12 row">
-                                <div class="col-md-6 mb-3">
-                                    <a class="w-100 btn btn-secondary rounded-pill px-3 btn-lg" href="historico.php">Voltar ao histórico</a>
-                                </div>
-                                <div class="col-md-6">
-                                    <button class="w-100 btn btn-primary btn-lg rounded-pill px-3" type="submit">Enviar</button>
-                                </div>
+                                <button class="w-100 btn btn-primary btn-lg rounded-pill px-3" type="submit">Enviar</button>
                             </div>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
-    </div>
+        </div>
+</div>
 
-    <script>
-        <?php include '../js/script.js'; ?>
-    </script>
+<script>
+    <?php include '../js/script.js'; ?>
+</script>
 
-    <?php
-    include 'footer.php';
-    include 'js.php';
-    ?>
+<?php
+include 'footer.php';
+include 'js.php';
+?>

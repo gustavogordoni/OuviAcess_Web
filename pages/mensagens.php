@@ -340,7 +340,7 @@ if (isset($_SESSION["crud_requerimento"])) {
     //////// ALTERAR - ID NÃO EXISTE
     if ($_SESSION["crud_requerimento"] == "alterar_id") {
         $titulo_erro = "O valor do identificador de um requerimento não foi instanciado";
-        $texto_erro = "Retorne à página de histórico e selecione um requerimento para excluir suas informações";
+        $texto_erro = "Retorne à página de histórico e selecione um requerimento para alterar suas informações";
     }
 
     //////// EXCLUIR - ID NÃO EXISTE

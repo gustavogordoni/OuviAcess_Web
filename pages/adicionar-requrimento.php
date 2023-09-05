@@ -10,7 +10,6 @@ $rua = filter_input(INPUT_POST, "rua", FILTER_SANITIZE_SPECIAL_CHARS);
 $descricao = filter_input(INPUT_POST, "descricao", FILTER_SANITIZE_SPECIAL_CHARS);
 $anonimo = filter_input(INPUT_POST, "anonimo", FILTER_SANITIZE_SPECIAL_CHARS);
 
-$descricao = filter_input(INPUT_POST, "nome_imagem");
 
 if (isset($_SESSION["id_usuario"])) {
     $id_usuario = $_SESSION["id_usuario"];
@@ -129,17 +128,36 @@ $situacao = "Em andamento";
 date_default_timezone_set('America/Sao_Paulo');
 $data = date('d/m/Y');
 
+
+require '../database/conexao.php';
+///// IDENTIFICAR O MAIOR ID REQUERIMENTO
+$sql = "SELECT id_requerimento FROM requerimento";
+
+$stmt = $conn->prepare($sql);
+$result = $stmt->execute();
+$cont = $stmt->rowCount();
+$maior = 0;
+
+if ($cont == 0) {
+    $maior = 0;
+}elseif($cont >= 1){
+    while ($row =  $stmt->fetch()) { 
+        if($maior < $row["id_requerimento"]){
+            $maior = $row["id_requerimento"];
+        }
+    }      
+}
+$id_requerimento = $maior + 1; 
+
 if ($anonimo == false) {
     // ENVIO NÃO ANONIMO
-    require '../database/conexao.php';
-    $sql = "INSERT INTO requerimento(id_usuario, titulo, tipo, situacao, data, descricao, cep, cidade, bairro, rua) VALUES (?,?,?,?,?,?,?,?,?,?)";
+    $sql = "INSERT INTO requerimento(id_requerimento, id_usuario, titulo, tipo, situacao, data, descricao, cep, cidade, bairro, rua) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 
     $stmt = $conn->prepare($sql);
-    $result = $stmt->execute([$id_usuario, $titulo, $tipo, $situacao, $data, $descricao, $cep, $cidade, $bairro, $rua]);
+    $result = $stmt->execute([$id_requerimento, $id_usuario, $titulo, $tipo, $situacao, $data, $descricao, $cep, $cidade, $bairro, $rua]);
 
 } elseif ($anonimo == true) {
     // ENVIO ANONIMO
-    require '../database/conexao.php';
     $sql = "INSERT INTO requerimento(titulo, tipo, situacao, data, descricao, cep, cidade, bairro, rua) VALUES (?,?,?,?,?,?,?,?,?)";
 
     $stmt = $conn->prepare($sql);
@@ -160,8 +178,10 @@ if ($result == true) {
         // Escape the binary data
         $dados_arquivo = bin2hex($data);
 
-        $sql = "INSERT INTO arquivo(descricao, nome, tipo, tamanho, dados_arquivo)
-        VALUES ('$descricao', '$nome', '$tipo', '$tamanho', decode('{$dados_arquivo}' , 'hex'));";
+        //$sql = "INSERT INTO arquivo(id_requerimento, descricao, nome, tipo, tamanho, dados_arquivo)
+        //VALUES ($id_requerimento,'$nome_imagem', '$nome', '$tipo', '$tamanho', decode('{$dados_arquivo}' , 'hex'));";
+        $sql = "INSERT INTO arquivo(id_requerimento, nome, dados_arquivo)
+        VALUES ($id_requerimento,'$nome', decode('{$dados_arquivo}' , 'hex'));";
 
         $result = pg_query($conn_imagem, $sql);
 

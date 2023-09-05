@@ -105,13 +105,8 @@ if (isset($_SESSION["error_requerimento"])) {
               </div>
             </div>
 
-            <div class="col-md-12">
-              <label for="nome_imagem" class="form-label">Descrição:</label>              
-                <input type="text" name="nome_imagem" id="nome_imagem" required value="" class="form-control">              
-            </div>
-
             <div class="col-12 input-group mt-4">
-              <label class="input-group-text" for="arquivo"><strong>Foto do local:</strong></label>
+              <label class="input-group-text px-5" for="arquivo"><strong>Foto do local:</strong></label>
               <input type="file" class="form-control" id="arquivo" accept="image/*" name="arquivo">
             </div>
 
