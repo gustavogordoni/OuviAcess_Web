@@ -29,7 +29,7 @@ if (isset($_SESSION["error_cadastro"])) {
       <div class="col-11 mx-auto">
 
         <form class="needs-validation" action="adicionar-usuario.php" method="POST">
-          <div class="row g-3 cor_tema">
+          <div class="row g-3">
 
             <div class="col-sm-12">
               <label for="nome" class="form-label" id="label_nome"><strong>Nome completo: </strong></label>
@@ -59,7 +59,7 @@ if (isset($_SESSION["error_cadastro"])) {
             <div class="col-12">
               <label for="email" class="form-label"><strong>E-mail: </strong><span class="text-body-secondary">(Para efetuar login)</span></label>
               <div class="input-group has-validation">
-                <span class="input-group-text cor_tema border border-info border-1">@</span>
+                <span class="input-group-text">@</span>
                 <input type="email" class="form-control border border-secondary border-1" id="email" name="email" placeholder="voce@exemplo.com" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" value="<?php if(isset($email)){ echo $email; }?>">
                 <div class="invalid-feedback">
                   Por favor, insira um endereço de e-mail válido para efetuar login

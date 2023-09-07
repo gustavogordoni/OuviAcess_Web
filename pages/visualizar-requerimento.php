@@ -34,12 +34,18 @@ $result = $stmt->execute([$id_requerimento, $id_usuario]);
 $rowRequeriemento = $stmt->fetch();
 $cont =  $stmt->rowCount();
 
-
 if ($cont == 0) {
     $_SESSION["id_requerimento_inexistente"] = true;
     include 'mensagens.php';
     die();
 }
+
+$sql = "SELECT dados_arquivo, nome FROM arquivo a INNER JOIN requerimento r
+ON a.id_requerimento = r.id_requerimento
+WHERE a.id_requerimento = $id_requerimento AND r.id_usuario = $id_usuario";
+
+$result = pg_query($conn_imagem, $sql);
+$dados = pg_fetch_assoc($result);
 
 require 'navbar.php';
 ?>
@@ -101,43 +107,29 @@ require 'navbar.php';
                     </div>
 
                     <?php
-                    //if ($total == 0) {
+                    if (pg_num_rows($result) > 0){
                     ?>
-                    <div class="col-12 mt-4">
-                        <button type="button" class="d-block mx-auto w-25 btn btn-primary rounded-pill px-3 btn-lg" data-bs-toggle="modal" data-bs-target="#exampleModalFullscreen">
-                            Abrir imagem
-                        </button>
-                    </div>
+                        <div class="col-12 mt-4">
+                            <button type="button" class="d-block mx-auto w-25 btn btn-primary rounded-pill px-3 btn-lg" data-bs-toggle="modal" data-bs-target="#exampleModalFullscreen">
+                                Abrir imagem
+                            </button>
+                        </div>
 
-                    <!--
-                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal fade m-0 ps-0" id="exampleModalFullscreen" tabindex="-1" aria-labelledby="exampleModalFullscreenLabel" style="display: none;" aria-hidden="true">
                             <div class="modal-dialog modal-fullscreen">
                                 <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <div class="modal-header py-1">
+                                        <h3 class="d-block mx-auto cor_tema"><?= $dados["nome"]?></h3>
+                                        <button type="button" class="btn-close ms-0" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
-                                    <div class="modal-body p-0 text-center">
-                                       
+                                    <div class="modal-body">
+                                        <img src="mostrar-imagem.php?requerimento=<?= $id_requerimento ?>" alt="Imagem: <?= $dados["nome"]?>" class="d-block h-100 mx-auto">
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    -->
-
-                    <div class="modal fade" id="exampleModalFullscreen" tabindex="-1" aria-labelledby="exampleModalFullscreenLabel" style="display: none;" aria-hidden="true">
-                        <div class="modal-dialog modal-fullscreen">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <img src="mostrar-imagem.php?id=<?= $id_requerimento ?>" alt="Imagem" class="d-block h-100 mx-auto">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <?php
-                    //}
+                    }
                     ?>
 
                     <div class="mt-4 col-12 row">

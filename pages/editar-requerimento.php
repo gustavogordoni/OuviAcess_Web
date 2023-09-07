@@ -40,7 +40,6 @@ if ($cont == 0) {
     die();
 }
 
-
 include 'navbar.php';
 ?>
 
@@ -54,7 +53,7 @@ include 'navbar.php';
 
         <div class="row">
             <div class="col-11 mx-auto mb-4">
-                <form class="needs-validation" action="alterar-requerimento.php" method="POST">
+                <form class="needs-validation" action="alterar-requerimento.php" method="POST" enctype="multipart/form-data">
                     <div class="row g-3">
                         <div class="col-md-8">
                             <input type="hidden" name="alterar" id="alterar" value="<?= $id_requerimento ?>">

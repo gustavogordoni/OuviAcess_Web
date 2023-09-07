@@ -52,8 +52,9 @@ $result = $stmt->execute([$titulo, $tipo, $cidade, $cep, $bairro, $rua, $descric
 $cont =  $stmt->rowCount();
 
 if ($result == true && $cont >= 1) {
-/*
-    if (!empty($_FILES['arquivo']['name'])) {
+
+    if (!empty($_FILES['arquivo']['tmp_name'])) {
+
         $nome = $_FILES['arquivo']['name'];
         $tamanho = $_FILES['arquivo']['size'];
         $tipo = $_FILES['arquivo']['type'];
@@ -63,23 +64,25 @@ if ($result == true && $cont >= 1) {
         // Escape the binary data
         $dados_arquivo = bin2hex($data);
 
-        ECHO "CAIU NO IF";
-
-        //$sql = "INSERT INTO arquivo(id_requerimento, descricao, nome, tipo, tamanho, dados_arquivo)
-        //VALUES ($id_requerimento,'$nome_imagem', '$nome', '$tipo', '$tamanho', decode('{$dados_arquivo}' , 'hex'));";
-        $sql = "UPDATE arquivo SET nome = $nome, dados_arquivo = decode('{$dados_arquivo}' , 'hex') WHERE id_requerimento = $id_requerimento";
+        $sql = "UPDATE arquivo a
+        SET nome = '$nome', dados_arquivo = decode('{$dados_arquivo}', 'hex')
+        WHERE id_requerimento = $id_requerimento AND EXISTS (
+            SELECT 1 FROM requerimento r WHERE r.id_requerimento = a.id_requerimento AND r.id_usuario = $id_usuario
+        )";
 
         $result = pg_query($conn_imagem, $sql);
     }
-    */
 
     $_SESSION["alterar_requerimento"] = true;
     redireciona();
+    //include 'mensagens.php';
     die();
+
 } elseif ($result == true && $cont == 0) {
-    $_SESSION["manteve_requerimento"] = true;
+    $_SESSION["manteve_requerimento"] = true;    
     redireciona();
     die();
+    
 } else {
     $errorArray = $stmt->errorInfo();
 ?>
