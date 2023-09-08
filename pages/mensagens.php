@@ -30,7 +30,7 @@ if (isset($_SESSION["conexao_bd"]) && basename($_SERVER["PHP_SELF"]) == "inicio.
         <p><?= $texto_conexao ?></p>
         <button type="button" class="btn-close my-auto" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-<?php 
+<?php
 }
 
 
@@ -130,6 +130,9 @@ if (isset($_SESSION["realizar_login"])) {
     if ($_SESSION["realizar_login"] == "perfil") {
         $texto_erro = "ter acessar seu perfil";
     }
+    if ($_SESSION["realizar_login"] == "mostrar-imagem") {
+        $texto_erro = "ter acesso aos detalhes de seus requerimentos";
+    }
 ?>
     <div class="alert alert-danger alert-dismissible fade show position-absolute bottom-0 end-0 py-auto" role="alert">
         <h6 class="text-center">
@@ -212,7 +215,7 @@ if (isset($_SESSION["error_requerimento"])) {
     //////// CEP
     if ($_SESSION["error_requerimento"] == "cep") {
         $titulo_erro = "CEP está inadequado";
-        $texto_erro = "Informe o CEP de cidade para que seu requerimento seja gravado no sistema!";
+        $texto_erro = "Informe o CEP da cidade para que seu requerimento seja gravado no sistema!";
     }
 
     //////// BAIRRO
@@ -243,7 +246,7 @@ if (isset($_SESSION["error_requerimento"])) {
     <div class="alert alert-danger alert-dismissible fade show position-absolute bottom-0 end-0 py-auto" role="alert">
         <h6 class="text-center">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
-                <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905URL.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
             </svg>
             <strong><?= $titulo_erro ?></strong>
         </h6>
@@ -252,6 +255,83 @@ if (isset($_SESSION["error_requerimento"])) {
     </div>
 
 <?php unset($_SESSION["error_requerimento"]);
+}
+
+
+///////////////////////////  error_caracteres - REQUERIMENTO  ////////////////////////////////////////////////
+if (isset($_SESSION["error_caracteres"])) {
+
+    //////// TITULO
+    if ($_SESSION["error_caracteres"] == "titulo_pequeno") {
+        $titulo_erro = "Título está com apenas " . $_SESSION["caracteres"] . " caracteres";
+        $texto_erro = "Informe um título com, no mínimo, 10 caracteres.";
+    } elseif ($_SESSION["error_caracteres"] == "titulo_grande") {
+        $titulo_erro = "Título está com " . $_SESSION["caracteres"] . " caracteres";
+        $texto_erro = "Informe um título com, no máximo, 250 caracteres.";
+    }
+
+    //////// TIPO
+    if ($_SESSION["error_caracteres"] == "tipo_invalido") {
+        $titulo_erro = "Tipo de requerimento inválido: " . $_SESSION["caracteres"];
+        $texto_erro = "Selecione o tipo de requerimento - Denúnicia ou Sugestão";
+    }
+
+    //////// CIDADE
+    if ($_SESSION["error_caracteres"] == "cidade_pequeno") {
+        $titulo_erro = "Nome da cidade está com apenas " . $_SESSION["caracteres"] . " caracteres";
+        $texto_erro = "Informe o nome de uma cidade com, no mínimo, 3 caracteres.";
+    } elseif ($_SESSION["error_caracteres"] == "cidade_grande") {
+        $titulo_erro = "Nome da cidade está com " . $_SESSION["caracteres"] . " caracteres";
+        $texto_erro = "Informe o nome de uma cidade com, no máximo, 250 caracteres.";
+    }
+
+    //////// CEP
+    if ($_SESSION["error_caracteres"] == "cep_invalido") {
+        $titulo_erro = "CEP inválido";
+        $texto_erro = "O CEP " . $_SESSION["caracteres"] . " não atende ao formato XX.XXX-XXX";
+    }
+
+    //////// BAIRRO
+    if ($_SESSION["error_caracteres"] == "bairro_pequeno") {
+        $titulo_erro = "Nome do bairro está com apenas " . $_SESSION["caracteres"] . " caracteres";
+        $texto_erro = "Informe o bairro com, no mínimo, 3 caracteres.";
+    } elseif ($_SESSION["error_caracteres"] == "bairro_grande") {
+        $titulo_erro = "Nome do bairro está com " . $_SESSION["caracteres"] . " caracteres";
+        $texto_erro = "Informe o bairro com, no máximo, 250 caracteres.";
+    }
+
+    //////// RUA
+    if ($_SESSION["error_caracteres"] == "rua_pequena") {
+        $titulo_erro = "Nome da rua está com apenas " . $_SESSION["caracteres"] . " caracteres";
+        $texto_erro = "Informe a rua com, no mínimo, 2 caracteres.";
+    } elseif ($_SESSION["error_caracteres"] == "rua_grande") {
+        $titulo_erro = "Nome da rua está com " . $_SESSION["caracteres"] . " caracteres";
+        $texto_erro = "Informe a rua com, no máximo, 250 caracteres.";
+    }
+
+    //////// DESCRIÇÃO
+    if ($_SESSION["error_caracteres"] == "descricao_pequena") {
+        $titulo_erro = "A descrição está com apenas " . $_SESSION["caracteres"] . " caracteres";
+        $texto_erro = "Informe uma descrição com, no mínimo, 50 caracteres.";
+    } elseif ($_SESSION["error_caracteres"] == "descricao_grande") {
+        $titulo_erro = "A descrição está com " . $_SESSION["caracteres"] . " caracteres";
+        $texto_erro = "Informe uma descrição com, no máximo, 1000 caracteres.";
+    }
+?>
+
+    <div class="alert alert-danger alert-dismissible fade show position-absolute bottom-0 end-0 py-auto" role="alert">
+        <h6 class="text-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
+                <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+            </svg>
+            <strong><?= $titulo_erro ?></strong>
+        </h6>
+        <?= $texto_erro ?>
+        <button type="button" class="btn-close my-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+<?php unset($_SESSION["error_caracteres"]);
+    unset($_SESSION["caracteres"]);
 }
 
 
@@ -305,7 +385,7 @@ if (isset($_SESSION["error_cadastro"])) {
         $texto_erro = "O e-mail informado já está cadastrado em nosso sistema!";
     }
 
-    
+
 ?>
 
     <div class="alert alert-danger alert-dismissible fade show position-absolute bottom-0 end-0 py-auto" role="alert">
@@ -366,6 +446,32 @@ if (isset($_SESSION["crud_requerimento"])) {
     unset($_SESSION["crud_requerimento"]);
 }
 
+
+///////////////////////////  ERROS MANIPULAÇÃO IMAGEM  ////////////////////////////////////////////////
+if (isset($_SESSION["mostrar_imagem"]) && basename($_SERVER["PHP_SELF"]) == "mostrar-imagem.php") {
+    if ($_SESSION["mostrar_imagem"] == "acesso_url") {
+        $titulo_erro = "Página inacessível";
+        $texto_erro = "A página <code>mostrar-imagem.php</code> não pode ser acessada por URL.
+        <br>Ela apenas é utilizada para retornar as imagens dos requerimentos <br> para a página <code>visualizar-requerimento.php</code>";
+    }
+    include 'header.php';
+?>
+
+<div class="row d-flex align-items-center h-100">
+        <div class="col-md-6 text-center">
+            <h2 class="mt-2 text-danger"><?= $titulo_erro ?></h2>
+            <p><?= $texto_erro ?></p>
+        </div>
+        <div class="mx-auto col-md-6">
+            <img src="../image/warning.png" alt="" width="75%" class="d-block mx-auto">
+        </div>
+    </div>
+
+<?php
+    include 'js.php';
+    unset($_SESSION["mostrar_imagem"]);
+}
+
 //////// ID INFORMADO NÃO ESTÁ NO BANCO DE DADOS
 if (isset($_SESSION["id_requerimento_inexistente"])) {
 ?>
@@ -383,7 +489,6 @@ if (isset($_SESSION["id_requerimento_inexistente"])) {
     <?php
     unset($_SESSION["id_requerimento_inexistente"]);
 }
-
 
 ///////////////////////////   ERROS DE LOGIN  ////////////////////////////////////////////////
 if (isset($_SESSION["error_login"])) {

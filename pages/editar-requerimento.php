@@ -3,6 +3,27 @@ include 'header.php';
 
 $id_requerimento = filter_input(INPUT_GET, "editar", FILTER_SANITIZE_NUMBER_INT);
 
+/*
+if (isset($_SESSION["error_requerimento"]) || isset($_SESSION["error_caracteres"])) {
+    $rowRequeriemento['titulo'] = $_SESSION["titulo_requerimento"];
+    $rowRequeriemento['tipo'] = $_SESSION["tipo_requerimento"];
+    $rowRequeriemento['cidade'] = $_SESSION["cidade_requerimento"];
+    $rowRequeriemento['cep'] = $_SESSION["cep_requerimento"];
+    $rowRequeriemento['bairro'] = $_SESSION["bairro_requerimento"];
+    $rowRequeriemento['rua'] = $_SESSION["rua_requerimento"];
+    $rowRequeriemento['descricao'] = $_SESSION["descricao_requerimento"];
+  
+    unset($_SESSION["titulo_requerimento"]);
+    unset($_SESSION["tipo_requerimento"]);
+    unset($_SESSION["cidade_requerimento"]);
+    unset($_SESSION["cep_requerimento"]);
+    unset($_SESSION["bairro_requerimento"]);
+    unset($_SESSION["rua_requerimento"]);
+    unset($_SESSION["descricao_requerimento"]);
+    unset($_SESSION["anonimo_requerimento"]);
+  }
+  */
+
 function facaLogin($pagina = null)
 {
     if (empty($pagina)) {
@@ -40,6 +61,10 @@ if ($cont == 0) {
     die();
 }
 
+if (isset($_SESSION["error_requerimento"]) || isset($_SESSION["error_caracteres"])) {
+    include 'mensagens.php';
+}
+
 include 'navbar.php';
 ?>
 
@@ -58,8 +83,11 @@ include 'navbar.php';
                         <div class="col-md-8">
                             <input type="hidden" name="alterar" id="alterar" value="<?= $id_requerimento ?>">
 
-                            <label for="titulo" class="form-label"><strong>Título do requerimento: </strong></label>
-                            <input type="text" class="form-control" id="titulo" value="<?= $rowRequeriemento['titulo'] ?>" name="titulo">
+                            <label for="titulo" class="form-label" id="label_titulo"><strong>Título do requerimento: </strong></label>
+                            <input type="text" class="form-control" required id="titulo" placeholder="Ex: Falta de rampas de acesso" name="titulo" value="<?= $rowRequeriemento['titulo'] ?>" pattern="[A-Za-zÀ-ÿ\s]+" title="Insira um título que contenha apenas letras. Nenhum outro tipo de caracter será válido" maxlength="250">
+                            <div class="invalid-feedback">
+                                Informe um título formado apenas por letras, tendo como mínimo de 10 caracteres.
+                            </div>
                         </div>
 
                         <div class="col-md-4">
@@ -74,6 +102,11 @@ include 'navbar.php';
                                     <option value="Sugestão">Sugestão</option>
                                     <option value="Denúncia">Denúncia</option>
                                 <?php
+                                } else { ?>
+                                    <option value="">Escolha uma opção</option>
+                                    <option value="Denúncia">Denúncia</option>
+                                    <option value="Sugestão">Sugestão</option>
+                                <?php
                                 }
                                 ?>
                             </select>
@@ -81,22 +114,34 @@ include 'navbar.php';
 
                         <div class="col-md-8">
                             <label for="cidade" class="form-label"><strong>Cidade: </strong></label>
-                            <input type="text" class="form-control" id="cidade" name="cidade" value="<?= $rowRequeriemento['cidade'] ?>">
+                            <input type="text" class="form-control" required id="cidade" placeholder="Ex: Votuporanga" name="cidade" value="<?= $rowRequeriemento['cidade'] ?>" pattern="[A-Za-zÀ-ÿ\s]+">
+                            <div class="invalid-feedback" maxlength="250">
+                                Será aceito apenas letras, tendo como mínimo 3 caracteres.
+                            </div>
                         </div>
 
                         <div class="col-md-4">
                             <label for="cep" class="form-label"><strong>CEP: </strong></label>
-                            <input type="text" class="form-control" id="cep" name="cep" value="<?= $rowRequeriemento['cep'] ?>">
+                            <input type="text" class="form-control" required id="cep" name="cep" value="<?= $rowRequeriemento['cep'] ?>" title="Digite o CEP no formato XX.XXX-XXX" placeholder="XX.XXX-XXX" pattern="\d{2}\.\d{3}-\d{3}" maxlength="10">
+                            <div class="invalid-feedback">
+                                Informe o CEP no formato XX.XXX-XXX
+                            </div>
                         </div>
 
                         <div class="col-md-6">
                             <label for="bairro" class="form-label"><strong>Bairro: </strong></label>
-                            <input type="text" class="form-control" id="bairro" name="bairro" value="<?= $rowRequeriemento['bairro'] ?>">
+                            <input type="text" class="form-control" required id="bairro" placeholder="Ex: Centro" name="bairro" value="<?= $rowRequeriemento['bairro'] ?>" pattern="[A-Za-zÀ-ÿ0-9\s]+" maxlength="250">
+                            <div class="invalid-feedback">
+                                Informe um bairro válido
+                            </div>
                         </div>
 
                         <div class="col-md-6">
                             <label for="rua" class="form-label"><strong>Rua: </strong></label>
-                            <input type="text" class="form-control" id="rua" name="rua" value="<?= $rowRequeriemento['rua'] ?>">
+                            <input type="text" class="form-control" required id="rua" placeholder="Ex: Rua Amazonas" name="rua" value="<?= $rowRequeriemento['rua'] ?>" pattern="[A-Za-zÀ-ÿ0-9\s]+" maxlength="250">
+                            <div class="invalid-feedback">
+                                Informe uma rua válida
+                            </div>
                         </div>
 
                         <div class="col-12 input-group mt-4">
@@ -106,7 +151,10 @@ include 'navbar.php';
 
                         <div class="col-12">
                             <label for="descricao" class="form-label"><strong>Descrição: </strong></label>
-                            <textarea class="form-control" id="descricao" style="height: 150px" name="descricao"><?= $rowRequeriemento['descricao'] ?></textarea>
+                            <textarea class="form-control" required placeholder="Insira uma descrição detalhada sobre o ambiente em discussão" id="descricao" style="height: 130px" name="descricao" max="1000"><?= $rowRequeriemento['descricao'] ?></textarea>
+                            <div class="invalid-feedback">
+                                Insira uma descrição, com no mínimo 50 caracteres, sobre o ambiente em discussão
+                            </div>
                         </div>
 
 
@@ -123,10 +171,6 @@ include 'navbar.php';
             </div>
         </div>
 </div>
-
-<script>
-    <?php include '../js/script.js'; ?>
-</script>
 
 <?php
 include 'footer.php';

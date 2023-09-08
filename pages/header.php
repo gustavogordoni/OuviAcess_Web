@@ -1,11 +1,8 @@
 <?php
-session_start();
-
-if ($_SERVER['REQUEST_URI'] == '404.php') {
-  header("HTTP/1.0 404 Not Found");
-  include("404.php"); // Substitua pelo caminho real para a página 404
-  exit();
+if (basename($_SERVER["PHP_SELF"]) != "mostrar-imagem.php") {
+  session_start();
 }
+
 
 $value = "Dark";
 $class = "btn-dark";
@@ -45,7 +42,7 @@ setcookie("tema", $tema, $tempo_expiracao, "/");
 
 ?>
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-br" data-bs-theme="<?= $tema ?>">
 
 <head>
@@ -64,8 +61,7 @@ setcookie("tema", $tema, $tempo_expiracao, "/");
 <body>
 
   <?php
-  function ativar($pagina)
-  {
+  function ativar($pagina){
     if (basename($_SERVER["PHP_SELF"]) == $pagina) {
       return " active rounded-4";
     } else {

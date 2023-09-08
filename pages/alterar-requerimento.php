@@ -27,20 +27,173 @@ function redireciona($pagina = null)
     header("Location: " . $pagina);
 }
 
-
 if (empty($id_requerimento)) {
     $_SESSION["crud_requerimento"] = "alterar_id";
     include 'mensagens.php';
     die();
 }
 
-$titulo = filter_input(INPUT_POST, "titulo", FILTER_SANITIZE_SPECIAL_CHARS);
+function validacaoEditar($id_requerimento)
+{
+    $editar = "editar-requerimento.php?editar=";
+    header("Location: " . $editar . $id_requerimento);
+}
+
+$titulo = trim(filter_input(INPUT_POST, "titulo", FILTER_SANITIZE_SPECIAL_CHARS));
 $tipo = filter_input(INPUT_POST, "tipo", FILTER_SANITIZE_SPECIAL_CHARS);
-$cidade = filter_input(INPUT_POST, "cidade", FILTER_SANITIZE_SPECIAL_CHARS);
-$cep = filter_input(INPUT_POST, "cep", FILTER_SANITIZE_SPECIAL_CHARS);
-$bairro = filter_input(INPUT_POST, "bairro", FILTER_SANITIZE_SPECIAL_CHARS);
-$rua = filter_input(INPUT_POST, "rua", FILTER_SANITIZE_SPECIAL_CHARS);
-$descricao = filter_input(INPUT_POST, "descricao", FILTER_SANITIZE_SPECIAL_CHARS);
+$cidade = trim(filter_input(INPUT_POST, "cidade", FILTER_SANITIZE_SPECIAL_CHARS));
+$cep = trim(filter_input(INPUT_POST, "cep", FILTER_SANITIZE_SPECIAL_CHARS));
+$bairro = trim(filter_input(INPUT_POST, "bairro", FILTER_SANITIZE_SPECIAL_CHARS));
+$rua = trim(filter_input(INPUT_POST, "rua", FILTER_SANITIZE_SPECIAL_CHARS));
+$descricao = trim(filter_input(INPUT_POST, "descricao", FILTER_SANITIZE_SPECIAL_CHARS));
+
+
+///////////////////////////////////// VALIDAÇÕES /////////////////////////////////////
+
+/// TUDO VAZIO - ACESSO POR URL
+if (
+    empty($titulo) &&
+    empty($tipo) &&
+    empty($cidade) &&
+    empty($cep) &&
+    empty($bairro) &&
+    empty($rua) &&
+    empty($descricao) &&
+    empty($anonimo)
+) {
+    $_SESSION["error_requerimento"] = "acesso_url";
+    validacaoEditar($id_requerimento);
+    die();
+}
+
+/// TITULO
+if (empty($titulo)) {
+    $_SESSION["error_requerimento"] = "titulo";
+    validacaoEditar($id_requerimento);
+    die();
+} elseif (!preg_match('/^[A-Za-zÀ-ÿ\s]+$/', $titulo)) {
+    $_SESSION["error_caracteres"] = "titulo_inadequado";
+    $_SESSION["caracteres"] = strlen($titulo);
+    validacaoEditar($id_requerimento);
+    die();
+} elseif (strlen($titulo) < 10) {
+    $_SESSION["error_caracteres"] = "titulo_pequeno";
+    $_SESSION["caracteres"] = strlen($titulo);
+    validacaoEditar($id_requerimento);
+    die();
+} elseif (strlen($titulo) > 250) {
+    $_SESSION["error_caracteres"] = "titulo_grande";
+    $_SESSION["caracteres"] = strlen($titulo);
+    validacaoEditar($id_requerimento);
+    die();
+}
+
+/// TIPO
+if (empty($tipo)) {
+    $_SESSION["error_requerimento"] = "tipo";
+    validacaoEditar($id_requerimento);
+    die();
+} elseif ($tipo != "Denúncia" && $tipo != "Sugestão") {
+    $_SESSION["error_caracteres"] = "tipo_invalido";
+    $_SESSION["caracteres"] = $tipo;
+    validacaoEditar($id_requerimento);
+    die();
+}
+
+/// CIDADE
+if (empty($cidade)) {
+    $_SESSION["error_requerimento"] = "cidade";
+    validacaoEditar($id_requerimento);
+    die();
+} elseif (!preg_match('/^[A-Za-zÀ-ÿ\s]+$/', $cidade)) {
+    $_SESSION["error_caracteres"] = "cidade_inadequada";
+    $_SESSION["caracteres"] = strlen($cidade);
+    validacaoEditar($id_requerimento);
+    die();
+} elseif (strlen($cidade) < 3) {
+    $_SESSION["error_caracteres"] = "cidade_pequeno";
+    $_SESSION["caracteres"] = strlen($cidade);
+    validacaoEditar($id_requerimento);
+    die();
+} elseif (strlen($cidade) > 250) {
+    $_SESSION["error_caracteres"] = "cidade_grande";
+    $_SESSION["caracteres"] = strlen($cidade);
+    validacaoEditar($id_requerimento);
+    die();
+}
+
+/// CEP
+if (empty($cep)) {
+    $_SESSION["error_requerimento"] = "cep";
+    validacaoEditar($id_requerimento);
+    die();
+} elseif (!preg_match('/^\d{2}\.\d{3}-\d{3}$/', $cep)) {
+    $_SESSION["error_caracteres"] = "cep_invalido";
+    $_SESSION["caracteres"] = $cep;
+    validacaoEditar($id_requerimento);
+    die();
+}
+
+/// BAIRRO
+if (empty($bairro)) {
+    $_SESSION["error_requerimento"] = "bairro";
+    validacaoEditar($id_requerimento);
+    die();
+} elseif (!preg_match('/^[A-Za-zÀ-ÿ0-9\s]+$/', $bairro)) {
+    $_SESSION["error_caracteres"] = "bairro_inadequado";
+    $_SESSION["caracteres"] = strlen($bairro);
+    validacaoEditar($id_requerimento);
+    die();
+} elseif (strlen($bairro) < 3) {
+    $_SESSION["error_caracteres"] = "bairro_pequeno";
+    $_SESSION["caracteres"] = strlen($bairro);
+    validacaoEditar($id_requerimento);
+    die();
+} elseif (strlen($bairro) > 250) {
+    $_SESSION["error_caracteres"] = "bairro_grande";
+    $_SESSION["caracteres"] = strlen($bairro);
+    validacaoEditar($id_requerimento);
+    die();
+}
+
+/// RUA
+if (empty($rua)) {
+    $_SESSION["error_requerimento"] = "rua";
+    validacaoEditar($id_requerimento);
+    die();
+} elseif (!preg_match('/^[A-Za-zÀ-ÿ0-9\s]+$/', $rua)) {
+    $_SESSION["error_caracteres"] = "rua_inadequada";
+    $_SESSION["caracteres"] = strlen($rua);
+    validacaoEditar($id_requerimento);
+    die();
+} elseif (strlen($rua) < 2) {
+    $_SESSION["error_caracteres"] = "rua_pequena";
+    $_SESSION["caracteres"] = strlen($rua);
+    validacaoEditar($id_requerimento);
+    die();
+} elseif (strlen($rua) > 250) {
+    $_SESSION["error_caracteres"] = "rua_grande";
+    $_SESSION["caracteres"] = strlen($rua);
+    validacaoEditar($id_requerimento);
+    die();
+}
+
+/// DESCRIÇÃO
+if (empty($descricao)) {
+    $_SESSION["error_requerimento"] = "descricao";
+    validacaoEditar($id_requerimento);
+    die();
+} elseif (strlen($descricao) < 50) {
+    $_SESSION["error_caracteres"] = "descricao_pequena";
+    $_SESSION["caracteres"] = strlen($descricao);
+    validacaoEditar($id_requerimento);
+    die();
+} elseif (strlen($descricao) > 1000) {
+    $_SESSION["error_caracteres"] = "descricao_grande";
+    $_SESSION["caracteres"] = strlen($descricao);
+    validacaoEditar($id_requerimento);
+    die();
+}
 
 
 require '../database/conexao.php';
@@ -77,12 +230,10 @@ if ($result == true && $cont >= 1) {
     redireciona();
     //include 'mensagens.php';
     die();
-
 } elseif ($result == true && $cont == 0) {
-    $_SESSION["manteve_requerimento"] = true;    
+    $_SESSION["manteve_requerimento"] = true;
     redireciona();
     die();
-    
 } else {
     $errorArray = $stmt->errorInfo();
 ?>

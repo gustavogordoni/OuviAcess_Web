@@ -176,33 +176,3 @@ descricaoInput.addEventListener("input", function () {
     descricaoErrorMessage.style.display = "none";
   }
 });
-
-const tituloInput = document.getElementById("nome");
-const labelNome = document.querySelector("label[for='nome']");
-
-tituloInput.addEventListener("keydown", function (event) {
-  if (event.key >= '0' && event.key <= '3') {
-    event.preventDefault();
-  }
-});
-
-tituloInput.addEventListener("input", function () {
-  const inputValue = tituloInput.value.replace(/\s+/g, "");
-  const minLength = 4;
-  const patternRegex = /^[A-Za-zÀ-ÿ\s]+$/;
-
-  if (inputValue.length >= minLength && patternRegex.test(inputValue)) {
-    tituloInput.setCustomValidity("");
-    tituloInput.classList.remove("is-invalid");
-    labelNome.classList.remove("text-danger");
-  } else {
-    tituloInput.classList.add("is-invalid");
-    labelNome.classList.add("text-danger");
-
-    if (inputValue.length < minLength) {
-      tituloInput.setCustomValidity(`Informe um nome com pelo menos ${minLength} caracteres, sem contar os espaços.`);
-    } else if (!patternRegex.test(inputValue)) {
-      tituloInput.setCustomValidity("O nome deve conter apenas letras e espaços.");
-    }
-  }
-});

@@ -2,7 +2,7 @@
 include 'header.php';
 include 'navbar.php';
 
-if (isset($_SESSION["error_requerimento"])) {
+if (isset($_SESSION["error_requerimento"]) || isset($_SESSION["error_caracteres"])) {
   $titulo = $_SESSION["titulo_requerimento"];
   $tipo = $_SESSION["tipo_requerimento"];
   $cidade = $_SESSION["cidade_requerimento"];
@@ -41,7 +41,7 @@ if (isset($_SESSION["error_requerimento"])) {
 
             <div class="col-md-8">
               <label for="titulo" class="form-label" id="label_titulo"><strong>Título do requerimento: </strong></label>
-              <input type="text" class="form-control" required id="titulo" placeholder="Ex: Falta de rampas de acesso" name="titulo" value="<?php if(isset($titulo)){ echo $titulo; }?>" pattern="[A-Za-zÀ-ÿ\s]+" title="Insira um título que contenha apenas letras. Nenhum outro tipo de caracter será válido">
+              <input type="text" class="form-control" required id="titulo" placeholder="Ex: Falta de rampas de acesso" name="titulo" value="<?php if(isset($titulo)){ echo $titulo; }?>" pattern="[A-Za-zÀ-ÿ\s]+" title="Insira um título que contenha apenas letras. Nenhum outro tipo de caracter será válido" maxlength="250">
               <div class="invalid-feedback">
                 Informe um título formado apenas por letras, tendo como mínimo de 10 caracteres.
               </div>
@@ -76,7 +76,7 @@ if (isset($_SESSION["error_requerimento"])) {
             <div class="col-md-8">
               <label for="cidade" class="form-label"><strong>Cidade: </strong></label>
               <input type="text" class="form-control" required id="cidade" placeholder="Ex: Votuporanga" name="cidade" value="<?php if(isset($cidade)){ echo $cidade; }?>" pattern="[A-Za-zÀ-ÿ\s]+">
-              <div class="invalid-feedback">
+              <div class="invalid-feedback" maxlength="250">
                 Será aceito apenas letras, tendo como mínimo 3 caracteres.
               </div>
             </div>
@@ -91,7 +91,7 @@ if (isset($_SESSION["error_requerimento"])) {
 
             <div class="col-md-6">
               <label for="bairro" class="form-label"><strong>Bairro: </strong></label>
-              <input type="text" class="form-control" required id="bairro" placeholder="Ex: Centro" name="bairro" value="<?php if(isset($bairro)){ echo $bairro; }?>" pattern="[A-Za-zÀ-ÿ0-9\s]+">
+              <input type="text" class="form-control" required id="bairro" placeholder="Ex: Centro" name="bairro" value="<?php if(isset($bairro)){ echo $bairro; }?>" pattern="[A-Za-zÀ-ÿ0-9\s]+" maxlength="250">
               <div class="invalid-feedback">
                 Informe um bairro válido
               </div>
@@ -99,7 +99,7 @@ if (isset($_SESSION["error_requerimento"])) {
 
             <div class="col-md-6">
               <label for="rua" class="form-label"><strong>Rua: </strong></label>
-              <input type="text" class="form-control" required id="rua" placeholder="Ex: Rua Amazonas" name="rua" value="<?php if(isset($rua)){ echo $rua; }?>" pattern="[A-Za-zÀ-ÿ0-9\s]+">
+              <input type="text" class="form-control" required id="rua" placeholder="Ex: Rua Amazonas" name="rua" value="<?php if(isset($rua)){ echo $rua; }?>" pattern="[A-Za-zÀ-ÿ0-9\s]+" maxlength="250">
               <div class="invalid-feedback">
                 Informe uma rua válida
               </div>
@@ -112,7 +112,7 @@ if (isset($_SESSION["error_requerimento"])) {
 
             <div class="col-12">
               <label for="descricao" class="form-label"><strong>Descrição: </strong></label>
-              <textarea class="form-control" required placeholder="Insira uma descrição detalhada sobre o ambiente em discussão" id="descricao" style="height: 100px" name="descricao" max="1000"><?php if(isset($descricao)){ echo $descricao; }?></textarea>
+              <textarea class="form-control" required placeholder="Insira uma descrição detalhada sobre o ambiente em discussão" id="descricao" style="height: 130px" name="descricao" max="1000"><?php if(isset($descricao)){ echo $descricao; }?></textarea>
               <div class="invalid-feedback">
                 Insira uma descrição, com no mínimo 50 caracteres, sobre o ambiente em discussão
               </div>
@@ -147,10 +147,6 @@ if (isset($_SESSION["error_requerimento"])) {
       </div>
     </div>
   </main>
-
-  <script>
-    <?php include '../js/script.js'; ?>
-  </script>
 
   <?php
   include 'mensagens.php';

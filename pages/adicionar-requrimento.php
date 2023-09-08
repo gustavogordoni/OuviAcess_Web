@@ -1,15 +1,14 @@
 <?php
 require 'header.php';
 
-$titulo = filter_input(INPUT_POST, "titulo", FILTER_SANITIZE_SPECIAL_CHARS);
+$titulo = trim(filter_input(INPUT_POST, "titulo", FILTER_SANITIZE_SPECIAL_CHARS));
 $tipo = filter_input(INPUT_POST, "tipo", FILTER_SANITIZE_SPECIAL_CHARS);
-$cidade = filter_input(INPUT_POST, "cidade", FILTER_SANITIZE_SPECIAL_CHARS);
-$cep = filter_input(INPUT_POST, "cep", FILTER_SANITIZE_SPECIAL_CHARS);
-$bairro = filter_input(INPUT_POST, "bairro", FILTER_SANITIZE_SPECIAL_CHARS);
-$rua = filter_input(INPUT_POST, "rua", FILTER_SANITIZE_SPECIAL_CHARS);
-$descricao = filter_input(INPUT_POST, "descricao", FILTER_SANITIZE_SPECIAL_CHARS);
-$anonimo = filter_input(INPUT_POST, "anonimo", FILTER_SANITIZE_SPECIAL_CHARS);
-
+$cidade = trim(filter_input(INPUT_POST, "cidade", FILTER_SANITIZE_SPECIAL_CHARS));
+$cep = trim(filter_input(INPUT_POST, "cep", FILTER_SANITIZE_SPECIAL_CHARS));
+$bairro = trim(filter_input(INPUT_POST, "bairro", FILTER_SANITIZE_SPECIAL_CHARS));
+$rua = trim(filter_input(INPUT_POST, "rua", FILTER_SANITIZE_SPECIAL_CHARS));
+$descricao = trim(filter_input(INPUT_POST, "descricao", FILTER_SANITIZE_SPECIAL_CHARS));
+$anonimo = trim(filter_input(INPUT_POST, "anonimo", FILTER_SANITIZE_SPECIAL_CHARS));
 
 if (isset($_SESSION["id_usuario"])) {
     $id_usuario = $_SESSION["id_usuario"];
@@ -31,7 +30,7 @@ function redireciona($pagina = null)
     }
     header("Location: " . $pagina);
 }
-function campoIncompleto($pagina = null)
+function validacaoRequerimento($pagina = null)
 {
     if (empty($pagina)) {
         $pagina = "requerimento.php";
@@ -39,90 +38,182 @@ function campoIncompleto($pagina = null)
     header("Location: " . $pagina);
 }
 
-// CAMPO NÃO PREENCHIDO
+///////////////////////////////////// VALIDAÇÕES /////////////////////////////////////
+$_SESSION["titulo_requerimento"] = $titulo;
+$_SESSION["tipo_requerimento"] = $tipo;
+$_SESSION["cidade_requerimento"] = $cidade;
+$_SESSION["cep_requerimento"] = $cep;
+$_SESSION["bairro_requerimento"] = $bairro;
+$_SESSION["rua_requerimento"] = $rua;
+$_SESSION["descricao_requerimento"] = $descricao;
+$_SESSION["anonimo_requerimento"] = $anonimo;
+
+/// TUDO VAZIO - ACESSO POR URL
 if (
-    empty($titulo) ||
-    empty($tipo) ||
-    empty($cidade) ||
-    empty($cep) ||
-    empty($bairro) ||
-    empty($rua) ||
-    empty($descricao) ||
-    ($anonimo != true && $anonimo != false)
+    empty($titulo) &&
+    empty($tipo) &&
+    empty($cidade) &&
+    empty($cep) &&
+    empty($bairro) &&
+    empty($rua) &&
+    empty($descricao) &&
+    empty($anonimo)
 ) {
-    $_SESSION["titulo_requerimento"] = $titulo;
-    $_SESSION["tipo_requerimento"] = $tipo;
-    $_SESSION["cidade_requerimento"] = $cidade;
-    $_SESSION["cep_requerimento"] = $cep;
-    $_SESSION["bairro_requerimento"] = $bairro;
-    $_SESSION["rua_requerimento"] = $rua;
-    $_SESSION["descricao_requerimento"] = $descricao;
-    $_SESSION["anonimo_requerimento"] = $anonimo;
-
-    if (
-        empty($titulo) &&
-        empty($tipo) &&
-        empty($cidade) &&
-        empty($cep) &&
-        empty($bairro) &&
-        empty($rua) &&
-        empty($descricao) &&
-        empty($anonimo)
-    ) {
-        $_SESSION["error_requerimento"] = "acesso_url";
-        campoIncompleto();
-        die();
-    }
-
-    if (empty($titulo)) {
-        $_SESSION["error_requerimento"] = "titulo";
-        $_SESSION["titulo_requerimento"] = null;
-        campoIncompleto();
-        die();
-    }
-    if (empty($tipo)) {
-        $_SESSION["error_requerimento"] = "tipo";
-        $_SESSION["tipo_requerimento"] = null;
-        campoIncompleto();
-        die();
-    }
-    if (empty($cidade)) {
-        $_SESSION["error_requerimento"] = "cidade";
-        $_SESSION["cidade_requerimento"] = null;
-        campoIncompleto();
-        die();
-    }
-    if (empty($cep)) {
-        $_SESSION["error_requerimento"] = "cep";
-        $_SESSION["cep_requerimento"] = null;
-        campoIncompleto();
-        die();
-    }
-    if (empty($bairro)) {
-        $_SESSION["error_requerimento"] = "bairro";
-        $_SESSION["bairro_requerimento"] = null;
-        campoIncompleto();
-        die();
-    }
-    if (empty($rua)) {
-        $_SESSION["error_requerimento"] = "rua";
-        $_SESSION["rua_requerimento"] = null;
-        campoIncompleto();
-        die();
-    }
-    if (empty($descricao)) {
-        $_SESSION["error_requerimento"] = "descricao";
-        $_SESSION["descricao_requerimento"] = null;
-        campoIncompleto();
-        die();
-    }
-    if ($anonimo != true && $anonimo != false) {
-        $_SESSION["error_requerimento"] = "anonimo";
-        $_SESSION["anonimo_requerimento"] = null;
-        campoIncompleto();
-        die();
-    }
+    $_SESSION["error_requerimento"] = "acesso_url";
+    validacaoRequerimento();
+    die();
 }
+
+/// TITULO
+if (empty($titulo)) {
+    $_SESSION["error_requerimento"] = "titulo";
+    $_SESSION["titulo_requerimento"] = null;
+    validacaoRequerimento();
+    die();
+}elseif (!preg_match('/^[A-Za-zÀ-ÿ\s]+$/', $titulo)) {
+    $_SESSION["error_caracteres"] = "titulo_inadequado";
+    $_SESSION["titulo_requerimento"] = null;
+    $_SESSION["caracteres"] = strlen($titulo);
+    validacaoRequerimento();
+    die();
+}elseif (strlen($titulo) < 10) {
+    $_SESSION["error_caracteres"] = "titulo_pequeno";
+    $_SESSION["caracteres"] = strlen($titulo);
+    validacaoRequerimento();
+    die();
+} elseif (strlen($titulo) > 250) {
+    $_SESSION["error_caracteres"] = "titulo_grande";
+    $_SESSION["caracteres"] = strlen($titulo);
+    validacaoRequerimento();
+    die();
+}
+
+/// TIPO
+if (empty($tipo)) {
+    $_SESSION["error_requerimento"] = "tipo";
+    $_SESSION["tipo_requerimento"] = null;
+    validacaoRequerimento();
+    die();
+} elseif ($tipo != "Denúncia" && $tipo != "Sugestão") {
+    $_SESSION["error_caracteres"] = "tipo_invalido";
+    $_SESSION["tipo_requerimento"] = null;
+    $_SESSION["caracteres"] = $tipo;
+    validacaoRequerimento();
+    die();
+}
+
+/// CIDADE
+if (empty($cidade)) {
+    $_SESSION["error_requerimento"] = "cidade";
+    $_SESSION["cidade_requerimento"] = null;
+    validacaoRequerimento();
+    die();
+}elseif (!preg_match('/^[A-Za-zÀ-ÿ\s]+$/', $cidade)) {
+    $_SESSION["error_caracteres"] = "cidade_inadequada";
+    $_SESSION["cidade_requerimento"] = null;
+    $_SESSION["caracteres"] = strlen($cidade);
+    validacaoRequerimento();
+    die();
+} elseif (strlen($cidade) < 3) {
+    $_SESSION["error_caracteres"] = "cidade_pequeno";
+    $_SESSION["caracteres"] = strlen($cidade);
+    validacaoRequerimento();
+    die();
+} elseif (strlen($cidade) > 250) {
+    $_SESSION["error_caracteres"] = "cidade_grande";
+    $_SESSION["caracteres"] = strlen($cidade);
+    validacaoRequerimento();
+    die();
+}
+
+/// CEP
+if (empty($cep)) {
+    $_SESSION["error_requerimento"] = "cep";
+    $_SESSION["cep_requerimento"] = null;
+    validacaoRequerimento();
+    die();
+} elseif (!preg_match('/^\d{2}\.\d{3}-\d{3}$/', $cep)) {
+    $_SESSION["error_caracteres"] = "cep_invalido";
+    $_SESSION["caracteres"] = $cep;
+    $_SESSION["cep_requerimento"] = null;
+    validacaoRequerimento();
+    die();
+}
+
+/// BAIRRO
+if (empty($bairro)) {
+    $_SESSION["error_requerimento"] = "bairro";
+    $_SESSION["bairro_requerimento"] = null;
+    validacaoRequerimento();
+    die();
+}elseif (!preg_match('/^[A-Za-zÀ-ÿ0-9\s]+$/', $bairro)) {
+    $_SESSION["error_caracteres"] = "bairro_inadequado";
+    $_SESSION["bairro_requerimento"] = null;
+    $_SESSION["caracteres"] = strlen($bairro);
+    validacaoRequerimento();
+    die();
+} elseif (strlen($bairro) < 3) {
+    $_SESSION["error_caracteres"] = "bairro_pequeno";
+    $_SESSION["caracteres"] = strlen($bairro);
+    validacaoRequerimento();
+    die();
+} elseif (strlen($bairro) > 250) {
+    $_SESSION["error_caracteres"] = "bairro_grande";
+    $_SESSION["caracteres"] = strlen($bairro);
+    validacaoRequerimento();
+    die();
+}
+
+/// RUA
+if (empty($rua)) {
+    $_SESSION["error_requerimento"] = "rua";
+    $_SESSION["rua_requerimento"] = null;
+    validacaoRequerimento();
+    die();
+}elseif (!preg_match('/^[A-Za-zÀ-ÿ0-9\s]+$/', $rua)) {
+    $_SESSION["error_caracteres"] = "rua_inadequada";
+    $_SESSION["rua_requerimento"] = null;
+    $_SESSION["caracteres"] = strlen($rua);
+    validacaoRequerimento();
+    die();
+} elseif (strlen($rua) < 2) {
+    $_SESSION["error_caracteres"] = "rua_pequena";
+    $_SESSION["caracteres"] = strlen($rua);
+    validacaoRequerimento();
+    die();
+} elseif (strlen($rua) > 250) {
+    $_SESSION["error_caracteres"] = "rua_grande";
+    $_SESSION["caracteres"] = strlen($rua);
+    validacaoRequerimento();
+    die();
+}
+
+/// DESCRIÇÃO
+if (empty($descricao)) {
+    $_SESSION["error_requerimento"] = "descricao";
+    $_SESSION["descricao_requerimento"] = null;
+    validacaoRequerimento();
+    die();
+} elseif (strlen($descricao) < 50) {
+    $_SESSION["error_caracteres"] = "descricao_pequena";
+    $_SESSION["caracteres"] = strlen($descricao);
+    validacaoRequerimento();
+    die();
+} elseif (strlen($descricao) > 1000) {
+    $_SESSION["error_caracteres"] = "descricao_grande";
+    $_SESSION["caracteres"] = strlen($descricao);
+    validacaoRequerimento();
+    die();
+}
+
+/// ANONIMO
+if ($anonimo != true && $anonimo != false) {
+    $_SESSION["error_requerimento"] = "anonimo";
+    $_SESSION["anonimo_requerimento"] = null;
+    validacaoRequerimento();
+    die();
+}
+
 
 $situacao = "Em andamento";
 date_default_timezone_set('America/Sao_Paulo');
@@ -140,14 +231,14 @@ $maior = 0;
 
 if ($cont == 0) {
     $maior = 0;
-}elseif($cont >= 1){
-    while ($row =  $stmt->fetch()) { 
-        if($maior < $row["id_requerimento"]){
+} elseif ($cont >= 1) {
+    while ($row =  $stmt->fetch()) {
+        if ($maior < $row["id_requerimento"]) {
             $maior = $row["id_requerimento"];
         }
-    }      
+    }
 }
-$id_requerimento = $maior + 1; 
+$id_requerimento = $maior + 1;
 
 if ($anonimo == false) {
     // ENVIO NÃO ANONIMO
@@ -155,13 +246,12 @@ if ($anonimo == false) {
 
     $stmt = $conn->prepare($sql);
     $result = $stmt->execute([$id_requerimento, $id_usuario, $titulo, $tipo, $situacao, $data, $descricao, $cep, $cidade, $bairro, $rua]);
-
 } elseif ($anonimo == true) {
     // ENVIO ANONIMO
-    $sql = "INSERT INTO requerimento(titulo, tipo, situacao, data, descricao, cep, cidade, bairro, rua) VALUES (?,?,?,?,?,?,?,?,?)";
+    $sql = "INSERT INTO requerimento(id_requerimento, titulo, tipo, situacao, data, descricao, cep, cidade, bairro, rua) VALUES (?,?,?,?,?,?,?,?,?,?)";
 
     $stmt = $conn->prepare($sql);
-    $result = $stmt->execute([$titulo, $tipo, $situacao, $data, $descricao, $cep, $cidade, $bairro, $rua]);
+    $result = $stmt->execute([$id_requerimento, $titulo, $tipo, $situacao, $data, $descricao, $cep, $cidade, $bairro, $rua]);
 }
 
 if ($result == true) {

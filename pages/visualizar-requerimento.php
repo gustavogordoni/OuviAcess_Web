@@ -47,6 +47,10 @@ WHERE a.id_requerimento = $id_requerimento AND r.id_usuario = $id_usuario";
 $result = pg_query($conn_imagem, $sql);
 $dados = pg_fetch_assoc($result);
 
+if (pg_num_rows($result) > 0){
+    $_SESSION["id_requerimento"] = $id_requerimento;
+}
+
 require 'navbar.php';
 ?>
 
@@ -122,8 +126,8 @@ require 'navbar.php';
                                         <h3 class="d-block mx-auto cor_tema"><?= $dados["nome"]?></h3>
                                         <button type="button" class="btn-close ms-0" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
-                                    <div class="modal-body">
-                                        <img src="mostrar-imagem.php?requerimento=<?= $id_requerimento ?>" alt="Imagem: <?= $dados["nome"]?>" class="d-block h-100 mx-auto">
+                                    <div class="modal-body d-flex justify-content-center align-items-center">
+                                        <img src="mostrar-imagem.php" alt="Imagem: <?= $dados["nome"]?>" class="h-100">
                                     </div>
                                 </div>
                             </div>
