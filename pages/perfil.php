@@ -1,7 +1,8 @@
 <?php
 require 'header.php';
 
-function facaLogin($pagina = null){
+function facaLogin($pagina = null)
+{
     if (empty($pagina)) {
         $pagina = "login.php";
     }
@@ -32,13 +33,13 @@ require 'navbar.php';
     <main>
         <div class="py-3 text-center mt-4">
             <strong>
-                <h2>Olá <strong><?= $rowUsuario['nome'] ?></strong></h2>
+                <h2>Olá <strong><?= $rowUsuario['nome'] ?></strong>  <span class="fs-2">&#128075;</span></h2>
             </strong>
         </div>
 
         <div class="row">
             <div class="col-11 mx-auto mb-4">
-                <div class="row g-3 cor_tema">
+                <div class="row g-3">
                     <div class="col-md-12">
                         <label for="titulo" class="form-label"><strong>Nome completo: </strong></label>
                         <input readonly type="text" class="form-control" id="titulo" value="<?= $rowUsuario['nome'] ?>" name="titulo">
@@ -54,21 +55,23 @@ require 'navbar.php';
                         <input readonly type="text" class="form-control" id="bairro" name="bairro" value="<?= $rowUsuario['telefone'] ?>">
                     </div>
 
-                    <div class="col-md-12">
-                        <label for="rua" class="form-label"><strong>E-mail: </strong></label>
-                        <input readonly type="text" class="form-control" id="rua" name="rua" value="<?= $rowUsuario['email'] ?>">
+                    <div class="col-12">
+                        <label for="email" class="form-label"><strong>E-mail: </strong></label>
+                        <div class="input-group has-validation">
+                            <span class="input-group-text">@</span>
+                            <input readonly type="email" class="form-control" id="email" name="email" value="<?= $rowUsuario['email'] ?>">
+                            <div class="invalid-feedback"></div>
+                        </div>
                     </div>
-                  
+
                     <div class="mt-4 col-12 row">
                         <div class="col-md-6 mb-3">
                             <a class="w-100 btn btn-secondary rounded-pill px-3 btn-lg" href="inicio.php">Voltar ao início</a>
                         </div>
                         <div class="col-md-6">
-                            <form action="editar-perfil.php" method="POST" class="form my-auto">
-                                <button class="w-100 btn btn-primary rounded-pill px-3 btn-lg" type="submit" value="<?= $id_usuario ?>" name="editar">
-                                    Alterar informações do perfil
-                                </button>
-                            </form>
+                            <a href="editar-perfil.php" class="w-100 btn btn-warning rounded-pill px-3 btn-lg" value="<?= $id_usuario ?>">
+                                Alterar informações do perfil
+                            </a>
                         </div>
                     </div>
 

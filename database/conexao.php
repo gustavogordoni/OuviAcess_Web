@@ -25,12 +25,11 @@ try {
     $_SESSION["error_bd"] = $e->getMessage();
 }
 
+// MOSTRAR IMAGEM
 $host = $conf["server"];
 $port= $conf["port"];
 $dbname= $conf["database"];
 $user= $conf["user"];
 $password= $conf["password"];
 
-$conn_imagem = pg_connect("host=$host port=5432                                   
-                    dbname=$dbname user=$user
-                    password=$password");
+$conn_imagem = pg_connect("host=$host port=5432 dbname=$dbname user=$user password=$password");

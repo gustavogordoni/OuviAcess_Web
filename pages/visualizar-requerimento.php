@@ -42,12 +42,14 @@ if ($cont == 0) {
 
 $sql = "SELECT dados_arquivo, nome FROM arquivo a INNER JOIN requerimento r
 ON a.id_requerimento = r.id_requerimento
-WHERE a.id_requerimento = $id_requerimento AND r.id_usuario = $id_usuario";
+WHERE a.id_requerimento = ? AND r.id_usuario = ?";
 
-$result = pg_query($conn_imagem, $sql);
-$dados = pg_fetch_assoc($result);
+$stmt = $conn->prepare($sql);
+$stmt->execute([$id_requerimento, $id_usuario]);
+$dados = $stmt->fetch();
+$cont = $stmt->rowCount();
 
-if (pg_num_rows($result) > 0){
+if ($cont >= 1){
     $_SESSION["id_requerimento"] = $id_requerimento;
 }
 
@@ -111,7 +113,7 @@ require 'navbar.php';
                     </div>
 
                     <?php
-                    if (pg_num_rows($result) > 0){
+                    if ($cont >= 1){
                     ?>
                         <div class="col-12 mt-4">
                             <button type="button" class="d-block mx-auto w-25 btn btn-primary rounded-pill px-3 btn-lg" data-bs-toggle="modal" data-bs-target="#exampleModalFullscreen">

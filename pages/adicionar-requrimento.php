@@ -71,18 +71,18 @@ if (empty($titulo)) {
     validacaoRequerimento();
     die();
 }elseif (!preg_match('/^[A-Za-zÀ-ÿ\s]+$/', $titulo)) {
-    $_SESSION["error_caracteres"] = "titulo_inadequado";
+    $_SESSION["caracteres_requerimento"] = "titulo_inadequado";
     $_SESSION["titulo_requerimento"] = null;
-    $_SESSION["caracteres"] = strlen($titulo);
+    $_SESSION["caracteres"] = null;
     validacaoRequerimento();
     die();
 }elseif (strlen($titulo) < 10) {
-    $_SESSION["error_caracteres"] = "titulo_pequeno";
+    $_SESSION["caracteres_requerimento"] = "titulo_pequeno";
     $_SESSION["caracteres"] = strlen($titulo);
     validacaoRequerimento();
     die();
-} elseif (strlen($titulo) > 250) {
-    $_SESSION["error_caracteres"] = "titulo_grande";
+} elseif (strlen($titulo) > 150) {
+    $_SESSION["caracteres_requerimento"] = "titulo_grande";
     $_SESSION["caracteres"] = strlen($titulo);
     validacaoRequerimento();
     die();
@@ -95,7 +95,7 @@ if (empty($tipo)) {
     validacaoRequerimento();
     die();
 } elseif ($tipo != "Denúncia" && $tipo != "Sugestão") {
-    $_SESSION["error_caracteres"] = "tipo_invalido";
+    $_SESSION["caracteres_requerimento"] = "tipo_invalido";
     $_SESSION["tipo_requerimento"] = null;
     $_SESSION["caracteres"] = $tipo;
     validacaoRequerimento();
@@ -109,18 +109,18 @@ if (empty($cidade)) {
     validacaoRequerimento();
     die();
 }elseif (!preg_match('/^[A-Za-zÀ-ÿ\s]+$/', $cidade)) {
-    $_SESSION["error_caracteres"] = "cidade_inadequada";
+    $_SESSION["caracteres_requerimento"] = "cidade_inadequada";
     $_SESSION["cidade_requerimento"] = null;
-    $_SESSION["caracteres"] = strlen($cidade);
+    $_SESSION["caracteres"] = null;
     validacaoRequerimento();
     die();
 } elseif (strlen($cidade) < 3) {
-    $_SESSION["error_caracteres"] = "cidade_pequeno";
+    $_SESSION["caracteres_requerimento"] = "cidade_pequeno";
     $_SESSION["caracteres"] = strlen($cidade);
     validacaoRequerimento();
     die();
-} elseif (strlen($cidade) > 250) {
-    $_SESSION["error_caracteres"] = "cidade_grande";
+} elseif (strlen($cidade) > 150) {
+    $_SESSION["caracteres_requerimento"] = "cidade_grande";
     $_SESSION["caracteres"] = strlen($cidade);
     validacaoRequerimento();
     die();
@@ -133,8 +133,8 @@ if (empty($cep)) {
     validacaoRequerimento();
     die();
 } elseif (!preg_match('/^\d{2}\.\d{3}-\d{3}$/', $cep)) {
-    $_SESSION["error_caracteres"] = "cep_invalido";
-    $_SESSION["caracteres"] = $cep;
+    $_SESSION["caracteres_requerimento"] = "cep_inadequado";
+    $_SESSION["caracteres"] = null;
     $_SESSION["cep_requerimento"] = null;
     validacaoRequerimento();
     die();
@@ -147,18 +147,18 @@ if (empty($bairro)) {
     validacaoRequerimento();
     die();
 }elseif (!preg_match('/^[A-Za-zÀ-ÿ0-9\s]+$/', $bairro)) {
-    $_SESSION["error_caracteres"] = "bairro_inadequado";
+    $_SESSION["caracteres_requerimento"] = "bairro_inadequado";
     $_SESSION["bairro_requerimento"] = null;
-    $_SESSION["caracteres"] = strlen($bairro);
+    $_SESSION["caracteres"] = null;
     validacaoRequerimento();
     die();
 } elseif (strlen($bairro) < 3) {
-    $_SESSION["error_caracteres"] = "bairro_pequeno";
+    $_SESSION["caracteres_requerimento"] = "bairro_pequeno";
     $_SESSION["caracteres"] = strlen($bairro);
     validacaoRequerimento();
     die();
-} elseif (strlen($bairro) > 250) {
-    $_SESSION["error_caracteres"] = "bairro_grande";
+} elseif (strlen($bairro) > 150) {
+    $_SESSION["caracteres_requerimento"] = "bairro_grande";
     $_SESSION["caracteres"] = strlen($bairro);
     validacaoRequerimento();
     die();
@@ -171,18 +171,18 @@ if (empty($rua)) {
     validacaoRequerimento();
     die();
 }elseif (!preg_match('/^[A-Za-zÀ-ÿ0-9\s]+$/', $rua)) {
-    $_SESSION["error_caracteres"] = "rua_inadequada";
+    $_SESSION["caracteres_requerimento"] = "rua_inadequada";
     $_SESSION["rua_requerimento"] = null;
+    $_SESSION["caracteres"] = null;
+    validacaoRequerimento();
+    die();
+}elseif (strlen($rua) < 2) {
+    $_SESSION["caracteres_requerimento"] = "rua_pequena";
     $_SESSION["caracteres"] = strlen($rua);
     validacaoRequerimento();
     die();
-} elseif (strlen($rua) < 2) {
-    $_SESSION["error_caracteres"] = "rua_pequena";
-    $_SESSION["caracteres"] = strlen($rua);
-    validacaoRequerimento();
-    die();
-} elseif (strlen($rua) > 250) {
-    $_SESSION["error_caracteres"] = "rua_grande";
+} elseif (strlen($rua) > 150) {
+    $_SESSION["caracteres_requerimento"] = "rua_grande";
     $_SESSION["caracteres"] = strlen($rua);
     validacaoRequerimento();
     die();
@@ -195,12 +195,12 @@ if (empty($descricao)) {
     validacaoRequerimento();
     die();
 } elseif (strlen($descricao) < 50) {
-    $_SESSION["error_caracteres"] = "descricao_pequena";
+    $_SESSION["caracteres_requerimento"] = "descricao_pequena";
     $_SESSION["caracteres"] = strlen($descricao);
     validacaoRequerimento();
     die();
-} elseif (strlen($descricao) > 1000) {
-    $_SESSION["error_caracteres"] = "descricao_grande";
+}elseif (strlen($descricao) > 2000) {
+    $_SESSION["caracteres_requerimento"] = "descricao_grande";
     $_SESSION["caracteres"] = strlen($descricao);
     validacaoRequerimento();
     die();
@@ -268,8 +268,6 @@ if ($result == true) {
         // Escape the binary data
         $dados_arquivo = bin2hex($data);
 
-        //$sql = "INSERT INTO arquivo(id_requerimento, descricao, nome, tipo, tamanho, dados_arquivo)
-        //VALUES ($id_requerimento,'$nome_imagem', '$nome', '$tipo', '$tamanho', decode('{$dados_arquivo}' , 'hex'));";
         $sql = "INSERT INTO arquivo(id_requerimento, nome, dados_arquivo)
         VALUES ($id_requerimento,'$nome', decode('{$dados_arquivo}' , 'hex'));";
 

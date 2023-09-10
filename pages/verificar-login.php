@@ -23,10 +23,10 @@ $senha = filter_input(INPUT_POST, "senha", FILTER_SANITIZE_SPECIAL_CHARS);
 
 if (isset($_SESSION["add_cadastro"]) && $_SESSION["add_cadastro"]) {
     $email = $_SESSION["email"];
-    $senha = $_SESSION["senha_hash"];
+    $senha = $_SESSION["senha"];
     unset($_SESSION["add_cadastro"]);
     unset($_SESSION["email"]);
-    unset($_SESSION["senha_hash"]);
+    unset($_SESSION["senha"]);
 }
 
 if (empty($email) && empty($senha)) {

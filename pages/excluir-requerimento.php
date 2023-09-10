@@ -25,7 +25,7 @@ if (empty($id_requerimento)) {
     die();
 }
 
-include '../database/conexao.php';
+require '../database/conexao.php';
 
 // VERIFICAR SE HÁ IMAGEM DE UM REQUERIMENTO, ANTES DE EXCLUIR A TABELA REQUERIMENTO
 $sql = "SELECT id_requerimento FROM arquivo WHERE id_requerimento = ?";

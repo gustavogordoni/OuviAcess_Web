@@ -101,7 +101,7 @@
           <?php
           } elseif (isset($_SESSION["id_usuario"])) {
 
-            if (basename($_SERVER["PHP_SELF"]) == "perfil.php") {
+            if (basename($_SERVER["PHP_SELF"]) == "perfil.php" || basename($_SERVER["PHP_SELF"]) == "editar-perfil.php") {
               $btn_perfil = "btn-primary";
             } elseif (basename($_SERVER["PHP_SELF"]) != "perfil.php") {
               $btn_perfil = "btn-outline-primary";

@@ -1,54 +1,40 @@
 -- Active: 1681045707260@@127.0.0.1@5432@ouviacess@public
 CREATE TABLE usuario (
     id_usuario SERIAL PRIMARY KEY,
-    nome VARCHAR(250),
-    ddd CHAR(4),
+    nome VARCHAR(150),
+    ddd VARCHAR(4),
     telefone VARCHAR(10),
-    email VARCHAR(250),
-    senha VARCHAR(250)
-);/*
+    email VARCHAR(150),
+    senha VARCHAR(150)
+);
+
 CREATE TABLE requerimento (
     id_requerimento INT PRIMARY KEY,
     id_usuario INT,
-    titulo VARCHAR(250),
-    tipo VARCHAR(250),
-    situacao VARCHAR(250),
+    titulo VARCHAR(150),
+    tipo VARCHAR(8),
+    situacao VARCHAR(150),
     data VARCHAR(10),
     descricao VARCHAR(2000),
     cep VARCHAR(10),
-    cidade VARCHAR(250),
-    bairro VARCHAR(250),
-    rua VARCHAR(250),
+    cidade VARCHAR(150),
+    bairro VARCHAR(150),
+    rua VARCHAR(150),
+    -- resposta TEXT,
+    -- id_admistrador INT,
     CONSTRAINT FK_Requerimento_Usuario FOREIGN KEY (id_usuario)
         REFERENCES Usuario (id_usuario)
-);*/
-
-CREATE TABLE requerimento (
-    id_requerimento INT PRIMARY KEY,
-    id_usuario INT,
-    titulo VARCHAR(250),
-    tipo CHAR(8),
-    situacao VARCHAR(250),
-    data CHAR(10),
-    descricao VARCHAR(2000),
-    cep CHAR(10),
-    cidade VARCHAR(250),
-    bairro VARCHAR(250),
-    rua VARCHAR(250),
-    CONSTRAINT FK_Requerimento_Usuario FOREIGN KEY (id_usuario)
-        REFERENCES Usuario (id_usuario)
+    --CONSTRAINT FK_Requerimento_Administrador FOREIGN KEY (id_admistrador) REFERENCES administrador (id_admistrador)
 );
-
-drop table requerimento
 
 CREATE TABLE administrador (
     id_administrador SERIAL PRIMARY KEY,
-    nome VARCHAR(250),
-    cpf CHAR(14),
-    rg CHAR(12),
+    nome VARCHAR(150),
+    cpf VARCHAR(14),
+    rg VARCHAR(12),
     telefone VARCHAR(10),
-    email VARCHAR(250),
-    senha VARCHAR(250)
+    email VARCHAR(150),
+    senha VARCHAR(150)
 );
 
 /*
@@ -72,14 +58,9 @@ CREATE TABLE arquivo
 (
    id_arquivo           serial          NOT NULL,
    id_requerimento      int             NOT NULL,
-   nome                 varchar(300)    NOT NULL,
+   nome                 VARCHAR(150)    NOT NULL,
    dados_arquivo        bytea           NOT NULL, 
    CONSTRAINT pk_id_arquivo PRIMARY KEY (id_arquivo),
    CONSTRAINT FK_Requerimento_Imagem FOREIGN KEY (id_requerimento)
         REFERENCES requerimento (id_requerimento)	
 );
-
-
-SELECT * FROM arquivo
-
-drop TABLE arquivo

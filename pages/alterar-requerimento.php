@@ -72,17 +72,17 @@ if (empty($titulo)) {
     validacaoEditar($id_requerimento);
     die();
 } elseif (!preg_match('/^[A-Za-zÀ-ÿ\s]+$/', $titulo)) {
-    $_SESSION["error_caracteres"] = "titulo_inadequado";
+    $_SESSION["caracteres_requerimento"] = "titulo_inadequado";
     $_SESSION["caracteres"] = strlen($titulo);
     validacaoEditar($id_requerimento);
     die();
 } elseif (strlen($titulo) < 10) {
-    $_SESSION["error_caracteres"] = "titulo_pequeno";
+    $_SESSION["caracteres_requerimento"] = "titulo_pequeno";
     $_SESSION["caracteres"] = strlen($titulo);
     validacaoEditar($id_requerimento);
     die();
 } elseif (strlen($titulo) > 250) {
-    $_SESSION["error_caracteres"] = "titulo_grande";
+    $_SESSION["caracteres_requerimento"] = "titulo_grande";
     $_SESSION["caracteres"] = strlen($titulo);
     validacaoEditar($id_requerimento);
     die();
@@ -94,7 +94,7 @@ if (empty($tipo)) {
     validacaoEditar($id_requerimento);
     die();
 } elseif ($tipo != "Denúncia" && $tipo != "Sugestão") {
-    $_SESSION["error_caracteres"] = "tipo_invalido";
+    $_SESSION["caracteres_requerimento"] = "tipo_invalido";
     $_SESSION["caracteres"] = $tipo;
     validacaoEditar($id_requerimento);
     die();
@@ -106,17 +106,17 @@ if (empty($cidade)) {
     validacaoEditar($id_requerimento);
     die();
 } elseif (!preg_match('/^[A-Za-zÀ-ÿ\s]+$/', $cidade)) {
-    $_SESSION["error_caracteres"] = "cidade_inadequada";
+    $_SESSION["caracteres_requerimento"] = "cidade_inadequada";
     $_SESSION["caracteres"] = strlen($cidade);
     validacaoEditar($id_requerimento);
     die();
 } elseif (strlen($cidade) < 3) {
-    $_SESSION["error_caracteres"] = "cidade_pequeno";
+    $_SESSION["caracteres_requerimento"] = "cidade_pequeno";
     $_SESSION["caracteres"] = strlen($cidade);
     validacaoEditar($id_requerimento);
     die();
 } elseif (strlen($cidade) > 250) {
-    $_SESSION["error_caracteres"] = "cidade_grande";
+    $_SESSION["caracteres_requerimento"] = "cidade_grande";
     $_SESSION["caracteres"] = strlen($cidade);
     validacaoEditar($id_requerimento);
     die();
@@ -128,7 +128,7 @@ if (empty($cep)) {
     validacaoEditar($id_requerimento);
     die();
 } elseif (!preg_match('/^\d{2}\.\d{3}-\d{3}$/', $cep)) {
-    $_SESSION["error_caracteres"] = "cep_invalido";
+    $_SESSION["caracteres_requerimento"] = "cep_inadequado";
     $_SESSION["caracteres"] = $cep;
     validacaoEditar($id_requerimento);
     die();
@@ -140,17 +140,17 @@ if (empty($bairro)) {
     validacaoEditar($id_requerimento);
     die();
 } elseif (!preg_match('/^[A-Za-zÀ-ÿ0-9\s]+$/', $bairro)) {
-    $_SESSION["error_caracteres"] = "bairro_inadequado";
+    $_SESSION["caracteres_requerimento"] = "bairro_inadequado";
     $_SESSION["caracteres"] = strlen($bairro);
     validacaoEditar($id_requerimento);
     die();
 } elseif (strlen($bairro) < 3) {
-    $_SESSION["error_caracteres"] = "bairro_pequeno";
+    $_SESSION["caracteres_requerimento"] = "bairro_pequeno";
     $_SESSION["caracteres"] = strlen($bairro);
     validacaoEditar($id_requerimento);
     die();
 } elseif (strlen($bairro) > 250) {
-    $_SESSION["error_caracteres"] = "bairro_grande";
+    $_SESSION["caracteres_requerimento"] = "bairro_grande";
     $_SESSION["caracteres"] = strlen($bairro);
     validacaoEditar($id_requerimento);
     die();
@@ -162,17 +162,17 @@ if (empty($rua)) {
     validacaoEditar($id_requerimento);
     die();
 } elseif (!preg_match('/^[A-Za-zÀ-ÿ0-9\s]+$/', $rua)) {
-    $_SESSION["error_caracteres"] = "rua_inadequada";
+    $_SESSION["caracteres_requerimento"] = "rua_inadequada";
     $_SESSION["caracteres"] = strlen($rua);
     validacaoEditar($id_requerimento);
     die();
 } elseif (strlen($rua) < 2) {
-    $_SESSION["error_caracteres"] = "rua_pequena";
+    $_SESSION["caracteres_requerimento"] = "rua_pequena";
     $_SESSION["caracteres"] = strlen($rua);
     validacaoEditar($id_requerimento);
     die();
 } elseif (strlen($rua) > 250) {
-    $_SESSION["error_caracteres"] = "rua_grande";
+    $_SESSION["caracteres_requerimento"] = "rua_grande";
     $_SESSION["caracteres"] = strlen($rua);
     validacaoEditar($id_requerimento);
     die();
@@ -184,12 +184,12 @@ if (empty($descricao)) {
     validacaoEditar($id_requerimento);
     die();
 } elseif (strlen($descricao) < 50) {
-    $_SESSION["error_caracteres"] = "descricao_pequena";
+    $_SESSION["caracteres_requerimento"] = "descricao_pequena";
     $_SESSION["caracteres"] = strlen($descricao);
     validacaoEditar($id_requerimento);
     die();
-} elseif (strlen($descricao) > 1000) {
-    $_SESSION["error_caracteres"] = "descricao_grande";
+} elseif (strlen($descricao) > 2000) {
+    $_SESSION["caracteres_requerimento"] = "descricao_grande";
     $_SESSION["caracteres"] = strlen($descricao);
     validacaoEditar($id_requerimento);
     die();

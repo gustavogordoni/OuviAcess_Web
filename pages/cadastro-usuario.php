@@ -2,7 +2,7 @@
 include 'header.php';
 include 'navbar.php';
 
-if (isset($_SESSION["error_cadastro"])) {
+if (isset($_SESSION["error_cadastro"]) || isset($_SESSION["caracteres_cadastro"])) {
   $nome = $_SESSION["nome_cadastro"];
   $ddd = $_SESSION["ddd_cadastro"];
   $telefone = $_SESSION["telefone_cadastro"];
@@ -20,6 +20,10 @@ if (isset($_SESSION["error_cadastro"])) {
     <div class="py-3 text-center mt-4">
 
       <strong>
+        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-person-add cor_tema" viewBox="0 0 16 16">
+          <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0Zm-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/>
+          <path d="M8.256 14a4.474 4.474 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10c.26 0 .507.009.74.025.226-.341.496-.65.804-.918C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4s1 1 1 1h5.256Z"/>
+        </svg>
         <h2>Informe os dados para <br> efetuar seu cadastro no sistema</h2>
       </strong>
 
@@ -33,7 +37,7 @@ if (isset($_SESSION["error_cadastro"])) {
 
             <div class="col-sm-12">
               <label for="nome" class="form-label" id="label_nome"><strong>Nome completo: </strong></label>
-              <input type="text" class="form-control border border-secondary border-1" id="nome" name="nome" placeholder="Ex: Carlos Alberto" required pattern="[A-Za-zÀ-ÿ\s]+" title="Não informe caracteres que não sejam letras" onblur="nome();" value="<?php if(isset($nome)){ echo $nome; }?>">
+              <input type="text" class="form-control" id="nome" name="nome" placeholder="Ex: Carlos Alberto" required pattern="[A-Za-zÀ-ÿ\s]+" title="Não informe caracteres que não sejam letras" onblur="nome();" value="<?php if(isset($nome)){ echo $nome; }?>" maxlength="150">
               <div class="invalid-feedback">
                 Informe seu nome completo
               </div>
@@ -41,7 +45,7 @@ if (isset($_SESSION["error_cadastro"])) {
 
             <div class="col-sm-3">
               <label for="ddd" class="form-label"><strong>DDD: </strong></label>
-              <input type="tel" class="form-control border border-secondary border-1" id="ddd" name="ddd" required pattern="\([0-9]{2}\)$" title="Digite o DDD no formato (DD)" placeholder="Ex: (17)" maxlength="4" value="<?php if(isset($ddd)){ echo $ddd; }?>">
+              <input type="tel" class="form-control" id="ddd" name="ddd" required pattern="\([0-9]{2}\)$" title="Digite o DDD no formato (DD)" placeholder="Ex: (17)" value="<?php if(isset($ddd)){ echo $ddd; }?>" maxlength="4">
 
               <div class="invalid-feedback">
                 Informe um valor válido
@@ -50,7 +54,7 @@ if (isset($_SESSION["error_cadastro"])) {
 
             <div class="col-sm-9">
               <label for="telefone" class="form-label"><strong>Número de telefone: </strong></label>
-              <input type="tel" class="form-control border border-secondary border-1" id="telefone" name="telefone" required pattern="[0-9]{4,6}-[0-9]{3,4}$" title="Digite o telefone no formato XXXXX-XXXX" placeholder="Ex: 99999-9999" maxlength="10" value="<?php if(isset($telefone)){ echo $telefone; }?>">
+              <input type="tel" class="form-control" id="telefone" name="telefone" required pattern="[0-9]{4,6}-[0-9]{3,4}$" title="Digite o telefone no formato XXXXX-XXXX" placeholder="Ex: 99999-9999" maxlength="10" value="<?php if(isset($telefone)){ echo $telefone; }?>" maxlength="10">
               <div class="invalid-feedback">
                 Informe um valor válido
               </div>
@@ -60,7 +64,7 @@ if (isset($_SESSION["error_cadastro"])) {
               <label for="email" class="form-label"><strong>E-mail: </strong><span class="text-body-secondary">(Para efetuar login)</span></label>
               <div class="input-group has-validation">
                 <span class="input-group-text">@</span>
-                <input type="email" class="form-control border border-secondary border-1" id="email" name="email" placeholder="voce@exemplo.com" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" value="<?php if(isset($email)){ echo $email; }?>">
+                <input type="email" class="form-control" id="email" name="email" placeholder="voce@exemplo.com" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" value="<?php if(isset($email)){ echo $email; }?>" maxlength="150">
                 <div class="invalid-feedback">
                   Por favor, insira um endereço de e-mail válido para efetuar login
                 </div>
@@ -69,12 +73,12 @@ if (isset($_SESSION["error_cadastro"])) {
 
             <div class="col-12">
               <label for="senha" class="form-label" id="label_senha"><strong>Senha: </strong><span class="text-body-secondary">(Para efetuar login)</span></label>
-              <input type="password" class="form-control border border-secondary border-1" id="senha" name="senha" required>
+              <input type="password" class="form-control" id="senha" name="senha" required maxlength="150">
             </div>
 
             <div class="col-12">
               <label for="confirme" class="form-label" id="label_confirme"><strong>Confirme a senha: </strong></label>
-              <input type="password" class="form-control border border-secondary border-1" id="confirme" name="confirme" required aria-describedby="confsenha confsenhaFeedback" onblur="verifica_senhas();">
+              <input type="password" class="form-control" id="confirme" name="confirme" required aria-describedby="confsenha confsenhaFeedback" onblur="verifica_senhas();" maxlength="150">
               <div id="confsenhaFeedback" class="invalid-feedback">
                 As senhas informadas não estão iguais.
               </div>
@@ -93,7 +97,10 @@ if (isset($_SESSION["error_cadastro"])) {
     </div>
   </main>
 
+
   <script>
+    //function validacaoUsuarios();
+
     document.addEventListener("DOMContentLoaded", function() {
       const dddInput = document.getElementById("ddd");
       const telefoneInput = document.getElementById("telefone");
@@ -151,36 +158,42 @@ if (isset($_SESSION["error_cadastro"])) {
       }
     }
 
-    const tituloInput = document.getElementById("nome");
+    const nomeInput = document.getElementById("nome");
     const labelNome = document.querySelector("label[for='nome']");
 
-    tituloInput.addEventListener("keydown", function(event) {
+    nomeInput.addEventListener("keydown", function(event) {
       if (event.key >= '0' && event.key <= '9') {
         event.preventDefault();
       }
     });
 
-    tituloInput.addEventListener("input", function() {
-      const inputValue = tituloInput.value.replace(/\s+/g, "");
+    nomeInput.addEventListener("input", function() {
+      const inputValue = nomeInput.value.replace(/\s+/g, "");
       const minLength = 4;
       const patternRegex = /^[A-Za-zÀ-ÿ\s]+$/;
 
       if (inputValue.length >= minLength && patternRegex.test(inputValue)) {
-        tituloInput.setCustomValidity("");
-        tituloInput.classList.remove("is-invalid");
+        nomeInput.setCustomValidity("");
+        nomeInput.classList.remove("is-invalid");
         labelNome.classList.remove("text-danger");
       } else {
-        tituloInput.classList.add("is-invalid");
+        nomeInput.classList.add("is-invalid");
         labelNome.classList.add("text-danger");
 
         if (inputValue.length < minLength) {
-          tituloInput.setCustomValidity(`Informe um nome com pelo menos ${minLength} caracteres, sem contar os espaços.`);
+          nomeInput.setCustomValidity(`Informe um nome com pelo menos ${minLength} caracteres, sem contar os espaços.`);
         } else if (!patternRegex.test(inputValue)) {
-          tituloInput.setCustomValidity("O nome deve conter apenas letras e espaços.");
+          nomeInput.setCustomValidity("O nome deve conter apenas letras e espaços.");
         }
       }
     });
   </script>
+  
+<!--
+  <script>
+    validacaoUsuarios();
+  </script>
+-->
 
   <?php
   include 'mensagens.php';
