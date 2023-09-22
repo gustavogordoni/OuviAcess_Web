@@ -81,10 +81,10 @@ include 'navbar.php';
                 <form class="needs-validation" action="alterar-requerimento.php" method="POST" enctype="multipart/form-data">
                     <div class="row g-3">
                         <div class="col-md-8">
-                            <input type="hidden" name="alterar" id="alterar" value="<?= $id_requerimento ?>">
+                            <input type="hidden" name="alterar"required id="alterar" value="<?= $id_requerimento ?>">
 
-                            <label for="titulo" class="form-label" id="label_titulo"><strong>Título do requerimento: </strong></label>
-                            <input type="text" class="form-control" required id="titulo" placeholder="Ex: Falta de rampas de acesso" name="titulo" value="<?= $rowRequeriemento['titulo'] ?>" pattern="[A-Za-zÀ-ÿ\s]+" title="Insira um título que contenha apenas letras. Nenhum outro tipo de caracter será válido" maxlength="150">
+                            <label for="titulo" class="form-label"required id="label_titulo"><strong>Título do requerimento: </strong></label>
+                            <input type="text" class="form-control" required id="titulo" placeholder="Ex: Falta de rampas de acesso" name="titulo" value="<?= $rowRequeriemento['titulo'] ?>" pattern="[A-Za-zÀ-ÿ\s]+" title="Insira um título que contenha apenas letras. Nenhum outro tipo de caracter será válido" maxLength ="150">
                             <div class="invalid-feedback">
                                 Informe um título formado apenas por letras, tendo como mínimo de 10 caracteres.
                             </div>
@@ -92,7 +92,7 @@ include 'navbar.php';
 
                         <div class="col-md-4">
                             <label for="tipo" class="form-label"><strong>Tipo:</strong></label>
-                            <select class="form-select" id="tipo" name="tipo">
+                            <select class="form-select"required id="tipo" name="tipo">
                                 <?php
                                 if ($rowRequeriemento['tipo'] == "Denúncia") { ?>
                                     <option value="Denúncia">Denúncia</option>
@@ -114,7 +114,7 @@ include 'navbar.php';
 
                         <div class="col-md-8">
                             <label for="cidade" class="form-label"><strong>Cidade: </strong></label>
-                            <input type="text" class="form-control" required id="cidade" placeholder="Ex: Votuporanga" name="cidade" value="<?= $rowRequeriemento['cidade'] ?>" pattern="[A-Za-zÀ-ÿ\s]+" maxlength="150">
+                            <input type="text" class="form-control" required id="cidade" placeholder="Ex: Votuporanga" name="cidade" value="<?= $rowRequeriemento['cidade'] ?>" pattern="[A-Za-zÀ-ÿ\s]+" maxLength ="150">
                             <div class="invalid-feedback">
                                 Será aceito apenas letras, tendo como mínimo 3 caracteres.
                             </div>
@@ -122,7 +122,7 @@ include 'navbar.php';
 
                         <div class="col-md-4">
                             <label for="cep" class="form-label"><strong>CEP: </strong></label>
-                            <input type="text" class="form-control" required id="cep" name="cep" value="<?= $rowRequeriemento['cep'] ?>" title="Digite o CEP no formato XX.XXX-XXX" placeholder="XX.XXX-XXX" pattern="\d{2}\.\d{3}-\d{3}" maxlength="10">
+                            <input type="text" class="form-control" required id="cep" name="cep" value="<?= $rowRequeriemento['cep'] ?>" title="Digite o CEP no formato XX.XXX-XXX" placeholder="XX.XXX-XXX" pattern="\d{2}\.\d{3}-\d{3}" maxLength ="10">
                             <div class="invalid-feedback">
                                 Informe o CEP no formato XX.XXX-XXX
                             </div>
@@ -130,7 +130,7 @@ include 'navbar.php';
 
                         <div class="col-md-6">
                             <label for="bairro" class="form-label"><strong>Bairro: </strong></label>
-                            <input type="text" class="form-control" required id="bairro" placeholder="Ex: Centro" name="bairro" value="<?= $rowRequeriemento['bairro'] ?>" pattern="[A-Za-zÀ-ÿ0-9\s]+" maxlength="150">
+                            <input type="text" class="form-control" required id="bairro" placeholder="Ex: Centro" name="bairro" value="<?= $rowRequeriemento['bairro'] ?>" pattern="[A-Za-zÀ-ÿ0-9\s]+" maxLength ="150">
                             <div class="invalid-feedback">
                                 Informe um bairro válido
                             </div>
@@ -138,7 +138,7 @@ include 'navbar.php';
 
                         <div class="col-md-6">
                             <label for="rua" class="form-label"><strong>Rua: </strong></label>
-                            <input type="text" class="form-control" required id="rua" placeholder="Ex: Rua Amazonas" name="rua" value="<?= $rowRequeriemento['rua'] ?>" pattern="[A-Za-zÀ-ÿ0-9\s]+" maxlength="150">
+                            <input type="text" class="form-control" required id="rua" placeholder="Ex: Rua Amazonas" name="rua" value="<?= $rowRequeriemento['rua'] ?>" pattern="[A-Za-zÀ-ÿ0-9\s]+" maxLength ="150">
                             <div class="invalid-feedback">
                                 Informe uma rua válida
                             </div>
@@ -151,7 +151,7 @@ include 'navbar.php';
 
                         <div class="col-12">
                             <label for="descricao" class="form-label"><strong>Descrição: </strong></label>
-                            <textarea class="form-control" required placeholder="Insira uma descrição detalhada sobre o ambiente em discussão" id="descricao" style="height: 130px" name="descricao" maxlength="2000"><?= $rowRequeriemento['descricao'] ?></textarea>
+                            <textarea class="form-control"  placeholder="Insira uma descrição detalhada sobre o ambiente em discussão"required id="descricao" style="height: 130px" name="descricao" maxLength ="2000"><?= $rowRequeriemento['descricao'] ?></textarea>
                             <div class="invalid-feedback">
                                 Insira uma descrição, com no mínimo 50 caracteres, sobre o ambiente em discussão
                             </div>
@@ -172,7 +172,188 @@ include 'navbar.php';
         </div>
 </div>
 
+
+<script>
+    const tituloInput = document.getElementById("titulo");
+    const labelTitulo = document.querySelector("label[for='titulo']");
+
+    tituloInput.addEventListener("keydown", function(event) {
+        if (event.key >= '0' && event.key <= '9') {
+            event.preventDefault();
+        }
+    });
+
+    tituloInput.addEventListener("input", function() {
+        const inputValue = tituloInput.value.replace(/\s+/g, "");
+        const minLength = 10;
+        const Regex = /^[A-Za-zÀ-ÿ\s]+$/;
+
+        if (inputValue.length >= minLength && Regex.test(inputValue)) {
+            tituloInput.setCustomValidity("");
+            tituloInput.classList.remove("is-invalid");
+            labelTitulo.classList.remove("text-danger");
+        } else {
+            tituloInput.classList.add("is-invalid");
+            labelTitulo.classList.add("text-danger");
+
+            if (inputValue.length < minLength) {
+                tituloInput.setCustomValidity(`Informe um título com pelo menos ${minLength} caracteres, sem contar os espaços.`);
+            } else if (!Regex.test(inputValue)) {
+                tituloInput.setCustomValidity("O título deve conter apenas letras e espaços.");
+            }
+        }
+    });
+
+    const tipo = document.getElementById("tipo");
+    const labelTipo = document.querySelector("label[for='tipo']");
+
+    tipo.addEventListener("blur", function() {
+        if (tipo.value !== "") {
+            tipo.classList.remove("is-invalid");
+            labelTipo.classList.remove("text-danger");
+        } else {
+            tipo.classList.add("is-invalid");
+            labelTipo.classList.add("text-danger");
+        }
+    });
+
+    const cidadeInput = document.getElementById("cidade");
+    const labelCidade = document.querySelector("label[for='cidade']");
+
+    cidadeInput.addEventListener("keydown", function(event) {
+        if (event.key >= '0' && event.key <= '9') {
+            event.preventDefault();
+        }
+    });
+
+    cidadeInput.addEventListener("input", function() {
+        const inputValue = cidadeInput.value.replace(/\s+/g, "");
+        const minLength = 3;
+        const Regex = /^[A-Za-zÀ-ÿ\s]+$/;
+
+        if (inputValue.length >= minLength && Regex.test(inputValue)) {
+            cidadeInput.setCustomValidity("");
+            cidadeInput.classList.remove("is-invalid");
+            labelCidade.classList.remove("text-danger");
+        } else {
+            cidadeInput.classList.add("is-invalid");
+            labelCidade.classList.add("text-danger");
+
+            if (inputValue.length < minLength) {
+                cidadeInput.setCustomValidity(`Informe uma cidade com pelo menos ${minLength} letras.`);
+            } else if (!Regex.test(inputValue)) {
+                cidadeInput.setCustomValidity("Apenas serão aceitas letras.");
+            }
+        }
+    });
+
+    const cepInput = document.getElementById("cep");
+    const labelCep = document.querySelector("label[for='cep']");
+
+    cepInput.addEventListener("input", function() {
+        const inputValue = cepInput.value.replace(/\D/g, ""); // Remove todos os caracteres não numéricos
+        const maxLength = 8;
+        const truncatedValue = inputValue.slice(0, );
+        const formattedValue = formatCEP(truncatedValue);
+        cepInput.value = formattedValue;
+
+        validateCep(inputValue);
+    });
+
+    cepInput.addEventListener("blur", function() {
+        const inputValue = cepInput.value.replace(/\D/g, ""); // Remove todos os caracteres não numéricos
+        validateCep(inputValue);
+    });
+
+    function validateCep(value) {
+        const cepRegex = /^\d{8}$/;
+        const isValid = cepRegex.test(value);
+
+        if (isValid) {
+            cepInput.classList.remove("is-invalid");
+            labelCep.classList.remove("text-danger");
+        } else {
+            cepInput.classList.add("is-invalid");
+            labelCep.classList.add("text-danger");
+        }
+    }
+
+    function formatCEP(value) {
+        const regex = /^(\d{2})(\d{3})(\d{3})$/;
+        const formattedValue = value.replace(regex, "$1.$2-$3");
+        return formattedValue;
+    }
+
+    const bairroInput = document.getElementById("bairro");
+    const labelBairro = document.querySelector("label[for='bairro']");
+
+    bairroInput.addEventListener("input", function() {
+        const inputValue = bairroInput.value.replace(/\s+/g, "");
+        const minLength = 3;
+        const Regex = /^[A-Za-zÀ-ÿ0-9\s]+$/;
+
+        if (inputValue.length >= minLength && Regex.test(inputValue)) {
+            bairroInput.setCustomValidity("");
+            bairroInput.classList.remove("is-invalid");
+            labelBairro.classList.remove("text-danger");
+        } else {
+            bairroInput.classList.add("is-invalid");
+            labelBairro.classList.add("text-danger");
+
+            if (inputValue.length < minLength) {
+                bairroInput.setCustomValidity(`Informe um bairro com pelo menos ${minLength} caracteres.`);
+            } else if (!Regex.test(inputValue)) {
+                bairroInput.setCustomValidity("Apenas serão aceitas letras e números.");
+            }
+        }
+    });
+
+    const ruaInput = document.getElementById("rua");
+    const labelRua = document.querySelector("label[for='rua']");
+
+    ruaInput.addEventListener("input", function() {
+        const inputValue = ruaInput.value.replace(/\s+/g, "");
+        const minLength = 2;
+        const Regex = /^[A-Za-zÀ-ÿ0-9\s]+$/;
+
+        if (inputValue.length >= minLength && Regex.test(inputValue)) {
+            ruaInput.setCustomValidity("");
+            ruaInput.classList.remove("is-invalid");
+            labelRua.classList.remove("text-danger");
+        } else {
+            ruaInput.classList.add("is-invalid");
+            labelRua.classList.add("text-danger");
+
+            if (inputValue.length < minLength) {
+                ruaInput.setCustomValidity(`Informe uma rua com pelo menos ${minLength} caracteres.`);
+            } else if (!Regex.test(inputValue)) {
+                ruaInput.setCustomValidity("Apenas serão aceitas letras e números.");
+            }
+        }
+    });
+
+    const descricaoInput = document.getElementById("descricao");
+    const labelDescricao = document.querySelector("label[for='descricao']");
+    const descricaoErrorMessage = descricaoInput.nextElementSibling;
+
+    const minDescricaoLength = 50;
+
+    descricaoInput.addEventListener("input", function() {
+        const inputValue = descricaoInput.value.trim();
+        if (inputValue.length < minDescricaoLength) {
+            descricaoInput.classList.add("is-invalid");
+            labelDescricao.classList.add("text-danger"); // Adicione a classe text-danger
+            descricaoErrorMessage.style.display = "block";
+        } else {
+            descricaoInput.classList.remove("is-invalid");
+            labelDescricao.classList.remove("text-danger"); // Remova a classe text-danger
+            descricaoErrorMessage.style.display = "none";
+        }
+    });
+</script>
+
 <?php
+include 'mensagens.php';
 include 'footer.php';
 include 'js.php';
 ?>

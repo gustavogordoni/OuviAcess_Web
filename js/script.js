@@ -1,3 +1,4 @@
+/*
 function validacaoRequerimentos() {
 
   const tituloInput = document.getElementById("titulo");
@@ -267,3 +268,4 @@ function validacaoUsuarios() {
   }
 
 }
+*/

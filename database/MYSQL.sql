@@ -1,11 +1,11 @@
 -- SQLBook: Code
 CREATE TABLE Usuario(
     id_usuario INT AUTO_INCREMENT,
-    nome VARCHAR (50),
-    ddd CHAR (4),
+    nome VARCHAR (150),
+    ddd VARCHAR (4),
     telefone VARCHAR (10),
-    email VARCHAR(50),
-    senha VARCHAR(50),
+    email VARCHAR(150),
+    senha VARCHAR(150),
     
     CONSTRAINT PK_Usuario PRIMARY KEY (id_usuario)
 );
@@ -13,15 +13,15 @@ CREATE TABLE Usuario(
 CREATE TABLE Requerimento(
     id_requerimento INT AUTO_INCREMENT,
     id_usuario INT,
-    titulo VARCHAR (50),
-    tipo VARCHAR (50),
-    situacao VARCHAR (50),
+    titulo VARCHAR (150),
+    tipo VARCHAR (150),
+    situacao VARCHAR (150),
     data VARCHAR (10),
     descricao VARCHAR (1000),
     cep VARCHAR (10),
-    cidade VARCHAR (50),
-    bairro VARCHAR (50),
-    rua VARCHAR (50),
+    cidade VARCHAR (150),
+    bairro VARCHAR (150),
+    rua VARCHAR (150),
     imagem longblob,
     
     CONSTRAINT PK_Usuario PRIMARY KEY (id_requerimento),
@@ -32,12 +32,12 @@ CREATE TABLE Requerimento(
 
 CREATE TABLE Administrador(
     id_administrador INT AUTO_INCREMENT,
-    nome VARCHAR (50),
-    cpf CHAR (14),
-    rg CHAR (12),
+    nome VARCHAR (150),
+    cpf VARCHAR (14),
+    rg VARCHAR (12),
     telefone VARCHAR (10),
-    email VARCHAR (50),
-    senha VARCHAR (50),
+    email VARCHAR (150),
+    senha VARCHAR (150),
 
     CONSTRAINT PK_Administrador PRIMARY KEY (id_administrador)
 );

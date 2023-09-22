@@ -19,7 +19,7 @@ if (isset($_SESSION["id_usuario"])) {
     die();
 }
 
-function redireciona($pagina = null)
+function historico($pagina = null)
 {
     if (empty($pagina)) {
         $pagina = "historico.php";
@@ -58,8 +58,7 @@ if (
     empty($cep) &&
     empty($bairro) &&
     empty($rua) &&
-    empty($descricao) &&
-    empty($anonimo)
+    empty($descricao)
 ) {
     $_SESSION["error_requerimento"] = "acesso_url";
     validacaoEditar($id_requerimento);
@@ -227,12 +226,12 @@ if ($result == true && $cont >= 1) {
     }
 
     $_SESSION["alterar_requerimento"] = true;
-    redireciona();
+    historico();
     //include 'mensagens.php';
     die();
 } elseif ($result == true && $cont == 0) {
     $_SESSION["manteve_requerimento"] = true;
-    redireciona();
+    historico();
     die();
 } else {
     $errorArray = $stmt->errorInfo();

@@ -190,7 +190,7 @@ if (isset($_SESSION["historico_vazio"]) && $_SESSION["historico_vazio"]) {
 
 
 ///////////////////////////  ERROS - REQUERIMENTO  ////////////////////////////////////////////////
-if (isset($_SESSION["error_requerimento"]) || isset($_SESSION["caracteres_requerimento"]) || isset($_SESSION["error_cadastro"]) || isset($_SESSION["caracteres_cadastro"])) {
+if (isset($_SESSION["error_requerimento"]) || isset($_SESSION["caracteres_requerimento"]) || isset($_SESSION["error_cadastro"]) || isset($_SESSION["caracteres_cadastro"]) || isset($_SESSION["error_perfil"]) ||isset($_SESSION["caracteres_perfil"])) {
     
     if (isset($_SESSION["error_requerimento"]) || isset($_SESSION["caracteres_requerimento"])) {
         if (isset($_SESSION["error_requerimento"])) {
@@ -338,37 +338,37 @@ if (isset($_SESSION["error_requerimento"]) || isset($_SESSION["caracteres_requer
             //////// NOME
             if ($_SESSION["error_cadastro"] == "nome") {
                 $titulo_erro = "Nome está inadequado";
-                $texto_erro = "Informe seu nome completo para que seu cadastro seja efetuado no sistema!";
+                $texto_erro = "Informe seu nome completo para que seu perfil seja editado!";
             }
 
             //////// DDD
             if ($_SESSION["error_cadastro"] == "ddd") {
                 $titulo_erro = "DDD está inadequado";
-                $texto_erro = "Informe o DDD do seu número de telefone para que seu cadastro seja efetuado no sistema!";
+                $texto_erro = "Informe o DDD do seu número de telefone para que seu perfil seja editado!";
             }
 
             //////// TELEFONE
             if ($_SESSION["error_cadastro"] == "telefone") {
                 $titulo_erro = "Telefone está inadequado";
-                $texto_erro = "Informe o seu número de telefone para que seu cadastro seja efetuado no sistema!";
+                $texto_erro = "Informe o seu número de telefone para que seu perfil seja editado!";
             }
 
             //////// EMAIL
             if ($_SESSION["error_cadastro"] == "email") {
                 $titulo_erro = "E-mail está inadequado";
-                $texto_erro = "Informe seu e-mail para que seu cadastro seja efetuado no sistema!";
+                $texto_erro = "Informe seu e-mail para que seu perfil seja editado!";
             }
 
             //////// SENHA
             if ($_SESSION["error_cadastro"] == "senha") {
                 $titulo_erro = "Senha está inadequada";
-                $texto_erro = "Informe a sua senha de autenticação (login) para que seu cadastro seja efetuado no sistema!";
+                $texto_erro = "Informe a sua senha de autenticação (login) para que seu perfil seja editado!";
             }
 
             ////////// CONFRIMAR SENHA
             if ($_SESSION["error_cadastro"] == "confirme") {
                 $titulo_erro = "A confirmação da senha está inadequada";
-                $texto_erro = "Informe a confirmação da senha para que seu cadastro seja efetuado no sistema!";
+                $texto_erro = "Informe a confirmação da senha para que seu perfil seja editado!";
             }
 
             //////// EMAIL JÁ EXISTE
@@ -422,6 +422,107 @@ if (isset($_SESSION["error_requerimento"]) || isset($_SESSION["caracteres_requer
             unset($_SESSION["caracteres"]);
         }
     }
+
+
+    ///////////////////////////  ERROS - ALTERER PERFIL ////////////////////////////////////////////////
+    if (isset($_SESSION["error_perfil"]) ||isset($_SESSION["caracteres_perfil"])) {
+
+        if (isset($_SESSION["error_perfil"])) {
+            //////// ACESSO POR URL
+            if ($_SESSION["error_perfil"] == "acesso_url") {
+                $titulo_erro = "Nenhum campo completo";
+                $texto_erro = "Complete as informações solicitadas para que você possa alterar seu perfil!";
+            }
+
+            //////// NOME
+            if ($_SESSION["error_perfil"] == "nome") {
+                $titulo_erro = "Nome está inadequado";
+                $texto_erro = "Informe seu nome completo para que seu perfil seja editado!";
+            }
+
+            //////// DDD
+            if ($_SESSION["error_perfil"] == "ddd") {
+                $titulo_erro = "DDD está inadequado";
+                $texto_erro = "Informe o DDD do seu número de telefone para que seu perfil seja editado!";
+            }
+
+            //////// TELEFONE
+            if ($_SESSION["error_perfil"] == "telefone") {
+                $titulo_erro = "Telefone está inadequado";
+                $texto_erro = "Informe o seu número de telefone para que seu perfil seja editado!";
+            }
+
+            //////// EMAIL
+            if ($_SESSION["error_perfil"] == "email") {
+                $titulo_erro = "E-mail está inadequado";
+                $texto_erro = "Informe seu e-mail para que seu perfil seja editado!";
+            }
+
+            //////// SENHA
+            if ($_SESSION["error_perfil"] == "senha") {
+                $titulo_erro = "Senha está inadequada";
+                $texto_erro = "Informe a sua senha de autenticação (login) para que seu perfil seja editado!";
+            }
+
+            ////////// CONFRIMAR SENHA
+            if ($_SESSION["error_perfil"] == "confirme") {
+                $titulo_erro = "A confirmação da senha está inadequada";
+                $texto_erro = "Informe a confirmação da senha para que seu perfil seja editado!";
+            }
+
+            //////// EMAIL JÁ EXISTE
+            if ($_SESSION["error_perfil"] == "email_inexistente") {
+                $titulo_erro = "E-mail já existe";
+                $texto_erro = "O e-mail informado já está cadastrado em nosso sistema!";
+            }
+            unset($_SESSION["error_perfil"]);
+        }
+
+        
+        if (isset($_SESSION["caracteres_perfil"])) {
+            //////// NOME
+            if ($_SESSION["caracteres_perfil"] == "nome_pequeno") {
+                $titulo_erro = "Nome está com apenas " . $_SESSION["caracteres"] . " caracteres";
+                $texto_erro = "Informe seu nome com, no mínimo, 4 caracteres.";
+            } elseif ($_SESSION["caracteres_perfil"] == "nome_grande") {
+                $titulo_erro = "Nome está com " . $_SESSION["caracteres"] . " caracteres";
+                $texto_erro = "Informe seu nome com, no máximo, 150 caracteres.";
+            }elseif ($_SESSION["caracteres_perfil"] == "nome_inadequado") {
+                $titulo_erro = "Nome inadequado";
+                $texto_erro = "O nome informado não atende ao formato necessário: <br> Apenas letras, espaços e caracteres acentuados";
+            }
+
+             //////// DDD
+            if ($_SESSION["caracteres_perfil"] == "ddd_inadequado") {
+                $titulo_erro = "DDD inadequado";
+                $texto_erro = "O DDD informado não atende ao formato: (XX)";
+            }
+
+             //////// TELEFONE
+             if ($_SESSION["caracteres_perfil"] == "telefone_inadequado") {
+                $titulo_erro = "Telefone inadequado";
+                $texto_erro = "O telefone informado não atende ao formato: XXXXX-XXXX";
+            }
+            
+            //////// EMAIL
+            if ($_SESSION["caracteres_perfil"] == "email_pequeno") {
+                $titulo_erro = "Email está com apenas " . $_SESSION["caracteres"] . " caracteres";
+                $texto_erro = "Informe seu nome com, no mínimo, 7 caracteres.";
+            } elseif ($_SESSION["caracteres_perfil"] == "email_grande") {
+                $titulo_erro = "Email está com " . $_SESSION["caracteres"] . " caracteres";
+                $texto_erro = "Informe seu email com, no máximo, 150 caracteres.";
+            }
+
+            if ($_SESSION["caracteres_perfil"] == "senhas_diferentes") {
+                $titulo_erro = "As senhas informadas não estão iguais";
+                $texto_erro = "Informe novamente sua senha e confirme-a";
+            }
+
+            unset($_SESSION["caracteres_perfil"]);
+            unset($_SESSION["caracteres"]);
+        }
+    }
+    
 ?>
     <div class="alert alert-danger alert-dismissible fade show position-fixed bottom-0 end-0 py-auto" role="alert">
         <h6 class="text-center">
@@ -435,7 +536,6 @@ if (isset($_SESSION["error_requerimento"]) || isset($_SESSION["caracteres_requer
     </div>
 <?php
 }
-
 
 ///////////////////////////  ERROS MANIPULAÇÃO REQUERIMENTOS  ////////////////////////////////////////////////
 if (isset($_SESSION["crud_requerimento"])) {
@@ -506,7 +606,7 @@ if (isset($_SESSION["mostrar_imagem"]) && basename($_SERVER["PHP_SELF"]) == "mos
     unset($_SESSION["mostrar_imagem"]);
 }
 
-//////// ID INFORMADO NÃO ESTÁ NO BANCO DE DADOS
+//////////////////////////////////////////////// ID INFORMADO NÃO ESTÁ NO BANCO DE DADOS 
 if (isset($_SESSION["id_requerimento_inexistente"])) {
 ?>
     <div class="row d-flex align-items-center ps-4 h-100">

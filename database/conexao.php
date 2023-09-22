@@ -25,6 +25,7 @@ try {
     $_SESSION["error_bd"] = $e->getMessage();
 }
 
+
 // MOSTRAR IMAGEM
 $host = $conf["server"];
 $port= $conf["port"];

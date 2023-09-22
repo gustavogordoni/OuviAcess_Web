@@ -27,6 +27,20 @@ CREATE TABLE requerimento (
     --CONSTRAINT FK_Requerimento_Administrador FOREIGN KEY (id_admistrador) REFERENCES administrador (id_admistrador)
 );
 
+/*
+CREATE TABLE resposta (
+    --id_resposta SERIAL PRIMARY KEY,
+    id_requerimento INT,
+    id_administrador INT,
+
+    CONSTRAINT FK_Resposta_Requerimento FOREIGN KEY (id_requerimento)
+        REFERENCES id_requerimento (id_usuario),
+
+    CONSTRAINT FK_Resposta_Administrador FOREIGN KEY (id_administrador)
+        REFERENCES administrador (id_administrador)
+);    
+*/
+
 CREATE TABLE administrador (
     id_administrador SERIAL PRIMARY KEY,
     nome VARCHAR(150),
@@ -35,6 +49,16 @@ CREATE TABLE administrador (
     telefone VARCHAR(10),
     email VARCHAR(150),
     senha VARCHAR(150)
+);
+CREATE TABLE arquivo
+(
+   id_arquivo           serial          NOT NULL,
+   id_requerimento      int             NOT NULL,
+   nome                 VARCHAR(150)    NOT NULL,
+   dados_arquivo        bytea           NOT NULL, 
+   CONSTRAINT pk_id_arquivo PRIMARY KEY (id_arquivo),
+   CONSTRAINT FK_Requerimento_Imagem FOREIGN KEY (id_requerimento)
+        REFERENCES requerimento (id_requerimento)	
 );
 
 /*
@@ -53,14 +77,3 @@ CREATE TABLE arquivo
         REFERENCES requerimento (id_requerimento)	
 );
 */
-
-CREATE TABLE arquivo
-(
-   id_arquivo           serial          NOT NULL,
-   id_requerimento      int             NOT NULL,
-   nome                 VARCHAR(150)    NOT NULL,
-   dados_arquivo        bytea           NOT NULL, 
-   CONSTRAINT pk_id_arquivo PRIMARY KEY (id_arquivo),
-   CONSTRAINT FK_Requerimento_Imagem FOREIGN KEY (id_requerimento)
-        REFERENCES requerimento (id_requerimento)	
-);

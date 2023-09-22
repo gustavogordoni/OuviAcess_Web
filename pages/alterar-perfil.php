@@ -29,7 +29,7 @@ function perfil($pagina = null)
 
 function validacaoPerfil($pagina = null)
 {
-    $pagina = "perfil.php";
+    $pagina = "editar-perfil.php";
     header("Location: " . $pagina);
 }
 
@@ -39,10 +39,6 @@ $telefone = trim(filter_input(INPUT_POST, "telefone", FILTER_SANITIZE_SPECIAL_CH
 $email = trim(filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL));
 
 ///////////////////////////////////// VALIDAÇÕES /////////////////////////////////////
-$_SESSION["nome_perfil"] = $nome;
-$_SESSION["ddd_perfil"] = $ddd;
-$_SESSION["telefone_perfil"] = $telefone;
-$_SESSION["email_perfil"] = $email;
 
 if (
     empty($nome) &&
@@ -58,13 +54,10 @@ if (
 /// NOME
 if (empty($nome)) {
     $_SESSION["error_perfil"] = "nome";
-    $_SESSION["nome_perfil"] = null;
     validacaoPerfil();
     die();
 } elseif (!preg_match('/^[A-Za-zÀ-ÿ\s]+$/', $nome)) {
     $_SESSION["caracteres_perfil"] = "nome_inadequado";
-    $_SESSION["nome_perfil"] = null;
-    $_SESSION["caracteres"] = null;
     validacaoPerfil();
     die();
 } elseif (strlen($nome) < 4) {
@@ -82,13 +75,10 @@ if (empty($nome)) {
 /// DDD 
 if (empty($ddd)) {
     $_SESSION["error_perfil"] = "ddd";
-    $_SESSION["ddd_perfil"] = null;
     validacaoPerfil();
     die();
 } elseif (!preg_match('/^\([0-9]{2}\)$/', $ddd)) {
     $_SESSION["caracteres_perfil"] = "ddd_inadequado";
-    $_SESSION["ddd_perfil"] = null;
-    $_SESSION["caracteres"] = null;
     validacaoPerfil();
     die();
 }
@@ -96,13 +86,10 @@ if (empty($ddd)) {
 /// TELEFONE
 if (empty($telefone)) {
     $_SESSION["error_perfil"] = "telefone";
-    $_SESSION["telefone_perfil"] = null;
     validacaoPerfil();
     die();
 } elseif (!preg_match('/^[0-9]{4,6}-[0-9]{3,4}$/', $telefone)) {
     $_SESSION["caracteres_perfil"] = "telefone_inadequado";
-    $_SESSION["telefone_perfil"] = null;
-    $_SESSION["caracteres"] = null;
     validacaoPerfil();
     die();
 }
@@ -110,7 +97,6 @@ if (empty($telefone)) {
 /// EMAIL
 if (empty($email)) {
     $_SESSION["error_perfil"] = "email";
-    $_SESSION["email_perfil"] = null;
     validacaoPerfil();
     die();
 } elseif (strlen($email) < 7) {
@@ -127,6 +113,7 @@ if (empty($email)) {
 
 require '../database/conexao.php';
 
+/*
 $sql = "SELECT id_usuario, email FROM usuario WHERE email = ?";
 $stmt = $conn->prepare($sql);
 $result = $stmt->execute([$email]);
@@ -135,10 +122,10 @@ $cont = $stmt->rowCount();
 
 if ($result == true && $cont >= 1) {
     $_SESSION["error_perfil"] = "email_inexistente";
-    $_SESSION["email_perfil"] = null;
     validacaoPerfil();
     die();
 }
+*/
 
 $sql = "UPDATE usuario SET nome = ?, ddd = ?, telefone = ?, email = ? WHERE id_usuario = ?";
 

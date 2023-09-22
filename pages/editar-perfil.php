@@ -188,6 +188,7 @@ require 'navbar.php';
 </script>
 
 <?php
-require 'footer.php';
-require 'js.php';
+include 'mensagens.php';
+include 'footer.php';
+include 'js.php';
 ?>
