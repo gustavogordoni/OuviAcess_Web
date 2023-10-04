@@ -9,10 +9,18 @@ if (!isset($_SESSION["id_usuario"])) {
 } elseif (isset($_SESSION["id_usuario"])) {
     $id_usuario = $_SESSION["id_usuario"];
 
-
     require '../database/conexao.php';
 
-    $sql = "SELECT id_requerimento, titulo, tipo, situacao, data, descricao, cep, cidade, bairro, logradouro FROM requerimento WHERE id_usuario = ?";
+    if (isset($_GET["ordem"]) && !empty($_GET["ordem"])) {
+        $ordem = filter_input(INPUT_GET, "ordem", FILTER_SANITIZE_SPECIAL_CHARS);
+        if($ordem == "id"){
+            $ordem = "id_requerimento";
+        }
+    } else {
+        $ordem = "titulo";
+    }
+
+    $sql = "SELECT id_requerimento, titulo, tipo, situacao, data, descricao, cep, cidade, bairro, logradouro FROM requerimento WHERE id_usuario = ? ORDER BY $ordem";
 
     $stmt = $conn->prepare($sql);
     $result = $stmt->execute([$id_usuario]);
@@ -30,11 +38,27 @@ if (!isset($_SESSION["id_usuario"])) {
         <table class="table table-striped table-md mb-0">
             <thead>
                 <tr class="table text-center">
-                    <th scope="col" style="width:5%;"><strong class="modal-title">ID</strong></th>
-                    <th scope="col" style="width:15%;"><strong class="modal-title">Título</strong></th>
-                    <th scope="col" style="width:10%;"><strong class="modal-title">Tipo</strong></th>
-                    <th scope="col" style="width:10%;"><strong class="modal-title">Situação</strong></th>
-                    <th scope="col" style="width:10%;"><strong class="modal-title">Data</strong></th>
+                    <?php
+                    if ($ordem == "titulo") {
+                    ?>
+                        <th scope="col" style="width:5%;">
+                            <a href="?ordem=id"><strong class="modal-title">ID</strong></a>
+                        </th>
+                        <th scope="col" style="width:15%;"><strong class="modal-title cor_tema">Título</strong></th>
+                    <?php
+                    } else {
+                    ?>
+                        <th scope="col" style="width:5%;"><strong class="modal-title cor_tema">ID</strong>
+                        </th>
+                        <th scope="col" style="width:15%;">
+                            <a href="?ordem=titulo"><strong class="modal-title cor_tema">Título</strong></a>
+                        </th>
+                    <?php
+                    }
+                    ?>
+                    <th scope="col" style="width:10%;"><strong class="modal-title cor_tema">Tipo</strong></th>
+                    <th scope="col" style="width:10%;"><strong class="modal-title cor_tema">Situação</strong></th>
+                    <th scope="col" style="width:10%;"><strong class="modal-title cor_tema">Data</strong></th>
                     <th scope="col" style="width:1%;" colspan="3"></th>
                 </tr>
             </thead>
