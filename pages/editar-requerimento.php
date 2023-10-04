@@ -10,7 +10,7 @@ if (isset($_SESSION["error_requerimento"]) || isset($_SESSION["caracteres_requer
     $rowRequeriemento['cidade'] = $_SESSION["cidade_requerimento"];
     $rowRequeriemento['cep'] = $_SESSION["cep_requerimento"];
     $rowRequeriemento['bairro'] = $_SESSION["bairro_requerimento"];
-    $rowRequeriemento['rua'] = $_SESSION["rua_requerimento"];
+    $rowRequeriemento['logradouro'] = $_SESSION["logradouro_requerimento"];
     $rowRequeriemento['descricao'] = $_SESSION["descricao_requerimento"];
   
     unset($_SESSION["titulo_requerimento"]);
@@ -18,7 +18,7 @@ if (isset($_SESSION["error_requerimento"]) || isset($_SESSION["caracteres_requer
     unset($_SESSION["cidade_requerimento"]);
     unset($_SESSION["cep_requerimento"]);
     unset($_SESSION["bairro_requerimento"]);
-    unset($_SESSION["rua_requerimento"]);
+    unset($_SESSION["logradouro_requerimento"]);
     unset($_SESSION["descricao_requerimento"]);
     unset($_SESSION["anonimo_requerimento"]);
   }
@@ -48,7 +48,7 @@ if (empty($id_requerimento)) {
 
 require '../database/conexao.php';
 
-$sql = "SELECT titulo, tipo, situacao, data, descricao, cep, cidade, bairro, rua FROM requerimento WHERE id_requerimento = ? AND id_usuario = ?";
+$sql = "SELECT titulo, tipo, situacao, data, descricao, cep, cidade, bairro, logradouro FROM requerimento WHERE id_requerimento = ? AND id_usuario = ?";
 
 $stmt = $conn->prepare($sql);
 $result = $stmt->execute([$id_requerimento, $id_usuario]);
@@ -137,10 +137,10 @@ include 'navbar.php';
                         </div>
 
                         <div class="col-md-6">
-                            <label for="rua" class="form-label"><strong>Rua: </strong></label>
-                            <input type="text" class="form-control" required id="rua" placeholder="Ex: Rua Amazonas" name="rua" value="<?= $rowRequeriemento['rua'] ?>" pattern="[A-Za-zÀ-ÿ0-9\s]+" maxLength ="150">
+                            <label for="logradouro" class="form-label"><strong>Logradouro: </strong></label>
+                            <input type="text" class="form-control" required id="logradouro" placeholder="Ex: Rua Amazonas" name="logradouro" value="<?= $rowRequeriemento['logradouro'] ?>" pattern="[A-Za-zÀ-ÿ0-9\s]+" maxLength ="150">
                             <div class="invalid-feedback">
-                                Informe uma rua válida
+                                Informe uma logradouro válida
                             </div>
                         </div>
 
@@ -308,26 +308,26 @@ include 'navbar.php';
         }
     });
 
-    const ruaInput = document.getElementById("rua");
-    const labelRua = document.querySelector("label[for='rua']");
+    const logradouroInput = document.getElementById("logradouro");
+    const labelLogradouro = document.querySelector("label[for='logradouro']");
 
-    ruaInput.addEventListener("input", function() {
-        const inputValue = ruaInput.value.replace(/\s+/g, "");
+    logradouroInput.addEventListener("input", function() {
+        const inputValue = logradouroInput.value.replace(/\s+/g, "");
         const minLength = 2;
         const Regex = /^[A-Za-zÀ-ÿ0-9\s]+$/;
 
         if (inputValue.length >= minLength && Regex.test(inputValue)) {
-            ruaInput.setCustomValidity("");
-            ruaInput.classList.remove("is-invalid");
-            labelRua.classList.remove("text-danger");
+            logradouroInput.setCustomValidity("");
+            logradouroInput.classList.remove("is-invalid");
+            labelLogradouro.classList.remove("text-danger");
         } else {
-            ruaInput.classList.add("is-invalid");
-            labelRua.classList.add("text-danger");
+            logradouroInput.classList.add("is-invalid");
+            labelLogradouro.classList.add("text-danger");
 
             if (inputValue.length < minLength) {
-                ruaInput.setCustomValidity(`Informe uma rua com pelo menos ${minLength} caracteres.`);
+                logradouroInput.setCustomValidity(`Informe uma logradouro com pelo menos ${minLength} caracteres.`);
             } else if (!Regex.test(inputValue)) {
-                ruaInput.setCustomValidity("Apenas serão aceitas letras e números.");
+                logradouroInput.setCustomValidity("Apenas serão aceitas letras e números.");
             }
         }
     });

@@ -19,7 +19,7 @@ CREATE TABLE requerimento (
     cep VARCHAR(10),
     cidade VARCHAR(150),
     bairro VARCHAR(150),
-    rua VARCHAR(150),
+    logradouro VARCHAR(150),
     -- resposta TEXT,
     -- id_admistrador INT,
     CONSTRAINT FK_Requerimento_Usuario FOREIGN KEY (id_usuario)
@@ -44,8 +44,7 @@ CREATE TABLE resposta (
 CREATE TABLE administrador (
     id_administrador SERIAL PRIMARY KEY,
     nome VARCHAR(150),
-    cpf VARCHAR(14),
-    rg VARCHAR(12),
+    ddd VARCHAR (4),
     telefone VARCHAR(10),
     email VARCHAR(150),
     senha VARCHAR(150)

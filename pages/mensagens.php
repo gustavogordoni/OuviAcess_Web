@@ -139,6 +139,9 @@ if (isset($_SESSION["realizar_login"])) {
     if ($_SESSION["realizar_login"] == "mostrar-imagem") {
         $texto_erro = "ter acesso aos detalhes de seus requerimentos";
     }
+    if ($_SESSION["realizar_login"] == "alterar-senha") {
+        $texto_erro = "alterar sua senha";
+    }
 ?>
     <div class="alert alert-danger alert-dismissible fade show position-fixed bottom-0 end-0 py-auto" role="alert">
         <h6 class="text-center">
@@ -231,9 +234,9 @@ if (isset($_SESSION["error_requerimento"]) || isset($_SESSION["caracteres_requer
             }
 
             //////// RUA
-            if ($_SESSION["error_requerimento"] == "rua") {
-                $titulo_erro = "Nome da rua está inadequada";
-                $texto_erro = "Informe o nome da rua para que seu requerimento seja gravado no sistema!";
+            if ($_SESSION["error_requerimento"] == "logradouro") {
+                $titulo_erro = "Nome da logradouro está inadequada";
+                $texto_erro = "Informe o nome da logradouro para que seu requerimento seja gravado no sistema!";
             }
 
             ////////// DESCRICÃO
@@ -301,15 +304,15 @@ if (isset($_SESSION["error_requerimento"]) || isset($_SESSION["caracteres_requer
             }
 
             //////// RUA
-            if ($_SESSION["caracteres_requerimento"] == "rua_pequena") {
-                $titulo_erro = "Nome da rua está com apenas " . $_SESSION["caracteres"] . " caracteres";
-                $texto_erro = "Informe a rua com, no mínimo, 2 caracteres.";
-            } elseif ($_SESSION["caracteres_requerimento"] == "rua_grande") {
-                $titulo_erro = "Nome da rua está com " . $_SESSION["caracteres"] . " caracteres";
-                $texto_erro = "Informe a rua com, no máximo, 150 caracteres.";
-            }elseif ($_SESSION["caracteres_requerimento"] == "rua_inadequada") {
-                $titulo_erro = "Rua inadequada";
-                $texto_erro = "A rua informada não atende ao formato necessário: <br> Apenas letras e/ou números, espaços e caracteres acentuados";
+            if ($_SESSION["caracteres_requerimento"] == "logradouro_pequena") {
+                $titulo_erro = "Nome da logradouro está com apenas " . $_SESSION["caracteres"] . " caracteres";
+                $texto_erro = "Informe a logradouro com, no mínimo, 2 caracteres.";
+            } elseif ($_SESSION["caracteres_requerimento"] == "logradouro_grande") {
+                $titulo_erro = "Nome da logradouro está com " . $_SESSION["caracteres"] . " caracteres";
+                $texto_erro = "Informe a logradouro com, no máximo, 150 caracteres.";
+            }elseif ($_SESSION["caracteres_requerimento"] == "logradouro_inadequada") {
+                $titulo_erro = "Logradouro inadequada";
+                $texto_erro = "A logradouro informada não atende ao formato necessário: <br> Apenas letras e/ou números, espaços e caracteres acentuados";
             }
 
             //////// DESCRIÇÃO

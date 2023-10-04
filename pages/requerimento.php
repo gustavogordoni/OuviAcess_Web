@@ -8,7 +8,7 @@ if (isset($_SESSION["error_requerimento"]) || isset($_SESSION["caracteres_requer
   $cidade = $_SESSION["cidade_requerimento"];
   $cep = $_SESSION["cep_requerimento"];
   $bairro = $_SESSION["bairro_requerimento"];
-  $rua = $_SESSION["rua_requerimento"];
+  $logradouro = $_SESSION["logradouro_requerimento"];
   $descricao = $_SESSION["descricao_requerimento"];
   $anonimo = $_SESSION["anonimo_requerimento"];
 
@@ -17,7 +17,7 @@ if (isset($_SESSION["error_requerimento"]) || isset($_SESSION["caracteres_requer
   unset($_SESSION["cidade_requerimento"]);
   unset($_SESSION["cep_requerimento"]);
   unset($_SESSION["bairro_requerimento"]);
-  unset($_SESSION["rua_requerimento"]);
+  unset($_SESSION["logradouro_requerimento"]);
   unset($_SESSION["descricao_requerimento"]);
   unset($_SESSION["anonimo_requerimento"]);
 }
@@ -48,9 +48,7 @@ if (isset($_SESSION["error_requerimento"]) || isset($_SESSION["caracteres_requer
 
             <div class="col-md-8">
               <label for="titulo" class="form-label" id="label_titulo"><strong>Título do requerimento: </strong></label>
-              <input type="text" class="form-control" required id="titulo" placeholder="Ex: Falta de rampas de acesso" name="titulo" value="<?php if (isset($titulo)) {
-                                                                                                                                              echo $titulo;
-                                                                                                                                            } ?>" pattern="[A-Za-zÀ-ÿ\s]+" title="Insira um título que contenha apenas letras. Nenhum outro tipo de caracter será válido" maxlength="150">
+              <input type="text" class="form-control" required id="titulo" placeholder="Ex: Falta de rampas de acesso" name="titulo" value="<?php if (isset($titulo)) { echo $titulo; } ?>" pattern="[A-Za-zÀ-ÿ\s]+" title="Insira um título que contenha apenas letras. Nenhum outro tipo de caracter será válido" maxlength="150">
               <div class="invalid-feedback">
                 Informe um título formado apenas por letras, tendo como mínimo de 10 caracteres.
               </div>
@@ -83,9 +81,7 @@ if (isset($_SESSION["error_requerimento"]) || isset($_SESSION["caracteres_requer
 
             <div class="col-md-8">
               <label for="cidade" class="form-label"><strong>Cidade: </strong></label>
-              <input type="text" class="form-control" required id="cidade" placeholder="Ex: Votuporanga" name="cidade" value="<?php if (isset($cidade)) {
-                                                                                                                                echo $cidade;
-                                                                                                                              } ?>" pattern="[A-Za-zÀ-ÿ\s]+" maxlength="150">
+              <input type="text" class="form-control" required id="cidade" placeholder="Ex: Votuporanga" name="cidade" value="<?php if (isset($cidade)) { echo $cidade; } ?>" pattern="[A-Za-zÀ-ÿ\s]+" maxlength="150">
               <div class="invalid-feedback">
                 Será aceito apenas letras, tendo como mínimo 3 caracteres.
               </div>
@@ -93,9 +89,7 @@ if (isset($_SESSION["error_requerimento"]) || isset($_SESSION["caracteres_requer
 
             <div class="col-md-4">
               <label for="cep" class="form-label"><strong>CEP: </strong></label>
-              <input type="text" class="form-control" required id="cep" name="cep" value="<?php if (isset($cep)) {
-                                                                                            echo $cep;
-                                                                                          } ?>" title="Digite o CEP no formato XX.XXX-XXX" placeholder="XX.XXX-XXX" pattern="\d{2}\.\d{3}-\d{3}" maxlength="10">
+              <input type="text" class="form-control" required id="cep" name="cep" value="<?php if (isset($cep)) { echo $cep; } ?>" title="Digite o CEP no formato XX.XXX-XXX" placeholder="XX.XXX-XXX" pattern="\d{2}\.\d{3}-\d{3}" maxlength="10">
               <div class="invalid-feedback">
                 Informe o CEP no formato XX.XXX-XXX
               </div>
@@ -103,21 +97,17 @@ if (isset($_SESSION["error_requerimento"]) || isset($_SESSION["caracteres_requer
 
             <div class="col-md-6">
               <label for="bairro" class="form-label"><strong>Bairro: </strong></label>
-              <input type="text" class="form-control" required id="bairro" placeholder="Ex: Centro" name="bairro" value="<?php if (isset($bairro)) {
-                                                                                                                            echo $bairro;
-                                                                                                                          } ?>" pattern="[A-Za-zÀ-ÿ0-9\s]+" maxlength="150">
+              <input type="text" class="form-control" required id="bairro" placeholder="Ex: Centro" name="bairro" value="<?php if (isset($bairro)) { echo $bairro; } ?>" pattern="[A-Za-zÀ-ÿ0-9\s]+" maxlength="150">
               <div class="invalid-feedback">
                 Informe um bairro válido
               </div>
             </div>
 
             <div class="col-md-6">
-              <label for="rua" class="form-label"><strong>Rua: </strong></label>
-              <input type="text" class="form-control" required id="rua" placeholder="Ex: Rua Amazonas" name="rua" value="<?php if (isset($rua)) {
-                                                                                                                            echo $rua;
-                                                                                                                          } ?>" pattern="[A-Za-zÀ-ÿ0-9\s]+" maxlength="150">
+              <label for="logradouro" class="form-label"><strong>Logradouro: </strong></label>
+              <input type="text" class="form-control" required id="logradouro" placeholder="Ex: Rua Amazonas" name="logradouro" value="<?php if (isset($logradouro)) { echo $logradouro; } ?>" pattern="[A-Za-zÀ-ÿ0-9\s]+" maxlength="150">
               <div class="invalid-feedback">
-                Informe uma rua válida
+                Informe uma logradouro válida
               </div>
             </div>
 
@@ -301,26 +291,26 @@ if (isset($_SESSION["error_requerimento"]) || isset($_SESSION["caracteres_requer
       }
     });
 
-    const ruaInput = document.getElementById("rua");
-    const labelRua = document.querySelector("label[for='rua']");
+    const logradouroInput = document.getElementById("logradouro");
+    const labelLogradouro = document.querySelector("label[for='logradouro']");
 
-    ruaInput.addEventListener("input", function() {
-      const inputValue = ruaInput.value.replace(/\s+/g, "");
+    logradouroInput.addEventListener("input", function() {
+      const inputValue = logradouroInput.value.replace(/\s+/g, "");
       const minLength = 2;
       const patternRegex = /^[A-Za-zÀ-ÿ0-9\s]+$/;
 
       if (inputValue.length >= minLength && patternRegex.test(inputValue)) {
-        ruaInput.setCustomValidity("");
-        ruaInput.classList.remove("is-invalid");
-        labelRua.classList.remove("text-danger");
+        logradouroInput.setCustomValidity("");
+        logradouroInput.classList.remove("is-invalid");
+        labelLogradouro.classList.remove("text-danger");
       } else {
-        ruaInput.classList.add("is-invalid");
-        labelRua.classList.add("text-danger");
+        logradouroInput.classList.add("is-invalid");
+        labelLogradouro.classList.add("text-danger");
 
         if (inputValue.length < minLength) {
-          ruaInput.setCustomValidity(`Informe uma rua com pelo menos ${minLength} caracteres.`);
+          logradouroInput.setCustomValidity(`Informe uma logradouro com pelo menos ${minLength} caracteres.`);
         } else if (!patternRegex.test(inputValue)) {
-          ruaInput.setCustomValidity("Apenas serão aceitas letras e números.");
+          logradouroInput.setCustomValidity("Apenas serão aceitas letras e números.");
         }
       }
     });

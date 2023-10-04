@@ -44,7 +44,7 @@ $tipo = filter_input(INPUT_POST, "tipo", FILTER_SANITIZE_SPECIAL_CHARS);
 $cidade = trim(filter_input(INPUT_POST, "cidade", FILTER_SANITIZE_SPECIAL_CHARS));
 $cep = trim(filter_input(INPUT_POST, "cep", FILTER_SANITIZE_SPECIAL_CHARS));
 $bairro = trim(filter_input(INPUT_POST, "bairro", FILTER_SANITIZE_SPECIAL_CHARS));
-$rua = trim(filter_input(INPUT_POST, "rua", FILTER_SANITIZE_SPECIAL_CHARS));
+$logradouro = trim(filter_input(INPUT_POST, "logradouro", FILTER_SANITIZE_SPECIAL_CHARS));
 $descricao = trim(filter_input(INPUT_POST, "descricao", FILTER_SANITIZE_SPECIAL_CHARS));
 
 
@@ -57,7 +57,7 @@ if (
     empty($cidade) &&
     empty($cep) &&
     empty($bairro) &&
-    empty($rua) &&
+    empty($logradouro) &&
     empty($descricao)
 ) {
     $_SESSION["error_requerimento"] = "acesso_url";
@@ -156,23 +156,23 @@ if (empty($bairro)) {
 }
 
 /// RUA
-if (empty($rua)) {
-    $_SESSION["error_requerimento"] = "rua";
+if (empty($logradouro)) {
+    $_SESSION["error_requerimento"] = "logradouro";
     validacaoEditar($id_requerimento);
     die();
-} elseif (!preg_match('/^[A-Za-zÀ-ÿ0-9\s]+$/', $rua)) {
-    $_SESSION["caracteres_requerimento"] = "rua_inadequada";
-    $_SESSION["caracteres"] = strlen($rua);
+} elseif (!preg_match('/^[A-Za-zÀ-ÿ0-9\s]+$/', $logradouro)) {
+    $_SESSION["caracteres_requerimento"] = "logradouro_inadequada";
+    $_SESSION["caracteres"] = strlen($logradouro);
     validacaoEditar($id_requerimento);
     die();
-} elseif (strlen($rua) < 2) {
-    $_SESSION["caracteres_requerimento"] = "rua_pequena";
-    $_SESSION["caracteres"] = strlen($rua);
+} elseif (strlen($logradouro) < 2) {
+    $_SESSION["caracteres_requerimento"] = "logradouro_pequena";
+    $_SESSION["caracteres"] = strlen($logradouro);
     validacaoEditar($id_requerimento);
     die();
-} elseif (strlen($rua) > 250) {
-    $_SESSION["caracteres_requerimento"] = "rua_grande";
-    $_SESSION["caracteres"] = strlen($rua);
+} elseif (strlen($logradouro) > 250) {
+    $_SESSION["caracteres_requerimento"] = "logradouro_grande";
+    $_SESSION["caracteres"] = strlen($logradouro);
     validacaoEditar($id_requerimento);
     die();
 }
@@ -197,10 +197,10 @@ if (empty($descricao)) {
 
 require '../database/conexao.php';
 
-$sql = "UPDATE requerimento SET titulo = ?, tipo = ?, cidade = ?, cep = ?, bairro = ?, rua = ?, descricao = ?  WHERE id_requerimento = ? AND id_usuario = ?";
+$sql = "UPDATE requerimento SET titulo = ?, tipo = ?, cidade = ?, cep = ?, bairro = ?, logradouro = ?, descricao = ?  WHERE id_requerimento = ? AND id_usuario = ?";
 
 $stmt = $conn->prepare($sql);
-$result = $stmt->execute([$titulo, $tipo, $cidade, $cep, $bairro, $rua, $descricao, $id_requerimento, $id_usuario]);
+$result = $stmt->execute([$titulo, $tipo, $cidade, $cep, $bairro, $logradouro, $descricao, $id_requerimento, $id_usuario]);
 $cont =  $stmt->rowCount();
 
 if ($result == true && $cont >= 1) {

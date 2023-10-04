@@ -135,26 +135,26 @@ function validacaoRequerimentos() {
     }
   });
 
-  const ruaInput = document.getElementById("rua");
-  const labelRua = document.querySelector("label[for='rua']");
+  const logradouroInput = document.getElementById("logradouro");
+  const labelLogradouro = document.querySelector("label[for='logradouro']");
 
-  ruaInput.addEventListener("input", function () {
-    const inputValue = ruaInput.value.replace(/\s+/g, "");
+  logradouroInput.addEventListener("input", function () {
+    const inputValue = logradouroInput.value.replace(/\s+/g, "");
     const minLength = 2;
     const patternRegex = /^[A-Za-zÀ-ÿ0-9\s]+$/;
 
     if (inputValue.length >= minLength && patternRegex.test(inputValue)) {
-      ruaInput.setCustomValidity("");
-      ruaInput.classList.remove("is-invalid");
-      labelRua.classList.remove("text-danger");
+      logradouroInput.setCustomValidity("");
+      logradouroInput.classList.remove("is-invalid");
+      labelLogradouro.classList.remove("text-danger");
     } else {
-      ruaInput.classList.add("is-invalid");
-      labelRua.classList.add("text-danger");
+      logradouroInput.classList.add("is-invalid");
+      labelLogradouro.classList.add("text-danger");
 
       if (inputValue.length < minLength) {
-        ruaInput.setCustomValidity(`Informe uma rua com pelo menos ${minLength} caracteres.`);
+        logradouroInput.setCustomValidity(`Informe uma logradouro com pelo menos ${minLength} caracteres.`);
       } else if (!patternRegex.test(inputValue)) {
-        ruaInput.setCustomValidity("Apenas serão aceitas letras e números.");
+        logradouroInput.setCustomValidity("Apenas serão aceitas letras e números.");
       }
     }
   });

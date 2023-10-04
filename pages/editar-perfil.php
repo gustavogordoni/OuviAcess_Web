@@ -33,7 +33,7 @@ require 'navbar.php';
     <main>
         <div class="py-3 text-center mt-4">
             <strong>
-            <h2>Olá <strong><?= $rowUsuario['nome'] ?></strong>  <span class="fs-2">&#128075;</span></h2>
+                <h2>Olá <strong><?= $rowUsuario['nome'] ?></strong> <span class="fs-2">&#128075;</span></h2>
             </strong>
         </div>
 
@@ -45,7 +45,7 @@ require 'navbar.php';
 
                         <div class="col-sm-12">
                             <label for="nome" class="form-label" id="label_nome"><strong>Nome completo: </strong></label>
-                            <input type="text" class="form-control" id="nome" name="nome" placeholder="Ex: Carlos Alberto" required pattern="[A-Za-zÀ-ÿ\s]+" title="Não informe caracteres que não sejam letras" onblur="nome();"  value="<?= $rowUsuario["nome"] ?>"maxlength="150">
+                            <input type="text" class="form-control" id="nome" name="nome" placeholder="Ex: Carlos Alberto" required pattern="[A-Za-zÀ-ÿ\s]+" title="Não informe caracteres que não sejam letras" onblur="nome();" value="<?= $rowUsuario["nome"] ?>" maxlength="150">
                             <div class="invalid-feedback">
                                 Informe seu nome completo
                             </div>
@@ -72,12 +72,21 @@ require 'navbar.php';
                             <label for="email" class="form-label"><strong>E-mail: </strong></label>
                             <div class="input-group has-validation">
                                 <span class="input-group-text">@</span>
-                                <input type="email" class="form-control" id="email" name="email" placeholder="voce@exemplo.com" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" value="<?= $rowUsuario["email"] ?>"maxlength="150">
+                                <input type="email" class="form-control" id="email" name="email" placeholder="voce@exemplo.com" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" value="<?= $rowUsuario["email"] ?>" maxlength="150">
                                 <div class="invalid-feedback">
                                     Por favor, insira um endereço de e-mail válido para efetuar login
                                 </div>
                             </div>
                         </div>
+
+                        <div class="row mt-4">
+                            <div class="text-center">
+                                <button type="button" class="w-100 btn btn-success btn-lg rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                    Alterar senha
+                                </button>
+                            </div>
+                        </div>
+
 
                         <div class="mt-4 col-12 row">
                             <div class="col-md-6 mb-3">
@@ -85,6 +94,38 @@ require 'navbar.php';
                             </div>
                             <div class="col-md-6">
                                 <button class="w-100 btn btn-primary btn-lg rounded-pill px-3" type="submit">Enviar</button>
+                            </div>
+                        </div>
+
+
+                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog  modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <p class="modal-title fs-4 text-center" id="staticBackdropLabel">Confirme sua senha atual, antes de realizar a modificação</p>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="alterar-senha.php" method="POST" class="form my-auto">
+                                            <div class="col-12 mt-2">
+                                                <label for="senha_atual" class="form-label text-center" id="senha_atual"><strong>Senha atual: </strong></label>
+                                                <input type="password" class="form-control" id="senha_atual" name="senha_atual" required maxlength="150">
+                                            </div> 
+                                            <div class="col-12 mt-2">
+                                                <label for="senha_nova" class="form-label text-center" id="senha_nova"><strong>Nova senha: </strong></label>
+                                                <input type="password" class="form-control" id="senha_nova" name="senha_nova" required maxlength="150">
+                                            </div> 
+                                            <div class="col-12 mt-2">
+                                                <label for="senha_confirmacao" class="form-label text-center" id="senha_confirmacao"><strong>Confirme a nova senha: </strong></label>
+                                                <input type="password" class="form-control" id="senha_confirmacao" name="senha_confirmacao" required maxlength="150">
+                                            </div> 
+                                    </div>
+                                    <div class="modal-footer mx-auto w-100 d-flex justify-content-center">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Voltar</button>
+                                        <button type="submit" class="btn btn-success" name="deletar">Confirmar</button>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                 </form>

@@ -13,7 +13,7 @@
             </div>
             <div class="col-lg-4">
                 <h2 class="fw-normal">Requerimentos</h2>
-                <p>A página de Requerimentos permite o cadastro de denúncias e sugestões relacionadas a problemas de acessibilidade em ambientes, sendo possível: selecionar o tipo do requerimento (opções de denúncia e de sugestão), além de ser necessário informar um título, a cidade, o CEP, o bairro, a rua, uma descrição. Como escolha opcional, pode-se anexar uma imagem para ilustrar o local em questão, e selecionar a opção de envio anonimo, o que permite que o requerimento seja enviado sem a identificação do remetente.</p>
+                <p>A página de Requerimentos permite o cadastro de denúncias e sugestões relacionadas a problemas de acessibilidade em ambientes, sendo possível: selecionar o tipo do requerimento (opções de denúncia e de sugestão), além de ser necessário informar um título, a cidade, o CEP, o bairro, o logradouro, uma descrição. Como escolha opcional, pode-se anexar uma imagem para ilustrar o local em questão, e selecionar a opção de envio anonimo, o que permite que o requerimento seja enviado sem a identificação do remetente.</p>
             </div>
             <div class="col-lg-4">
                 <h2 class="fw-normal">Histórico</h2>

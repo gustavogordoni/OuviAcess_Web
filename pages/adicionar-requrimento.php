@@ -6,7 +6,7 @@ $tipo = filter_input(INPUT_POST, "tipo", FILTER_SANITIZE_SPECIAL_CHARS);
 $cidade = trim(filter_input(INPUT_POST, "cidade", FILTER_SANITIZE_SPECIAL_CHARS));
 $cep = trim(filter_input(INPUT_POST, "cep", FILTER_SANITIZE_SPECIAL_CHARS));
 $bairro = trim(filter_input(INPUT_POST, "bairro", FILTER_SANITIZE_SPECIAL_CHARS));
-$rua = trim(filter_input(INPUT_POST, "rua", FILTER_SANITIZE_SPECIAL_CHARS));
+$logradouro = trim(filter_input(INPUT_POST, "logradouro", FILTER_SANITIZE_SPECIAL_CHARS));
 $descricao = trim(filter_input(INPUT_POST, "descricao", FILTER_SANITIZE_SPECIAL_CHARS));
 $anonimo = trim(filter_input(INPUT_POST, "anonimo", FILTER_SANITIZE_SPECIAL_CHARS));
 
@@ -44,7 +44,7 @@ $_SESSION["tipo_requerimento"] = $tipo;
 $_SESSION["cidade_requerimento"] = $cidade;
 $_SESSION["cep_requerimento"] = $cep;
 $_SESSION["bairro_requerimento"] = $bairro;
-$_SESSION["rua_requerimento"] = $rua;
+$_SESSION["logradouro_requerimento"] = $logradouro;
 $_SESSION["descricao_requerimento"] = $descricao;
 $_SESSION["anonimo_requerimento"] = $anonimo;
 
@@ -55,7 +55,7 @@ if (
     empty($cidade) &&
     empty($cep) &&
     empty($bairro) &&
-    empty($rua) &&
+    empty($logradouro) &&
     empty($descricao) &&
     empty($anonimo)
 ) {
@@ -165,25 +165,25 @@ if (empty($bairro)) {
 }
 
 /// RUA
-if (empty($rua)) {
-    $_SESSION["error_requerimento"] = "rua";
-    $_SESSION["rua_requerimento"] = null;
+if (empty($logradouro)) {
+    $_SESSION["error_requerimento"] = "logradouro";
+    $_SESSION["logradouro_requerimento"] = null;
     validacaoRequerimento();
     die();
-}elseif (!preg_match('/^[A-Za-zÀ-ÿ0-9\s]+$/', $rua)) {
-    $_SESSION["caracteres_requerimento"] = "rua_inadequada";
-    $_SESSION["rua_requerimento"] = null;
+}elseif (!preg_match('/^[A-Za-zÀ-ÿ0-9\s]+$/', $logradouro)) {
+    $_SESSION["caracteres_requerimento"] = "logradouro_inadequada";
+    $_SESSION["logradouro_requerimento"] = null;
     $_SESSION["caracteres"] = null;
     validacaoRequerimento();
     die();
-}elseif (strlen($rua) < 2) {
-    $_SESSION["caracteres_requerimento"] = "rua_pequena";
-    $_SESSION["caracteres"] = strlen($rua);
+}elseif (strlen($logradouro) < 2) {
+    $_SESSION["caracteres_requerimento"] = "logradouro_pequena";
+    $_SESSION["caracteres"] = strlen($logradouro);
     validacaoRequerimento();
     die();
-} elseif (strlen($rua) > 150) {
-    $_SESSION["caracteres_requerimento"] = "rua_grande";
-    $_SESSION["caracteres"] = strlen($rua);
+} elseif (strlen($logradouro) > 150) {
+    $_SESSION["caracteres_requerimento"] = "logradouro_grande";
+    $_SESSION["caracteres"] = strlen($logradouro);
     validacaoRequerimento();
     die();
 }
@@ -242,16 +242,16 @@ $id_requerimento = $maior + 1;
 
 if ($anonimo == false) {
     // ENVIO NÃO ANONIMO
-    $sql = "INSERT INTO requerimento(id_requerimento, id_usuario, titulo, tipo, situacao, data, descricao, cep, cidade, bairro, rua) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+    $sql = "INSERT INTO requerimento(id_requerimento, id_usuario, titulo, tipo, situacao, data, descricao, cep, cidade, bairro, logradouro) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 
     $stmt = $conn->prepare($sql);
-    $result = $stmt->execute([$id_requerimento, $id_usuario, $titulo, $tipo, $situacao, $data, $descricao, $cep, $cidade, $bairro, $rua]);
+    $result = $stmt->execute([$id_requerimento, $id_usuario, $titulo, $tipo, $situacao, $data, $descricao, $cep, $cidade, $bairro, $logradouro]);
 } elseif ($anonimo == true) {
     // ENVIO ANONIMO
-    $sql = "INSERT INTO requerimento(id_requerimento, titulo, tipo, situacao, data, descricao, cep, cidade, bairro, rua) VALUES (?,?,?,?,?,?,?,?,?,?)";
+    $sql = "INSERT INTO requerimento(id_requerimento, titulo, tipo, situacao, data, descricao, cep, cidade, bairro, logradouro) VALUES (?,?,?,?,?,?,?,?,?,?)";
 
     $stmt = $conn->prepare($sql);
-    $result = $stmt->execute([$id_requerimento, $titulo, $tipo, $situacao, $data, $descricao, $cep, $cidade, $bairro, $rua]);
+    $result = $stmt->execute([$id_requerimento, $titulo, $tipo, $situacao, $data, $descricao, $cep, $cidade, $bairro, $logradouro]);
 }
 
 if ($result == true) {

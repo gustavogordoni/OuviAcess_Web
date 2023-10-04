@@ -21,7 +21,7 @@ CREATE TABLE Requerimento(
     cep VARCHAR (10),
     cidade VARCHAR (150),
     bairro VARCHAR (150),
-    rua VARCHAR (150),
+    logradouro VARCHAR (150),
     imagem longblob,
     
     CONSTRAINT PK_Usuario PRIMARY KEY (id_requerimento),

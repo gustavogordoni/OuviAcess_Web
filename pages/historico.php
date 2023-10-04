@@ -12,7 +12,7 @@ if (!isset($_SESSION["id_usuario"])) {
 
     require '../database/conexao.php';
 
-    $sql = "SELECT id_requerimento, titulo, tipo, situacao, data, descricao, cep, cidade, bairro, rua FROM requerimento WHERE id_usuario = ?";
+    $sql = "SELECT id_requerimento, titulo, tipo, situacao, data, descricao, cep, cidade, bairro, logradouro FROM requerimento WHERE id_usuario = ?";
 
     $stmt = $conn->prepare($sql);
     $result = $stmt->execute([$id_usuario]);
@@ -21,6 +21,7 @@ if (!isset($_SESSION["id_usuario"])) {
     if ($cont == 0) {
         $_SESSION["historico_vazio"] = true;
         include 'mensagens.php';
+        include 'js.php';
         die();
     }
 ?>

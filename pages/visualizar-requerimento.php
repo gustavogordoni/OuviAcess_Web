@@ -27,7 +27,7 @@ if (empty($id_requerimento)) {
 
 require '../database/conexao.php';
 
-$sql = "SELECT titulo, tipo, situacao, data, descricao, cep, cidade, bairro, rua FROM requerimento WHERE id_requerimento = ? AND id_usuario = ?";
+$sql = "SELECT titulo, tipo, situacao, data, descricao, cep, cidade, bairro, logradouro FROM requerimento WHERE id_requerimento = ? AND id_usuario = ?";
 
 $stmt = $conn->prepare($sql);
 $result = $stmt->execute([$id_requerimento, $id_usuario]);
@@ -83,8 +83,8 @@ require 'navbar.php';
                     </div>
 
                     <div class="col-md-4">
-                        <label for="rua" class="form-label"><strong>Data: </strong></label>
-                        <input readonly type="text" class="form-control" id="rua" name="rua" value="<?= $rowRequeriemento['data'] ?>">
+                        <label for="logradouro" class="form-label"><strong>Data: </strong></label>
+                        <input readonly type="text" class="form-control" id="logradouro" name="logradouro" value="<?= $rowRequeriemento['data'] ?>">
                     </div>
 
                     <div class="col-md-8">
@@ -103,8 +103,8 @@ require 'navbar.php';
                     </div>
 
                     <div class="col-md-6">
-                        <label for="rua" class="form-label"><strong>Rua: </strong></label>
-                        <input readonly type="text" class="form-control" id="rua" name="rua" value="<?= $rowRequeriemento['rua'] ?>">
+                        <label for="logradouro" class="form-label"><strong>Logradouro: </strong></label>
+                        <input readonly type="text" class="form-control" id="logradouro" name="logradouro" value="<?= $rowRequeriemento['logradouro'] ?>">
                     </div>
 
                     <div class="col-12">
