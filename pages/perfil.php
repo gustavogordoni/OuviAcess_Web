@@ -84,5 +84,6 @@ require 'navbar.php';
 
 <?php
 require 'footer.php';
+include 'mensagens.php';
 require 'js.php';
 ?>

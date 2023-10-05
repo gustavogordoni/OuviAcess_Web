@@ -33,6 +33,27 @@ if (isset($_SESSION["conexao_bd"]) && basename($_SERVER["PHP_SELF"]) == "inicio.
 <?php
 }
 
+///////////////////////////  ALTERAR SENHA  ///////////////////////////////////////////////
+if (isset($_SESSION["alterarSenha"])) {
+
+    if ($_SESSION["alterarSenha"] == "sucesso") {
+        $titulo_sucesso = "Senha alterada com <strong>SUCESSO</strong>";
+        $classe = "success";
+    } elseif ($_SESSION["alterarSenha"] == "mesma") {
+        $titulo_sucesso = "A nova senha informada é <strong>IGUAL</strong> a anterior!";
+        $classe = "secondary";
+    }
+?>
+    <div class="alert alert-<?= $classe ?> alert-dismissible fade show position-fixed bottom-0 end-0 py-auto" role="alert">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill me-1" viewBox="0 0 16 16">
+            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+        </svg>
+        <?= $titulo_sucesso ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<?php
+    unset($_SESSION["alterarSenha"]);
+}
 
 ///////////////////////////  SUCESSO - REQUERIMENTO  ///////////////////////////////////////////////
 if (isset($_SESSION["add_requerimento"]) || isset($_SESSION["excluir_requerimento"]) || isset($_SESSION["alterar_requerimento"])) {
@@ -80,6 +101,7 @@ if (isset($_SESSION["manteve_requerimento"]) && $_SESSION["manteve_requerimento"
     unset($_SESSION["manteve_requerimento"]);
 }
 
+
 ///////////////////////////  SUCEESSO - CADASTRO  ////////////////////////////////////////////////
 // ADICIONAR CADASTRO
 if (isset($_SESSION["add_cadastro"]) && $_SESSION["add_cadastro"]) {
@@ -98,6 +120,7 @@ if (isset($_SESSION["add_cadastro"]) && $_SESSION["add_cadastro"]) {
 
 ///////////////////////////  ERRO AO LOGAR  ////////////////////////////////////////////////
 // FAÇA LOGIN
+/*
 if (isset($_SESSION["historico_anonimo"]) && $_SESSION["historico_anonimo"]) {
 ?>
     <div class="row d-flex align-items-center ps-4 h-75">
@@ -113,7 +136,9 @@ if (isset($_SESSION["historico_anonimo"]) && $_SESSION["historico_anonimo"]) {
 <?php
     unset($_SESSION["historico_anonimo"]);
 }
+*/
 
+///////////////////////////  REALIZAR LOGIN  ////////////////////////////////////////////////
 if (isset($_SESSION["realizar_login"])) {
     if ($_SESSION["realizar_login"] == "visualizar-requerimento") {
         $texto_erro = "visualizar os detalhes de seus requerimentos";
@@ -193,8 +218,8 @@ if (isset($_SESSION["historico_vazio"]) && $_SESSION["historico_vazio"]) {
 
 
 ///////////////////////////  ERROS - REQUERIMENTO  ////////////////////////////////////////////////
-if (isset($_SESSION["error_requerimento"]) || isset($_SESSION["caracteres_requerimento"]) || isset($_SESSION["error_cadastro"]) || isset($_SESSION["caracteres_cadastro"]) || isset($_SESSION["error_perfil"]) ||isset($_SESSION["caracteres_perfil"])) {
-    
+if (isset($_SESSION["error_requerimento"]) || isset($_SESSION["caracteres_requerimento"]) || isset($_SESSION["error_cadastro"]) || isset($_SESSION["caracteres_cadastro"]) || isset($_SESSION["error_perfil"]) || isset($_SESSION["caracteres_perfil"]) || isset($_SESSION["erro_alterarSenha"])) {
+
     if (isset($_SESSION["error_requerimento"]) || isset($_SESSION["caracteres_requerimento"])) {
         if (isset($_SESSION["error_requerimento"])) {
             //////// ACESSO POR URL
@@ -262,7 +287,7 @@ if (isset($_SESSION["error_requerimento"]) || isset($_SESSION["caracteres_requer
             } elseif ($_SESSION["caracteres_requerimento"] == "titulo_grande") {
                 $titulo_erro = "Título está com " . $_SESSION["caracteres"] . " caracteres";
                 $texto_erro = "Informe um título com, no máximo, 150 caracteres.";
-            }elseif ($_SESSION["caracteres_requerimento"] == "titulo_inadequado") {
+            } elseif ($_SESSION["caracteres_requerimento"] == "titulo_inadequado") {
                 $titulo_erro = "Título inadequado";
                 $texto_erro = "O título informado não atende ao formato necessário: <br> Apenas letras, espaços e caracteres acentuados";
             }
@@ -280,7 +305,7 @@ if (isset($_SESSION["error_requerimento"]) || isset($_SESSION["caracteres_requer
             } elseif ($_SESSION["caracteres_requerimento"] == "cidade_grande") {
                 $titulo_erro = "Nome da cidade está com " . $_SESSION["caracteres"] . " caracteres";
                 $texto_erro = "Informe o nome de uma cidade com, no máximo, 150 caracteres.";
-            }elseif ($_SESSION["caracteres_requerimento"] == "cidade_inadequada") {
+            } elseif ($_SESSION["caracteres_requerimento"] == "cidade_inadequada") {
                 $titulo_erro = "Cidade inadequada";
                 $texto_erro = "A cidade informada não atende ao formato necessário: <br> Apenas letras, espaços e caracteres acentuados";
             }
@@ -298,7 +323,7 @@ if (isset($_SESSION["error_requerimento"]) || isset($_SESSION["caracteres_requer
             } elseif ($_SESSION["caracteres_requerimento"] == "bairro_grande") {
                 $titulo_erro = "Nome do bairro está com " . $_SESSION["caracteres"] . " caracteres";
                 $texto_erro = "Informe o bairro com, no máximo, 150 caracteres.";
-            }elseif ($_SESSION["caracteres_requerimento"] == "bairro_inadequado") {
+            } elseif ($_SESSION["caracteres_requerimento"] == "bairro_inadequado") {
                 $titulo_erro = "Bairro inadequado";
                 $texto_erro = "O bairro informado não atende ao formato necessário: <br> Apenas letras e/ou números, espaços e caracteres acentuados";
             }
@@ -310,7 +335,7 @@ if (isset($_SESSION["error_requerimento"]) || isset($_SESSION["caracteres_requer
             } elseif ($_SESSION["caracteres_requerimento"] == "logradouro_grande") {
                 $titulo_erro = "Nome da logradouro está com " . $_SESSION["caracteres"] . " caracteres";
                 $texto_erro = "Informe a logradouro com, no máximo, 150 caracteres.";
-            }elseif ($_SESSION["caracteres_requerimento"] == "logradouro_inadequada") {
+            } elseif ($_SESSION["caracteres_requerimento"] == "logradouro_inadequada") {
                 $titulo_erro = "Logradouro inadequada";
                 $texto_erro = "A logradouro informada não atende ao formato necessário: <br> Apenas letras e/ou números, espaços e caracteres acentuados";
             }
@@ -390,23 +415,23 @@ if (isset($_SESSION["error_requerimento"]) || isset($_SESSION["caracteres_requer
             } elseif ($_SESSION["caracteres_cadastro"] == "nome_grande") {
                 $titulo_erro = "Nome está com " . $_SESSION["caracteres"] . " caracteres";
                 $texto_erro = "Informe seu nome com, no máximo, 150 caracteres.";
-            }elseif ($_SESSION["caracteres_cadastro"] == "nome_inadequado") {
+            } elseif ($_SESSION["caracteres_cadastro"] == "nome_inadequado") {
                 $titulo_erro = "Nome inadequado";
                 $texto_erro = "O nome informado não atende ao formato necessário: <br> Apenas letras, espaços e caracteres acentuados";
             }
 
-             //////// DDD
+            //////// DDD
             if ($_SESSION["caracteres_cadastro"] == "ddd_inadequado") {
                 $titulo_erro = "DDD inadequado";
                 $texto_erro = "O DDD informado não atende ao formato: (XX)";
             }
 
-             //////// TELEFONE
-             if ($_SESSION["caracteres_cadastro"] == "telefone_inadequado") {
+            //////// TELEFONE
+            if ($_SESSION["caracteres_cadastro"] == "telefone_inadequado") {
                 $titulo_erro = "Telefone inadequado";
                 $texto_erro = "O telefone informado não atende ao formato: XXXXX-XXXX";
             }
-            
+
             //////// EMAIL
             if ($_SESSION["caracteres_cadastro"] == "email_pequeno") {
                 $titulo_erro = "Email está com apenas " . $_SESSION["caracteres"] . " caracteres";
@@ -428,7 +453,7 @@ if (isset($_SESSION["error_requerimento"]) || isset($_SESSION["caracteres_requer
 
 
     ///////////////////////////  ERROS - ALTERER PERFIL ////////////////////////////////////////////////
-    if (isset($_SESSION["error_perfil"]) ||isset($_SESSION["caracteres_perfil"])) {
+    if (isset($_SESSION["error_perfil"]) || isset($_SESSION["caracteres_perfil"])) {
 
         if (isset($_SESSION["error_perfil"])) {
             //////// ACESSO POR URL
@@ -481,7 +506,7 @@ if (isset($_SESSION["error_requerimento"]) || isset($_SESSION["caracteres_requer
             unset($_SESSION["error_perfil"]);
         }
 
-        
+
         if (isset($_SESSION["caracteres_perfil"])) {
             //////// NOME
             if ($_SESSION["caracteres_perfil"] == "nome_pequeno") {
@@ -490,23 +515,23 @@ if (isset($_SESSION["error_requerimento"]) || isset($_SESSION["caracteres_requer
             } elseif ($_SESSION["caracteres_perfil"] == "nome_grande") {
                 $titulo_erro = "Nome está com " . $_SESSION["caracteres"] . " caracteres";
                 $texto_erro = "Informe seu nome com, no máximo, 150 caracteres.";
-            }elseif ($_SESSION["caracteres_perfil"] == "nome_inadequado") {
+            } elseif ($_SESSION["caracteres_perfil"] == "nome_inadequado") {
                 $titulo_erro = "Nome inadequado";
                 $texto_erro = "O nome informado não atende ao formato necessário: <br> Apenas letras, espaços e caracteres acentuados";
             }
 
-             //////// DDD
+            //////// DDD
             if ($_SESSION["caracteres_perfil"] == "ddd_inadequado") {
                 $titulo_erro = "DDD inadequado";
                 $texto_erro = "O DDD informado não atende ao formato: (XX)";
             }
 
-             //////// TELEFONE
-             if ($_SESSION["caracteres_perfil"] == "telefone_inadequado") {
+            //////// TELEFONE
+            if ($_SESSION["caracteres_perfil"] == "telefone_inadequado") {
                 $titulo_erro = "Telefone inadequado";
                 $texto_erro = "O telefone informado não atende ao formato: XXXXX-XXXX";
             }
-            
+
             //////// EMAIL
             if ($_SESSION["caracteres_perfil"] == "email_pequeno") {
                 $titulo_erro = "Email está com apenas " . $_SESSION["caracteres"] . " caracteres";
@@ -525,7 +550,41 @@ if (isset($_SESSION["error_requerimento"]) || isset($_SESSION["caracteres_requer
             unset($_SESSION["caracteres"]);
         }
     }
-    
+
+    /////////////////////////// ERROS - ALTERER SENHA ////////////////////////////////////////////////
+    if (isset($_SESSION["erro_alterarSenha"])) {
+
+        if ($_SESSION["erro_alterarSenha"] == "diferentes") {
+            $titulo_erro = "A senha atual está incorreta!";
+            $texto_erro = "Informe a sua senha utilizada na realização de login";
+        }
+        if ($_SESSION["erro_alterarSenha"] == "erro_nao_identificado") {
+            $titulo_erro = "Erro ao realizar a alteração da senha";
+            $texto_erro = null;
+        }
+        if ($_SESSION["erro_alterarSenha"] == "acesso_url") {
+            $titulo_erro = "Nenhum campo completo";
+            $texto_erro = "Complete as informações solicitadas para realizar a alteração da sua senha!";
+        }
+        if ($_SESSION["erro_alterarSenha"] == "senha_atual") {
+            $titulo_erro = "Senha atual está inadequada";
+            $texto_erro = "Informe a sua senha atual para realizar a alteração da sua senha!";
+        }
+        if ($_SESSION["erro_alterarSenha"] == "senha_nova") {
+            $titulo_erro = "Senha nova está inadequada";
+            $texto_erro = "Informe a nova senha para realizar a alteração da sua senha!";
+        }
+        if ($_SESSION["erro_alterarSenha"] == "senha_confirmacao") {
+            $titulo_erro = "A confirmação da senha está inadequada";
+            $texto_erro = "Informe a confirmação da senha para  realizar a alteração da sua senha!";
+        }
+        if ($_SESSION["erro_alterarSenha"] == "senhas_diferentes") {
+            $titulo_erro = "A confirmação da nova senha está incorreta!";
+            $texto_erro = "Informe novamente a nova senha e confirme-a";
+        }
+
+        unset($_SESSION["erro_alterarSenha"]);
+    }
 ?>
     <div class="alert alert-danger alert-dismissible fade show position-fixed bottom-0 end-0 py-auto" role="alert">
         <h6 class="text-center">

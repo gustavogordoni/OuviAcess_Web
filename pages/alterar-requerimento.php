@@ -18,7 +18,6 @@ if (isset($_SESSION["id_usuario"])) {
     facaLogin();
     die();
 }
-
 function historico($pagina = null)
 {
     if (empty($pagina)) {
@@ -205,6 +204,50 @@ $cont =  $stmt->rowCount();
 
 if ($result == true && $cont >= 1) {
 
+    $sql = "SELECT dados_arquivo, nome FROM arquivo a INNER JOIN requerimento r
+        ON a.id_requerimento = r.id_requerimento
+        WHERE a.id_requerimento = ? AND r.id_usuario = ?";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([$id_requerimento, $id_usuario]);
+    $cont = $stmt->rowCount();
+
+    if ($cont >= 1 && !empty($_FILES['arquivo']['tmp_name'])) {
+
+        $nome = $_FILES['arquivo']['name'];
+        $tamanho = $_FILES['arquivo']['size'];
+        $tipo = $_FILES['arquivo']['type'];
+        $extensao = pathinfo($nome, PATHINFO_EXTENSION);
+        // Read in a binary file
+        $data = file_get_contents($_FILES['arquivo']['tmp_name']);
+        // Escape the binary data
+        $dados_arquivo = bin2hex($data);
+
+        $sql = "UPDATE arquivo a SET nome = '$nome', dados_arquivo = decode('{$dados_arquivo}', 'hex')
+        WHERE id_requerimento = $id_requerimento AND EXISTS (
+            SELECT 1 FROM requerimento r WHERE r.id_requerimento = a.id_requerimento AND r.id_usuario = $id_usuario
+        )";
+
+        $result = pg_query($conn_imagem, $sql);
+
+    } elseif($cont == 0 && !empty($_FILES['arquivo']['tmp_name'])) {
+
+        $nome = $_FILES['arquivo']['name'];
+        $tamanho = $_FILES['arquivo']['size'];
+        $tipo = $_FILES['arquivo']['type'];
+        $extensao = pathinfo($nome, PATHINFO_EXTENSION);
+        // Read in a binary file
+        $data = file_get_contents($_FILES['arquivo']['tmp_name']);
+        // Escape the binary data
+        $dados_arquivo = bin2hex($data);
+
+        $sql = "INSERT INTO arquivo(id_requerimento, nome, dados_arquivo)
+        VALUES ($id_requerimento,'$nome', decode('{$dados_arquivo}' , 'hex'));";
+
+        $result = pg_query($conn_imagem, $sql);
+    }
+
+    /*
     if (!empty($_FILES['arquivo']['tmp_name'])) {
 
         $nome = $_FILES['arquivo']['name'];
@@ -216,14 +259,14 @@ if ($result == true && $cont >= 1) {
         // Escape the binary data
         $dados_arquivo = bin2hex($data);
 
-        $sql = "UPDATE arquivo a
-        SET nome = '$nome', dados_arquivo = decode('{$dados_arquivo}', 'hex')
+        $sql = "UPDATE arquivo a SET nome = '$nome', dados_arquivo = decode('{$dados_arquivo}', 'hex')
         WHERE id_requerimento = $id_requerimento AND EXISTS (
             SELECT 1 FROM requerimento r WHERE r.id_requerimento = a.id_requerimento AND r.id_usuario = $id_usuario
         )";
 
         $result = pg_query($conn_imagem, $sql);
     }
+    */
 
     $_SESSION["alterar_requerimento"] = true;
     historico();
@@ -235,7 +278,7 @@ if ($result == true && $cont >= 1) {
     die();
 } else {
     $errorArray = $stmt->errorInfo();
-?>
+    ?>
     <div class="row d-flex align-items-center ps-4">
         <div class="col-md-6 text-center">
             <h1 class="mt-2 text-danger">Falha ao ao efetuar a alteração dos dodos do requerimento</h1>

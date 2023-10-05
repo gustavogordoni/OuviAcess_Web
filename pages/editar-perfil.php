@@ -97,42 +97,49 @@ require 'navbar.php';
                             </div>
                         </div>
 
+                </form>
 
-                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                            <div class="modal-dialog  modal-dialog-centered">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <p class="modal-title fs-4 text-center" id="staticBackdropLabel">Confirme sua senha atual, antes de realizar a modificação</p>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog  modal-dialog-centered">
+                        <div class="modal-content">
+                            <form action="alterar-senha.php" method="POST" class="form my-auto">
+
+                                <div class="modal-header">
+                                    <p class="modal-title fs-4 text-center" id="staticBackdropLabel">Confirme sua senha atual, antes de realizar a modificação</p>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="col-12 mt-2">
+                                        <label for="senha_atual" class="form-label text-center" id="label_atual"><strong>Senha atual: </strong></label>
+                                        <input type="password" class="form-control" id="senha_atual" name="senha_atual" required maxlength="150">
                                     </div>
-                                    <div class="modal-body">
-                                        <form action="alterar-senha.php" method="POST" class="form my-auto">
-                                            <div class="col-12 mt-2">
-                                                <label for="senha_atual" class="form-label text-center" id="senha_atual"><strong>Senha atual: </strong></label>
-                                                <input type="password" class="form-control" id="senha_atual" name="senha_atual" required maxlength="150">
-                                            </div> 
-                                            <div class="col-12 mt-2">
-                                                <label for="senha_nova" class="form-label text-center" id="senha_nova"><strong>Nova senha: </strong></label>
-                                                <input type="password" class="form-control" id="senha_nova" name="senha_nova" required maxlength="150">
-                                            </div> 
-                                            <div class="col-12 mt-2">
-                                                <label for="senha_confirmacao" class="form-label text-center" id="senha_confirmacao"><strong>Confirme a nova senha: </strong></label>
-                                                <input type="password" class="form-control" id="senha_confirmacao" name="senha_confirmacao" required maxlength="150">
-                                            </div> 
+                                    <div class="col-12 mt-2">
+                                        <label for="senha_nova" class="form-label text-center" id="label_nova"><strong>Nova senha: </strong></label>
+                                        <input type="password" class="form-control" id="senha_nova" name="senha_nova" required maxlength="150">
                                     </div>
-                                    <div class="modal-footer mx-auto w-100 d-flex justify-content-center">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Voltar</button>
-                                        <button type="submit" class="btn btn-success" name="deletar">Confirmar</button>
-                                        </form>
+                                    <div class="col-12 mt-2">
+                                        <label for="senha_confirmacao" class="form-label text-center" id="label_confirmacao"><strong>Confirme a nova senha: </strong></label>
+                                        <input type="password" class="form-control" id="senha_confirmacao" name="senha_confirmacao" required maxlength="150" onblur="verifica_senhas();">
+                                        <div id="confsenhaFeedback" class="invalid-feedback">
+                                            As senhas informadas não estão iguais.
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                                <div class="modal-footer mx-auto w-100 d-flex justify-content-center">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Voltar</button>
+                                    <button type="submit" class="btn btn-success" name="deletar">Confirmar</button>
+                                </div>
+
+                            </form>
                         </div>
-                </form>
+                    </div>
+                </div>
             </div>
         </div>
+</div>
+</div>
 
-    </main>
+</main>
 </div>
 
 <script>
@@ -174,10 +181,10 @@ require 'navbar.php';
     });
 
     function verifica_senhas() {
-        var senha = document.getElementById("senha");
-        var confirme = document.getElementById("confirme");
-        var label_senha = document.getElementById("label_senha");
-        var label_confirme = document.getElementById("label_confirme");
+        var senha = document.getElementById("senha_nova");
+        var confirme = document.getElementById("senha_confirmacao");
+        var label_senha = document.getElementById("label_nova");
+        var label_confirme = document.getElementById("label_confirmacao");
 
         if (senha.value && confirme.value) {
             if (senha.value != confirme.value) {

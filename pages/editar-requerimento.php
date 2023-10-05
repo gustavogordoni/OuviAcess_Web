@@ -81,10 +81,10 @@ include 'navbar.php';
                 <form class="needs-validation" action="alterar-requerimento.php" method="POST" enctype="multipart/form-data">
                     <div class="row g-3">
                         <div class="col-md-8">
-                            <input type="hidden" name="alterar"required id="alterar" value="<?= $id_requerimento ?>">
+                            <input type="hidden" name="alterar" required id="alterar" value="<?= $id_requerimento ?>">
 
-                            <label for="titulo" class="form-label"required id="label_titulo"><strong>Título do requerimento: </strong></label>
-                            <input type="text" class="form-control" required id="titulo" placeholder="Ex: Falta de rampas de acesso" name="titulo" value="<?= $rowRequeriemento['titulo'] ?>" pattern="[A-Za-zÀ-ÿ\s]+" title="Insira um título que contenha apenas letras. Nenhum outro tipo de caracter será válido" maxLength ="150">
+                            <label for="titulo" class="form-label" required id="label_titulo"><strong>Título do requerimento: </strong></label>
+                            <input type="text" class="form-control" required id="titulo" placeholder="Ex: Falta de rampas de acesso" name="titulo" value="<?= $rowRequeriemento['titulo'] ?>" pattern="[A-Za-zÀ-ÿ\s]+" title="Insira um título que contenha apenas letras. Nenhum outro tipo de caracter será válido" maxLength="150">
                             <div class="invalid-feedback">
                                 Informe um título formado apenas por letras, tendo como mínimo de 10 caracteres.
                             </div>
@@ -92,7 +92,7 @@ include 'navbar.php';
 
                         <div class="col-md-4">
                             <label for="tipo" class="form-label"><strong>Tipo:</strong></label>
-                            <select class="form-select"required id="tipo" name="tipo">
+                            <select class="form-select" required id="tipo" name="tipo">
                                 <?php
                                 if ($rowRequeriemento['tipo'] == "Denúncia") { ?>
                                     <option value="Denúncia">Denúncia</option>
@@ -114,7 +114,7 @@ include 'navbar.php';
 
                         <div class="col-md-8">
                             <label for="cidade" class="form-label"><strong>Cidade: </strong></label>
-                            <input type="text" class="form-control" required id="cidade" placeholder="Ex: Votuporanga" name="cidade" value="<?= $rowRequeriemento['cidade'] ?>" pattern="[A-Za-zÀ-ÿ\s]+" maxLength ="150">
+                            <input type="text" class="form-control" required id="cidade" placeholder="Ex: Votuporanga" name="cidade" value="<?= $rowRequeriemento['cidade'] ?>" pattern="[A-Za-zÀ-ÿ\s]+" maxLength="150">
                             <div class="invalid-feedback">
                                 Será aceito apenas letras, tendo como mínimo 3 caracteres.
                             </div>
@@ -122,7 +122,7 @@ include 'navbar.php';
 
                         <div class="col-md-4">
                             <label for="cep" class="form-label"><strong>CEP: </strong></label>
-                            <input type="text" class="form-control" required id="cep" name="cep" value="<?= $rowRequeriemento['cep'] ?>" title="Digite o CEP no formato XX.XXX-XXX" placeholder="XX.XXX-XXX" pattern="\d{2}\.\d{3}-\d{3}" maxLength ="10">
+                            <input type="text" class="form-control" required id="cep" name="cep" value="<?= $rowRequeriemento['cep'] ?>" title="Digite o CEP no formato XX.XXX-XXX" placeholder="XX.XXX-XXX" pattern="\d{2}\.\d{3}-\d{3}" maxLength="10">
                             <div class="invalid-feedback">
                                 Informe o CEP no formato XX.XXX-XXX
                             </div>
@@ -130,7 +130,7 @@ include 'navbar.php';
 
                         <div class="col-md-6">
                             <label for="bairro" class="form-label"><strong>Bairro: </strong></label>
-                            <input type="text" class="form-control" required id="bairro" placeholder="Ex: Centro" name="bairro" value="<?= $rowRequeriemento['bairro'] ?>" pattern="[A-Za-zÀ-ÿ0-9\s]+" maxLength ="150">
+                            <input type="text" class="form-control" required id="bairro" placeholder="Ex: Centro" name="bairro" value="<?= $rowRequeriemento['bairro'] ?>" pattern="[A-Za-zÀ-ÿ0-9\s]+" maxLength="150">
                             <div class="invalid-feedback">
                                 Informe um bairro válido
                             </div>
@@ -138,20 +138,41 @@ include 'navbar.php';
 
                         <div class="col-md-6">
                             <label for="logradouro" class="form-label"><strong>Logradouro: </strong></label>
-                            <input type="text" class="form-control" required id="logradouro" placeholder="Ex: Rua Amazonas" name="logradouro" value="<?= $rowRequeriemento['logradouro'] ?>" pattern="[A-Za-zÀ-ÿ0-9\s]+" maxLength ="150">
+                            <input type="text" class="form-control" required id="logradouro" placeholder="Ex: Rua Amazonas" name="logradouro" value="<?= $rowRequeriemento['logradouro'] ?>" pattern="[A-Za-zÀ-ÿ0-9\s]+" maxLength="150">
                             <div class="invalid-feedback">
                                 Informe uma logradouro válida
                             </div>
                         </div>
 
-                        <div class="col-12 input-group mt-4">
-                            <label class="input-group-text px-5" for="arquivo"><strong>Foto do local:</strong></label>
-                            <input type="file" class="form-control" id="arquivo" accept="image/*" name="arquivo">
-                        </div>
+                        <?php
+                        $sql = "SELECT dados_arquivo, nome FROM arquivo a INNER JOIN requerimento r
+                        ON a.id_requerimento = r.id_requerimento
+                        WHERE a.id_requerimento = ? AND r.id_usuario = ?";
+
+                        $stmt = $conn->prepare($sql);
+                        $stmt->execute([$id_requerimento, $id_usuario]);
+                        $cont = $stmt->rowCount();
+
+                        if ($cont >= 1) {
+                        ?>
+                            <div class="col-12 input-group mt-4">
+                                <label class="input-group-text px-5" for="arquivo"><strong>Foto do local:</strong></label>
+                                <input type="file" class="form-control" id="arquivo" accept="image/*" name="arquivo">
+                            </div>
+                        <?php
+                        }else{
+                            ?>
+                            <div class="col-12 input-group mt-4">
+                                <label class="input-group-text px-5" for="arquivo"><strong>Adicionar foto do local:</strong></label>
+                                <input type="file" class="form-control" id="arquivo" accept="image/*" name="arquivo">
+                            </div>
+                        <?php
+                        }
+                        ?>
 
                         <div class="col-12">
                             <label for="descricao" class="form-label"><strong>Descrição: </strong></label>
-                            <textarea class="form-control"  placeholder="Insira uma descrição detalhada sobre o ambiente em discussão"required id="descricao" style="height: 130px" name="descricao" maxLength ="2000"><?= $rowRequeriemento['descricao'] ?></textarea>
+                            <textarea class="form-control" placeholder="Insira uma descrição detalhada sobre o ambiente em discussão" required id="descricao" style="height: 130px" name="descricao" maxLength="2000"><?= $rowRequeriemento['descricao'] ?></textarea>
                             <div class="invalid-feedback">
                                 Insira uma descrição, com no mínimo 50 caracteres, sobre o ambiente em discussão
                             </div>
