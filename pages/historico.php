@@ -2,13 +2,13 @@
 include 'header.php';
 include 'navbar.php';
 
-if (!isset($_SESSION["id_usuario"])) {
+
+if (!autenticado()) {
     $_SESSION["historico_anonimo"] = true;
     include 'mensagens.php';
     die();
 
-    echo "NÂO LOGADO";
-} elseif (isset($_SESSION["id_usuario"])) {
+} elseif (autenticado()) {
     $id_usuario = $_SESSION["id_usuario"];
 
     require '../database/conexao.php';
@@ -21,6 +21,8 @@ if (!isset($_SESSION["id_usuario"])) {
         } elseif ($ordem == "titulo") {
             $ordem = "titulo";
         } elseif ($ordem == "data") {
+            $ordem = "data";
+        } else{
             $ordem = "data";
         }
     }else{

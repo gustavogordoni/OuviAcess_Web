@@ -1,29 +1,17 @@
 <?php
 include 'header.php';
 
+
 $id_requerimento = filter_input(INPUT_POST, "alterar", FILTER_SANITIZE_NUMBER_INT);
 
-function facaLogin($pagina = null)
-{
-    if (empty($pagina)) {
-        $pagina = "login.php";
-    }
-    header("Location: " . $pagina);
-}
+redireciona("login.php");
 
-if (isset($_SESSION["id_usuario"])) {
+if (autenticado()) {
     $id_usuario = $_SESSION["id_usuario"];
-} elseif (!isset($_SESSION["id_usuario"])) {
+} elseif (!autenticado()) {
     $_SESSION["realizar_login"] = "alterar-requerimento";
-    facaLogin();
+    redireciona("login.php");
     die();
-}
-function historico($pagina = null)
-{
-    if (empty($pagina)) {
-        $pagina = "historico.php";
-    }
-    header("Location: " . $pagina);
 }
 
 if (empty($id_requerimento)) {
@@ -269,12 +257,12 @@ if ($result == true && $cont >= 1) {
     */
 
     $_SESSION["alterar_requerimento"] = true;
-    historico();
+    redireciona("historico.php");
     //include 'mensagens.php';
     die();
 } elseif ($result == true && $cont == 0) {
     $_SESSION["manteve_requerimento"] = true;
-    historico();
+    redireciona("historico.php");
     die();
 } else {
     $errorArray = $stmt->errorInfo();

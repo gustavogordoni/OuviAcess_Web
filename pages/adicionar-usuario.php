@@ -1,5 +1,6 @@
 <?php
-require 'header.php';
+include 'header.php';
+
 
 $nome = trim(filter_input(INPUT_POST, "nome", FILTER_SANITIZE_SPECIAL_CHARS));
 $ddd = trim(filter_input(INPUT_POST, "ddd", FILTER_SANITIZE_SPECIAL_CHARS));
@@ -7,22 +8,6 @@ $telefone = trim(filter_input(INPUT_POST, "telefone", FILTER_SANITIZE_SPECIAL_CH
 $email = trim(filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL));
 $senha = trim(filter_input(INPUT_POST, "senha", FILTER_SANITIZE_SPECIAL_CHARS));
 $confirme = trim(filter_input(INPUT_POST, "confirme", FILTER_SANITIZE_SPECIAL_CHARS));
-
-function redireciona($pagina = null)
-{
-    if (empty($pagina)) {
-        $pagina = "cadastro-usuario.php";
-    }
-    header("Location: " . $pagina);
-}
-
-function validacaoUsuario($pagina = null)
-{
-    if (empty($pagina)) {
-        $pagina = "cadastro-usuario.php";
-    }
-    header("Location: " . $pagina);
-}
 
 ///////////////////////////////////// VALIDAÇÕES /////////////////////////////////////
 $_SESSION["nome_cadastro"] = $nome;
@@ -41,7 +26,7 @@ if (
     empty($confirme)
 ) {
     $_SESSION["error_cadastro"] = "acesso_url";
-    validacaoUsuario();
+    redireciona("cadastro-usuario.php");
     die();
 }
 
@@ -49,23 +34,23 @@ if (
 if (empty($nome)) {
     $_SESSION["error_cadastro"] = "nome";
     $_SESSION["nome_cadastro"] = null;
-    validacaoUsuario();
+    redireciona("cadastro-usuario.php");
     die();
 } elseif (!preg_match('/^[A-Za-zÀ-ÿ\s]+$/', $nome)) {
     $_SESSION["caracteres_cadastro"] = "nome_inadequado";
     $_SESSION["nome_cadastro"] = null;
     $_SESSION["caracteres"] = null;
-    validacaoUsuario();
+    redireciona("cadastro-usuario.php");
     die();
 } elseif (strlen($nome) < 4) {
     $_SESSION["caracteres_cadastro"] = "nome_pequeno";
     $_SESSION["caracteres"] = strlen($nome);
-    validacaoUsuario();
+    redireciona("cadastro-usuario.php");
     die();
 } elseif (strlen($nome) > 150) {
     $_SESSION["caracteres_cadastro"] = "nome_grande";
     $_SESSION["caracteres"] = strlen($nome);
-    validacaoUsuario();
+    redireciona("cadastro-usuario.php");
     die();
 }
 
@@ -73,13 +58,13 @@ if (empty($nome)) {
 if (empty($ddd)) {
     $_SESSION["error_cadastro"] = "ddd";
     $_SESSION["ddd_cadastro"] = null;
-    validacaoUsuario();
+    redireciona("cadastro-usuario.php");
     die();
 } elseif (!preg_match('/^\([0-9]{2}\)$/', $ddd)) {
     $_SESSION["caracteres_cadastro"] = "ddd_inadequado";
     $_SESSION["ddd_cadastro"] = null;
     $_SESSION["caracteres"] = null;
-    validacaoUsuario();
+    redireciona("cadastro-usuario.php");
     die();
 }
 
@@ -87,13 +72,13 @@ if (empty($ddd)) {
 if (empty($telefone)) {
     $_SESSION["error_cadastro"] = "telefone";
     $_SESSION["telefone_cadastro"] = null;
-    validacaoUsuario();
+    redireciona("cadastro-usuario.php");
     die();
 } elseif (!preg_match('/^[0-9]{4,6}-[0-9]{3,4}$/', $telefone)) {
     $_SESSION["caracteres_cadastro"] = "telefone_inadequado";
     $_SESSION["telefone_cadastro"] = null;
     $_SESSION["caracteres"] = null;
-    validacaoUsuario();
+    redireciona("cadastro-usuario.php");
     die();
 }
 
@@ -101,36 +86,36 @@ if (empty($telefone)) {
 if (empty($email)) {
     $_SESSION["error_cadastro"] = "email";
     $_SESSION["email_cadastro"] = null;
-    validacaoUsuario();
+    redireciona("cadastro-usuario.php");
     die();
 } elseif (strlen($email) < 7) {
     $_SESSION["caracteres_cadastro"] = "email_pequeno";
     $_SESSION["caracteres"] = strlen($email);
-    validacaoUsuario();
+    redireciona("cadastro-usuario.php");
     die();
 } elseif (strlen($email) > 150) {
     $_SESSION["caracteres_cadastro"] = "email_grande";
     $_SESSION["caracteres"] = strlen($email);
-    validacaoUsuario();
+    redireciona("cadastro-usuario.php");
     die();
 }
 
 /// SENHA
 if (empty($senha)) {
     $_SESSION["error_cadastro"] = "senha";
-    validacaoUsuario();
+    redireciona("cadastro-usuario.php");
     die();
 }
 /// CONFIRME
 if (empty($confirme)) {
     $_SESSION["error_cadastro"] = "confirme";
-    validacaoUsuario();
+    redireciona("cadastro-usuario.php");
     die();
 }
 /// CONFIRMAÇÃO DA SENHA - ESTÃO IGUAIS
 if ($senha != $confirme) {
     $_SESSION["caracteres_cadastro"] = "senhas_diferentes";
-    validacaoUsuario();
+    redireciona("cadastro-usuario.php");
     die();
 }
 
@@ -146,7 +131,7 @@ $cont = $stmt->rowCount();
 if ($result == true && $cont >= 1) {
     $_SESSION["error_cadastro"] = "email_inexistente";
     $_SESSION["email_cadastro"] = null;
-    validacaoUsuario();
+    redireciona("cadastro-usuario.php");
     die();
 }
 
@@ -158,18 +143,10 @@ $result = $stmt->execute([$nome, $ddd, $telefone, $email, $senha_hash]);
 
 
 if ($result == true) {
-    function cadastroLogin($pagina = null)  
-    {
-        if (empty($pagina)) {
-            $pagina = "verificar-login.php";
-        }
-        header("Location: " . $pagina);
-    }
-
     $_SESSION["add_cadastro"] = true;
     $_SESSION["email"] = $email;
     $_SESSION["senha"] = $senha;
-    cadastroLogin();
+    redireciona("verificar-login.php");
     die();
 } else {
     $errorArray = $stmt->errorInfo();

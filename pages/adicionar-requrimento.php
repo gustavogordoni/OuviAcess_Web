@@ -1,5 +1,6 @@
 <?php
-require 'header.php';
+include 'header.php';
+
 
 $titulo = trim(filter_input(INPUT_POST, "titulo", FILTER_SANITIZE_SPECIAL_CHARS));
 $tipo = filter_input(INPUT_POST, "tipo", FILTER_SANITIZE_SPECIAL_CHARS);
@@ -10,9 +11,9 @@ $logradouro = trim(filter_input(INPUT_POST, "logradouro", FILTER_SANITIZE_SPECIA
 $descricao = trim(filter_input(INPUT_POST, "descricao", FILTER_SANITIZE_SPECIAL_CHARS));
 $anonimo = trim(filter_input(INPUT_POST, "anonimo", FILTER_SANITIZE_SPECIAL_CHARS));
 
-if (isset($_SESSION["id_usuario"])) {
+if (autenticado()) {
     $id_usuario = $_SESSION["id_usuario"];
-} elseif (!isset($_SESSION["id_usuario"])) {
+} elseif (!autenticado()) {
     $id_usuario = null;
     $anonimo = true;
     echo $anonimo;
@@ -21,21 +22,6 @@ if (isset($_SESSION["id_usuario"])) {
 if (empty($anonimo)) {
     $anonimo = false;
     echo $anonimo;
-}
-
-function redireciona($pagina = null)
-{
-    if (empty($pagina)) {
-        $pagina = "historico.php";
-    }
-    header("Location: " . $pagina);
-}
-function validacaoRequerimento($pagina = null)
-{
-    if (empty($pagina)) {
-        $pagina = "requerimento.php";
-    }
-    header("Location: " . $pagina);
 }
 
 ///////////////////////////////////// VALIDAÇÕES /////////////////////////////////////
@@ -60,7 +46,7 @@ if (
     empty($anonimo)
 ) {
     $_SESSION["error_requerimento"] = "acesso_url";
-    validacaoRequerimento();
+    redireciona("requerimento.php");
     die();
 }
 
@@ -68,23 +54,23 @@ if (
 if (empty($titulo)) {
     $_SESSION["error_requerimento"] = "titulo";
     $_SESSION["titulo_requerimento"] = null;
-    validacaoRequerimento();
+    redireciona("requerimento.php");
     die();
 }elseif (!preg_match('/^[A-Za-zÀ-ÿ\s]+$/', $titulo)) {
     $_SESSION["caracteres_requerimento"] = "titulo_inadequado";
     $_SESSION["titulo_requerimento"] = null;
     $_SESSION["caracteres"] = null;
-    validacaoRequerimento();
+    redireciona("requerimento.php");
     die();
 }elseif (strlen($titulo) < 10) {
     $_SESSION["caracteres_requerimento"] = "titulo_pequeno";
     $_SESSION["caracteres"] = strlen($titulo);
-    validacaoRequerimento();
+    redireciona("requerimento.php");
     die();
 } elseif (strlen($titulo) > 150) {
     $_SESSION["caracteres_requerimento"] = "titulo_grande";
     $_SESSION["caracteres"] = strlen($titulo);
-    validacaoRequerimento();
+    redireciona("requerimento.php");
     die();
 }
 
@@ -92,13 +78,13 @@ if (empty($titulo)) {
 if (empty($tipo)) {
     $_SESSION["error_requerimento"] = "tipo";
     $_SESSION["tipo_requerimento"] = null;
-    validacaoRequerimento();
+    redireciona("requerimento.php");
     die();
 } elseif ($tipo != "Denúncia" && $tipo != "Sugestão") {
     $_SESSION["caracteres_requerimento"] = "tipo_invalido";
     $_SESSION["tipo_requerimento"] = null;
     $_SESSION["caracteres"] = $tipo;
-    validacaoRequerimento();
+    redireciona("requerimento.php");
     die();
 }
 
@@ -106,23 +92,23 @@ if (empty($tipo)) {
 if (empty($cidade)) {
     $_SESSION["error_requerimento"] = "cidade";
     $_SESSION["cidade_requerimento"] = null;
-    validacaoRequerimento();
+    redireciona("requerimento.php");
     die();
 }elseif (!preg_match('/^[A-Za-zÀ-ÿ\s]+$/', $cidade)) {
     $_SESSION["caracteres_requerimento"] = "cidade_inadequada";
     $_SESSION["cidade_requerimento"] = null;
     $_SESSION["caracteres"] = null;
-    validacaoRequerimento();
+    redireciona("requerimento.php");
     die();
 } elseif (strlen($cidade) < 3) {
     $_SESSION["caracteres_requerimento"] = "cidade_pequeno";
     $_SESSION["caracteres"] = strlen($cidade);
-    validacaoRequerimento();
+    redireciona("requerimento.php");
     die();
 } elseif (strlen($cidade) > 150) {
     $_SESSION["caracteres_requerimento"] = "cidade_grande";
     $_SESSION["caracteres"] = strlen($cidade);
-    validacaoRequerimento();
+    redireciona("requerimento.php");
     die();
 }
 
@@ -130,13 +116,13 @@ if (empty($cidade)) {
 if (empty($cep)) {
     $_SESSION["error_requerimento"] = "cep";
     $_SESSION["cep_requerimento"] = null;
-    validacaoRequerimento();
+    redireciona("requerimento.php");
     die();
 } elseif (!preg_match('/^\d{2}\.\d{3}-\d{3}$/', $cep)) {
     $_SESSION["caracteres_requerimento"] = "cep_inadequado";
     $_SESSION["caracteres"] = null;
     $_SESSION["cep_requerimento"] = null;
-    validacaoRequerimento();
+    redireciona("requerimento.php");
     die();
 }
 
@@ -144,23 +130,23 @@ if (empty($cep)) {
 if (empty($bairro)) {
     $_SESSION["error_requerimento"] = "bairro";
     $_SESSION["bairro_requerimento"] = null;
-    validacaoRequerimento();
+    redireciona("requerimento.php");
     die();
 }elseif (!preg_match('/^[A-Za-zÀ-ÿ0-9\s]+$/', $bairro)) {
     $_SESSION["caracteres_requerimento"] = "bairro_inadequado";
     $_SESSION["bairro_requerimento"] = null;
     $_SESSION["caracteres"] = null;
-    validacaoRequerimento();
+    redireciona("requerimento.php");
     die();
 } elseif (strlen($bairro) < 3) {
     $_SESSION["caracteres_requerimento"] = "bairro_pequeno";
     $_SESSION["caracteres"] = strlen($bairro);
-    validacaoRequerimento();
+    redireciona("requerimento.php");
     die();
 } elseif (strlen($bairro) > 150) {
     $_SESSION["caracteres_requerimento"] = "bairro_grande";
     $_SESSION["caracteres"] = strlen($bairro);
-    validacaoRequerimento();
+    redireciona("requerimento.php");
     die();
 }
 
@@ -168,23 +154,23 @@ if (empty($bairro)) {
 if (empty($logradouro)) {
     $_SESSION["error_requerimento"] = "logradouro";
     $_SESSION["logradouro_requerimento"] = null;
-    validacaoRequerimento();
+    redireciona("requerimento.php");
     die();
 }elseif (!preg_match('/^[A-Za-zÀ-ÿ0-9\s]+$/', $logradouro)) {
     $_SESSION["caracteres_requerimento"] = "logradouro_inadequada";
     $_SESSION["logradouro_requerimento"] = null;
     $_SESSION["caracteres"] = null;
-    validacaoRequerimento();
+    redireciona("requerimento.php");
     die();
 }elseif (strlen($logradouro) < 2) {
     $_SESSION["caracteres_requerimento"] = "logradouro_pequena";
     $_SESSION["caracteres"] = strlen($logradouro);
-    validacaoRequerimento();
+    redireciona("requerimento.php");
     die();
 } elseif (strlen($logradouro) > 150) {
     $_SESSION["caracteres_requerimento"] = "logradouro_grande";
     $_SESSION["caracteres"] = strlen($logradouro);
-    validacaoRequerimento();
+    redireciona("requerimento.php");
     die();
 }
 
@@ -192,17 +178,17 @@ if (empty($logradouro)) {
 if (empty($descricao)) {
     $_SESSION["error_requerimento"] = "descricao";
     $_SESSION["descricao_requerimento"] = null;
-    validacaoRequerimento();
+    redireciona("requerimento.php");
     die();
 } elseif (strlen($descricao) < 50) {
     $_SESSION["caracteres_requerimento"] = "descricao_pequena";
     $_SESSION["caracteres"] = strlen($descricao);
-    validacaoRequerimento();
+    redireciona("requerimento.php");
     die();
 }elseif (strlen($descricao) > 2000) {
     $_SESSION["caracteres_requerimento"] = "descricao_grande";
     $_SESSION["caracteres"] = strlen($descricao);
-    validacaoRequerimento();
+    redireciona("requerimento.php");
     die();
 }
 
@@ -210,7 +196,7 @@ if (empty($descricao)) {
 if ($anonimo != true && $anonimo != false) {
     $_SESSION["error_requerimento"] = "anonimo";
     $_SESSION["anonimo_requerimento"] = null;
-    validacaoRequerimento();
+    redireciona("requerimento.php");
     die();
 }
 
@@ -275,13 +261,13 @@ if ($result == true) {
 
         if ($result == true) {
             $_SESSION["add_requerimento"] = true;
-            redireciona();
+            redireciona("historico.php");
             die();
         }
     } elseif (empty($_FILES['arquivo']['name'])) {
         // NÃO HÁ IMAGEM PARA ENVIAR
         $_SESSION["add_requerimento"] = true;
-        redireciona();
+        redireciona("historico.php");
         die();
     }
 } else {

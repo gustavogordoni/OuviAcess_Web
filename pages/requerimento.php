@@ -118,20 +118,18 @@ if (isset($_SESSION["error_requerimento"]) || isset($_SESSION["caracteres_requer
 
             <div class="col-12">
               <label for="descricao" class="form-label"><strong>Descrição: </strong></label>
-              <textarea class="form-control" required placeholder="Insira uma descrição detalhada sobre o ambiente em discussão" id="descricao" style="height: 130px" name="descricao" maxlength="2000"><?php if (isset($descricao)) {
-                                                                                                                                                                                                          echo $descricao;
-                                                                                                                                                                                                        } ?></textarea>
+              <textarea class="form-control" required placeholder="Insira uma descrição detalhada sobre o ambiente em discussão" id="descricao" style="height: 130px" name="descricao" maxlength="2000"><?php if (isset($descricao)){ echo $descricao; } ?></textarea>
               <div class="invalid-feedback">
                 Insira uma descrição, com no mínimo 50 caracteres, sobre o ambiente em discussão
               </div>
             </div>
 
             <div class="col-12 form-check d-flex justify-content-center">
-              <?php if (!isset($_SESSION["id_usuario"])) {
+              <?php if (!autenticado()) {
                 $checked  = 'checked disabled';
-              } elseif (isset($_SESSION["id_usuario"])) {
+              } elseif (autenticado()) {
                 $checked = 'value = "true" ';
-              } elseif (isset($_SESSION["id_usuario"]) && $anonimo == true) {
+              } elseif (autenticado() && $anonimo == true) {
                 $checked = 'value = "true" checked';
               } ?>
 
@@ -149,12 +147,12 @@ if (isset($_SESSION["error_requerimento"]) || isset($_SESSION["caracteres_requer
                 <button class="w-100 btn btn-primary btn-lg rounded-pill px-3" type="submit">Enviar</button>
               </div>
             </div>
-
           </div>
         </form>
       </div>
     </div>
   </main>
+</div>
 
   <script>
     const tituloInput = document.getElementById("titulo");

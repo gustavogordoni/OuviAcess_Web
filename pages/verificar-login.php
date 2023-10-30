@@ -1,22 +1,8 @@
 <?php
 
 include 'header.php';
-require '../database/conexao.php';
 
-function redireciona($pagina = null)
-{
-    if (empty($pagina)) {
-        $pagina = "inicio.php";
-    }
-    header("Location: " . $pagina);
-}
-function falhaLogin($pagina = null)
-{
-    if (empty($pagina)) {
-        $pagina = "login.php";
-    }
-    header("Location: " . $pagina);
-}
+require '../database/conexao.php';
 
 $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL);
 $senha = filter_input(INPUT_POST, "senha", FILTER_SANITIZE_SPECIAL_CHARS);
@@ -32,13 +18,13 @@ if (isset($_SESSION["add_cadastro"]) && $_SESSION["add_cadastro"]) {
 if (empty($email) && empty($senha)) {
     // NENHUM VALOR
     $_SESSION["error_login"] = "acesso_url";
-    falhaLogin();
+    redireciona("login.php");
     die();
 }
 if (empty($email)) {
     // EMAIL VAZIO
     $_SESSION["error_login"] = "email";
-    falhaLogin();
+    redireciona("login.php");
     die();
 }
 if (empty($senha)) {
@@ -46,7 +32,7 @@ if (empty($senha)) {
     $_SESSION["error_login"] = "senha";
     // passar email para login
     $_SESSION["error_senha"] = $email;
-    falhaLogin();
+    redireciona("login.php");
     die();
 }
 
@@ -63,7 +49,7 @@ if (password_verify($senha, $row['senha'])) {
     $_SESSION["id_usuario"] = $row["id_usuario"];
     $_SESSION["nome"] = $row["nome"];
     $_SESSION["bem_vindo"] = true;
-    redireciona();
+    redireciona("inicio.php");
     die();
 
 } else{
@@ -74,7 +60,7 @@ if (password_verify($senha, $row['senha'])) {
     if ($cont == 0){
         // EMAIL INCORRETO
         $_SESSION["email_invalido"] = $email;
-        falhaLogin();
+        redireciona("login.php");
         die();
     }
     elseif ($result == true && $cont >= 1) {
@@ -82,7 +68,7 @@ if (password_verify($senha, $row['senha'])) {
         $_SESSION["senha_invalida"] = true;
         // passar email para login
         $_SESSION["error_senha"] = $email;
-        falhaLogin();
+        redireciona("login.php");
         die();
     }
 }

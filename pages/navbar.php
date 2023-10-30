@@ -74,7 +74,7 @@
 
         <div class="d-flex my-auto justify-content-evenly">
           <?php
-          if (!isset($_SESSION["id_usuario"])) {
+          if (!autenticado()) {
           ?>
             <a href="login.php"><button type="button" class="btn btn-outline-primary mx-1 rounded-pill">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
@@ -99,7 +99,7 @@
               </button></a>
 
           <?php
-          } elseif (isset($_SESSION["id_usuario"])) {
+          } elseif (autenticado()) {
 
             if (basename($_SERVER["PHP_SELF"]) == "perfil.php" || basename($_SERVER["PHP_SELF"]) == "editar-perfil.php") {
               $btn_perfil = "btn-primary";

@@ -1,42 +1,14 @@
 <?php
 include 'header.php';
 
+
 $id_requerimento = filter_input(INPUT_GET, "editar", FILTER_SANITIZE_NUMBER_INT);
 
-/*
-if (isset($_SESSION["error_requerimento"]) || isset($_SESSION["caracteres_requerimento"])) {
-    $rowRequeriemento['titulo'] = $_SESSION["titulo_requerimento"];
-    $rowRequeriemento['tipo'] = $_SESSION["tipo_requerimento"];
-    $rowRequeriemento['cidade'] = $_SESSION["cidade_requerimento"];
-    $rowRequeriemento['cep'] = $_SESSION["cep_requerimento"];
-    $rowRequeriemento['bairro'] = $_SESSION["bairro_requerimento"];
-    $rowRequeriemento['logradouro'] = $_SESSION["logradouro_requerimento"];
-    $rowRequeriemento['descricao'] = $_SESSION["descricao_requerimento"];
-  
-    unset($_SESSION["titulo_requerimento"]);
-    unset($_SESSION["tipo_requerimento"]);
-    unset($_SESSION["cidade_requerimento"]);
-    unset($_SESSION["cep_requerimento"]);
-    unset($_SESSION["bairro_requerimento"]);
-    unset($_SESSION["logradouro_requerimento"]);
-    unset($_SESSION["descricao_requerimento"]);
-    unset($_SESSION["anonimo_requerimento"]);
-  }
-  */
-
-function facaLogin($pagina = null)
-{
-    if (empty($pagina)) {
-        $pagina = "login.php";
-    }
-    header("Location: " . $pagina);
-}
-
-if (isset($_SESSION["id_usuario"])) {
+if (autenticado()) {
     $id_usuario = $_SESSION["id_usuario"];
-} elseif (!isset($_SESSION["id_usuario"])) {
+} elseif (!autenticado()) {
     $_SESSION["realizar_login"] = "editar-requerimento";
-    facaLogin();
+    redireciona("login.php");
     die();
 }
 
@@ -160,8 +132,8 @@ include 'navbar.php';
                                 <input type="file" class="form-control" id="arquivo" accept="image/*" name="arquivo">
                             </div>
                         <?php
-                        }else{
-                            ?>
+                        } else {
+                        ?>
                             <div class="col-12 input-group mt-4">
                                 <label class="input-group-text px-5" for="arquivo"><strong>Adicionar foto do local:</strong></label>
                                 <input type="file" class="form-control" id="arquivo" accept="image/*" name="arquivo">
@@ -191,6 +163,7 @@ include 'navbar.php';
                 </form>
             </div>
         </div>
+    </main>
 </div>
 
 

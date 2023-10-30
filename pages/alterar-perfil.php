@@ -1,36 +1,15 @@
 <?php
 include 'header.php';
 
+
 $id_requerimento = filter_input(INPUT_POST, "alterar", FILTER_SANITIZE_NUMBER_INT);
 
-function facaLogin($pagina = null)
-{
-    if (empty($pagina)) {
-        $pagina = "login.php";
-    }
-    header("Location: " . $pagina);
-}
-
-if (isset($_SESSION["id_usuario"])) {
+if (autenticado()) {
     $id_usuario = $_SESSION["id_usuario"];
-} elseif (!isset($_SESSION["id_usuario"])) {
+} elseif (!autenticado()) {
     $_SESSION["realizar_login"] = "alterar-perfil";
-    facaLogin();
+    redireciona("login.php");
     die();
-}
-
-function perfil($pagina = null)
-{
-    if (empty($pagina)) {
-        $pagina = "perfil.php";
-    }
-    header("Location: " . $pagina);
-}
-
-function validacaoPerfil($pagina = null)
-{
-    $pagina = "editar-perfil.php";
-    header("Location: " . $pagina);
 }
 
 $nome = trim(filter_input(INPUT_POST, "nome", FILTER_SANITIZE_SPECIAL_CHARS));
@@ -47,67 +26,67 @@ if (
     empty($email)
 ) {
     $_SESSION["error_perfil"] = "acesso_url";
-    validacaoPerfil();
+    redireciona("perfil.php");
     die();
 }
 
 /// NOME
 if (empty($nome)) {
     $_SESSION["error_perfil"] = "nome";
-    validacaoPerfil();
+    redireciona("perfil.php");
     die();
 } elseif (!preg_match('/^[A-Za-zÀ-ÿ\s]+$/', $nome)) {
     $_SESSION["caracteres_perfil"] = "nome_inadequado";
-    validacaoPerfil();
+    redireciona("perfil.php");
     die();
 } elseif (strlen($nome) < 4) {
     $_SESSION["caracteres_perfil"] = "nome_pequeno";
     $_SESSION["caracteres"] = strlen($nome);
-    validacaoPerfil();
+    redireciona("perfil.php");
     die();
 } elseif (strlen($nome) > 150) {
     $_SESSION["caracteres_perfil"] = "nome_grande";
     $_SESSION["caracteres"] = strlen($nome);
-    validacaoPerfil();
+    redireciona("perfil.php");
     die();
 }
 
 /// DDD 
 if (empty($ddd)) {
     $_SESSION["error_perfil"] = "ddd";
-    validacaoPerfil();
+    redireciona("perfil.php");
     die();
 } elseif (!preg_match('/^\([0-9]{2}\)$/', $ddd)) {
     $_SESSION["caracteres_perfil"] = "ddd_inadequado";
-    validacaoPerfil();
+    redireciona("perfil.php");
     die();
 }
 
 /// TELEFONE
 if (empty($telefone)) {
     $_SESSION["error_perfil"] = "telefone";
-    validacaoPerfil();
+    redireciona("perfil.php");
     die();
 } elseif (!preg_match('/^[0-9]{4,6}-[0-9]{3,4}$/', $telefone)) {
     $_SESSION["caracteres_perfil"] = "telefone_inadequado";
-    validacaoPerfil();
+    redireciona("perfil.php");
     die();
 }
 
 /// EMAIL
 if (empty($email)) {
     $_SESSION["error_perfil"] = "email";
-    validacaoPerfil();
+    redireciona("perfil.php");
     die();
 } elseif (strlen($email) < 7) {
     $_SESSION["caracteres_perfil"] = "email_pequeno";
     $_SESSION["caracteres"] = strlen($email);
-    validacaoPerfil();
+    redireciona("perfil.php");
     die();
 } elseif (strlen($email) > 150) {
     $_SESSION["caracteres_perfil"] = "email_grande";
     $_SESSION["caracteres"] = strlen($email);
-    validacaoPerfil();
+    redireciona("perfil.php");
     die();
 }
 
@@ -122,7 +101,7 @@ $cont = $stmt->rowCount();
 
 if ($result == true && $cont >= 1) {
     $_SESSION["error_perfil"] = "email_inexistente";
-    validacaoPerfil();
+    redireciona("perfil.php");
     die();
 }
 */
@@ -135,11 +114,11 @@ $cont =  $stmt->rowCount();
 
 if ($result == true && $cont >= 1) {
     $_SESSION["alterar_perfil"] = true;
-    perfil();
+    redireciona("perfil.php");
     die();
 } elseif ($result == true && $cont == 0) {
     $_SESSION["manteve_perfil"] = true;
-    perfil();
+    redireciona("perfil.php");
     die();
 
 } else {

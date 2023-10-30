@@ -1,6 +1,7 @@
 <?php
 session_start();
 require '../database/conexao.php';
+include 'funcoes.php';
 
 //$id_requerimento = filter_input(INPUT_GET, "requerimento");
 
@@ -12,22 +13,13 @@ if (empty($id_requerimento)) {
     die();
 }
 
-function facaLogin($pagina = null)
-{
-    if (empty($pagina)) {
-        $pagina = "login.php";
-    }
-    header("Location: " . $pagina);
-}
-
-if (isset($_SESSION["id_usuario"])) {
+if (autenticado()) {
     $id_usuario = $_SESSION["id_usuario"];
-} elseif (!isset($_SESSION["id_usuario"])) {
+} elseif (!autenticado()) {
     $_SESSION["realizar_login"] = "mostrar-imagem";
-    facaLogin();
+    redireciona("login.php");
     die();
 }
-
 
 // Preparar a consulta
 $sql = "SELECT dados_arquivo FROM arquivo a INNER JOIN requerimento r

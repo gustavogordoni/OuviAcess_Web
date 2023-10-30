@@ -1,21 +1,13 @@
 <?php
-require 'header.php';
+include 'header.php';
 
 $id_requerimento = filter_input(INPUT_GET, "visualizar", FILTER_SANITIZE_NUMBER_INT);
 
-function facaLogin($pagina = null)
-{
-    if (empty($pagina)) {
-        $pagina = "login.php";
-    }
-    header("Location: " . $pagina);
-}
-
-if (isset($_SESSION["id_usuario"])) {
+if (autenticado()) {
     $id_usuario = $_SESSION["id_usuario"];
-} elseif (!isset($_SESSION["id_usuario"])) {
+} elseif (!autenticado()) {
     $_SESSION["realizar_login"] = "visualizar-requerimento";
-    facaLogin();
+    redireciona("login.php");
     die();
 }
 
@@ -27,7 +19,18 @@ if (empty($id_requerimento)) {
 
 require '../database/conexao.php';
 
-$sql = "SELECT titulo, tipo, situacao, data, descricao, cep, cidade, bairro, logradouro FROM requerimento WHERE id_requerimento = ? AND id_usuario = ?";
+$sql = "SELECT * FROM requerimento WHERE id_requerimento = ? AND id_usuario = ?";
+$stmt = $conn->prepare($sql);
+$result = $stmt->execute([$id_requerimento, $id_usuario]);
+$rowAdministrador = $stmt->fetch();
+
+if(isset($rowAdministrador["id_administrador"]) && !empty($rowAdministrador["id_administrador"])){
+$sql = 'SELECT r.*, a.nome AS "administrador" FROM requerimento r
+        INNER JOIN administrador a ON r.id_administrador = a.id_administrador
+        WHERE r.id_requerimento = ? AND r.id_usuario = ?';
+}else{
+    $sql = "SELECT * FROM requerimento WHERE id_requerimento = ? AND id_usuario = ?";
+}
 
 $stmt = $conn->prepare($sql);
 $result = $stmt->execute([$id_requerimento, $id_usuario]);
@@ -49,7 +52,7 @@ $stmt->execute([$id_requerimento, $id_usuario]);
 $dados = $stmt->fetch();
 $cont = $stmt->rowCount();
 
-if ($cont >= 1){
+if ($cont >= 1) {
     $_SESSION["id_requerimento"] = $id_requerimento;
 }
 
@@ -107,17 +110,16 @@ require 'navbar.php';
                         <input readonly type="text" class="form-control" id="logradouro" name="logradouro" value="<?= $rowRequeriemento['logradouro'] ?>">
                     </div>
 
-                    <div class="col-12">
-                        <label for="descricao" class="form-label"><strong>Descrição: </strong></label>
-                        <textarea readonly class="form-control" id="descricao" style="height: 150px" name="descricao"><?= $rowRequeriemento['descricao'] ?></textarea>
-                    </div>
-
                     <?php
-                    if ($cont >= 1){
+                    if ($cont >= 1) {
                     ?>
-                        <div class="col-12 mt-4">
+                        <div class="col-md-12 mt-4">
                             <button type="button" class="d-block mx-auto w-25 btn btn-primary rounded-pill px-3 btn-lg" data-bs-toggle="modal" data-bs-target="#exampleModalFullscreen">
-                                Abrir imagem
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-image-fill" viewBox="0 0 16 16">
+                                    <path d="M.002 3a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-12a2 2 0 0 1-2-2V3zm1 9v1a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12zm5-6.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0z" />
+                                </svg>
+                                <br>
+                                Imagem anexada
                             </button>
                         </div>
 
@@ -125,15 +127,37 @@ require 'navbar.php';
                             <div class="modal-dialog modal-fullscreen">
                                 <div class="modal-content">
                                     <div class="modal-header py-1">
-                                        <h3 class="d-block mx-auto cor_tema"><?= $dados["nome"]?></h3>
+                                        <h3 class="d-block mx-auto cor_tema"><?= $dados["nome"] ?></h3>
                                         <button type="button" class="btn-close ms-0" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body d-flex justify-content-center align-items-center">
-                                        <img src="mostrar-imagem.php" alt="Imagem: <?= $dados["nome"]?>" class="h-100">
+                                        <img src="mostrar-imagem.php" alt="Imagem: <?= $dados["nome"] ?>" class="h-100">
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    <?php
+                    }
+                    ?>
+
+                    <div class="col-12">
+                        <label for="descricao" class="form-label"><strong>Descrição: </strong></label>
+                        <textarea readonly class="form-control" id="descricao" style="height: 150px" name="descricao"><?= $rowRequeriemento['descricao'] ?></textarea>
+                    </div>
+
+                    <?php
+                    if (isset($rowRequeriemento['id_administrador'])) {
+                    ?>
+
+                        <div class="col-12 border p-4 rounded-5 mt-5">
+                            <h3 class="mb-3">Administrador: <a class="cor_tema link-underline link-underline-opacity-0" href="visualizar-administrador.php?id=<?= $rowRequeriemento['id_administrador'] ?>"><?= $rowRequeriemento['administrador'] ?></a></h3>
+
+                            <label for="situacao_label" class="form-label"><strong>Situação definida como: </strong> <?= $rowRequeriemento['situacao'] ?></label>
+                            <br>
+                            <label for="resposta" class="form-label"><strong>Resposta: </strong></label>
+                            <textarea readonly class="form-control" id="resposta" style="height: 150px" name="resposta"><?= $rowRequeriemento['resposta'] ?></textarea>
+                        </div>
+
                     <?php
                     }
                     ?>

@@ -1,21 +1,14 @@
 <?php
 include 'header.php';
 
+
 $id_requerimento = filter_input(INPUT_POST, "deletar", FILTER_SANITIZE_NUMBER_INT);
 
-function facaLogin($pagina = null)
-{
-    if (empty($pagina)) {
-        $pagina = "login.php";
-    }
-    header("Location: " . $pagina);
-}
-
-if (isset($_SESSION["id_usuario"])) {
+if (autenticado()) {
     $id_usuario = $_SESSION["id_usuario"];
-} elseif (!isset($_SESSION["id_usuario"])) {
+} elseif (!autenticado()) {
     $_SESSION["realizar_login"] = "excluir-requerimento";
-    facaLogin();
+    redireciona("login.php");
     die();
 }
 
@@ -48,17 +41,9 @@ $stmt = $conn->prepare($sql);
 $result = $stmt->execute([$id_requerimento, $id_usuario]);
 $cont =  $stmt->rowCount();
 
-function redireciona($pagina = null)
-{
-    if (empty($pagina)) {
-        $pagina = "historico.php";
-    }
-    header("Location: " . $pagina);
-}
-
 if ($result == true && $cont == 1) {
     $_SESSION["excluir_requerimento"] = true;
-    redireciona();
+    redireciona("historico.php");
     die();
 } elseif ($cont == 0) {
     $_SESSION["id_requerimento_inexistente"] = true;

@@ -1,19 +1,12 @@
 <?php
-require 'header.php';
+include 'header.php';
 
-function facaLogin($pagina = null)
-{
-    if (empty($pagina)) {
-        $pagina = "login.php";
-    }
-    header("Location: " . $pagina);
-}
 
-if (isset($_SESSION["id_usuario"])) {
+if (autenticado()) {
     $id_usuario = $_SESSION["id_usuario"];
-} elseif (!isset($_SESSION["id_usuario"])) {
+} elseif (!autenticado()) {
     $_SESSION["realizar_login"] = "editar-perfil";
-    facaLogin();
+    redireciona("login.php");
     die();
 }
 
@@ -29,7 +22,7 @@ $cont =  $stmt->rowCount();
 require 'navbar.php';
 ?>
 
-<div class="container mx-auto">
+<div class="container mx-auto h-75">
     <main>
         <div class="py-3 text-center mt-4">
             <strong>
@@ -79,18 +72,11 @@ require 'navbar.php';
                             </div>
                         </div>
 
-                        <div class="row mt-4">
-                            <div class="text-center">
-                                <button type="button" class="w-100 btn btn-success btn-lg rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                    Alterar senha
-                                </button>
-                            </div>
-                        </div>
-
-
                         <div class="mt-4 col-12 row">
                             <div class="col-md-6 mb-3">
-                                <button class="w-100 btn btn-secondary btn-lg rounded-pill px-3" type="reset">Limpar</button>
+                                <button type="button" class="w-100 btn btn-warning btn-lg rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                    Alterar senha
+                                </button>
                             </div>
                             <div class="col-md-6">
                                 <button class="w-100 btn btn-primary btn-lg rounded-pill px-3" type="submit">Enviar</button>

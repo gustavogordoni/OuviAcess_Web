@@ -1,8 +1,9 @@
 <?php
+include 'funcoes.php';
+
 if (basename($_SERVER["PHP_SELF"]) != "mostrar-imagem.php") {
   session_start();
 }
-
 
 $value = "Dark";
 $class = "btn-dark";

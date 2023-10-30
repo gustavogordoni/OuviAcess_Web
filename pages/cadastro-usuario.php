@@ -2,6 +2,7 @@
 include 'header.php';
 include 'navbar.php';
 
+
 if (isset($_SESSION["error_cadastro"]) || isset($_SESSION["caracteres_cadastro"])) {
   $nome = $_SESSION["nome_cadastro"];
   $ddd = $_SESSION["ddd_cadastro"];

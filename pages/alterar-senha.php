@@ -1,28 +1,13 @@
 <?php
 include 'header.php';
 
-if (isset($_SESSION["id_usuario"])) {
+
+if (autenticado()) {
     $id_usuario = $_SESSION["id_usuario"];
-} elseif (!isset($_SESSION["id_usuario"])) {
+} elseif (!autenticado()) {
     $_SESSION["realizar_login"] = "alterar-senha";
-    facaLogin();
+    redireciona("login.php");
     die();
-}
-
-function facaLogin($pagina = null)
-{
-    if (empty($pagina)) {
-        $pagina = "login.php";
-    }
-    header("Location: " . $pagina);
-}
-
-function perfil($pagina = null)
-{
-    if (empty($pagina)) {
-        $pagina = "perfil.php";
-    }
-    header("Location: " . $pagina);
 }
 
 function validacaoPerfil($pagina = null)
@@ -30,7 +15,6 @@ function validacaoPerfil($pagina = null)
     $pagina = "editar-perfil.php";
     header("Location: " . $pagina);
 }
-
 
 $senha_atual = trim(filter_input(INPUT_POST, "senha_atual", FILTER_SANITIZE_SPECIAL_CHARS));
 $senha_nova = trim(filter_input(INPUT_POST, "senha_nova", FILTER_SANITIZE_SPECIAL_CHARS));
@@ -84,7 +68,7 @@ $cont = $stmt->rowCount();
 if ($senha_atual == $senha_nova) {
     // MESMA SENHA
     $_SESSION["alterarSenha"] = "mesma";
-    perfil();
+    redireciona("perfil.php");
     die();
 }
 
@@ -100,12 +84,12 @@ if (password_verify($senha_atual, $row['senha'])) {
 
     if ($result == true && $cont >= 1) {
         $_SESSION["alterarSenha"] = "sucesso";
-        perfil();
+        redireciona("perfil.php");
         die();
     } elseif ($result == true && $cont == 0) {
         // MESMA SENHA
         $_SESSION["alterarSenha"] = "mesma";
-        perfil();
+        redireciona("perfil.php");
         die();
     } else {
         // ERRO NO PROCESSO

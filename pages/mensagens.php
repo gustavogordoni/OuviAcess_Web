@@ -120,7 +120,7 @@ if (isset($_SESSION["add_cadastro"]) && $_SESSION["add_cadastro"]) {
 
 ///////////////////////////  ERRO AO LOGAR  ////////////////////////////////////////////////
 // FAÇA LOGIN
-/*
+
 if (isset($_SESSION["historico_anonimo"]) && $_SESSION["historico_anonimo"]) {
 ?>
     <div class="row d-flex align-items-center ps-4 h-75">
@@ -136,36 +136,39 @@ if (isset($_SESSION["historico_anonimo"]) && $_SESSION["historico_anonimo"]) {
 <?php
     unset($_SESSION["historico_anonimo"]);
 }
-*/
+
 
 ///////////////////////////  REALIZAR LOGIN  ////////////////////////////////////////////////
 if (isset($_SESSION["realizar_login"])) {
     if ($_SESSION["realizar_login"] == "visualizar-requerimento") {
         $texto_erro = "visualizar os detalhes de seus requerimentos";
-    }
-    if ($_SESSION["realizar_login"] == "editar-requerimento") {
+    }elseif ($_SESSION["realizar_login"] == "editar-requerimento") {
         $texto_erro = "editar as informações de seus requerimentos";
-    }
-    if ($_SESSION["realizar_login"] == "alterar-requerimento") {
+
+    }elseif ($_SESSION["realizar_login"] == "alterar-requerimento") {
         $texto_erro = "alterar as informações de seus requerimentos";
-    }
-    if ($_SESSION["realizar_login"] == "excluir-requerimento") {
+
+    }elseif ($_SESSION["realizar_login"] == "excluir-requerimento") {
         $texto_erro = "excluir seus requerimentos";
-    }
-    if ($_SESSION["realizar_login"] == "perfil") {
+
+    }elseif ($_SESSION["realizar_login"] == "perfil") {
         $texto_erro = "ter acessar seu perfil";
-    }
-    if ($_SESSION["realizar_login"] == "editar-perfil") {
+
+    }elseif ($_SESSION["realizar_login"] == "editar-perfil") {
         $texto_erro = "editar as informações do seu perfil";
-    }
-    if ($_SESSION["realizar_login"] == "alterar-perfil") {
+
+    }elseif ($_SESSION["realizar_login"] == "alterar-perfil") {
         $texto_erro = "alterar as informações do seu perfil";
-    }
-    if ($_SESSION["realizar_login"] == "mostrar-imagem") {
+
+    }elseif ($_SESSION["realizar_login"] == "mostrar-imagem") {
         $texto_erro = "ter acesso aos detalhes de seus requerimentos";
-    }
-    if ($_SESSION["realizar_login"] == "alterar-senha") {
+
+    }elseif ($_SESSION["realizar_login"] == "alterar-senha") {
         $texto_erro = "alterar sua senha";
+
+    }elseif ($_SESSION["realizar_login"] == "visualizar-administrador") {
+        $texto_erro = "visualizar as informações dos administradores";
+
     }
 ?>
     <div class="alert alert-danger alert-dismissible fade show position-fixed bottom-0 end-0 py-auto" role="alert">
