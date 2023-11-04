@@ -120,7 +120,6 @@ if (isset($_SESSION["add_cadastro"]) && $_SESSION["add_cadastro"]) {
 
 ///////////////////////////  ERRO AO LOGAR  ////////////////////////////////////////////////
 // FAÇA LOGIN
-
 if (isset($_SESSION["historico_anonimo"]) && $_SESSION["historico_anonimo"]) {
 ?>
     <div class="row d-flex align-items-center ps-4 h-75">
@@ -304,10 +303,10 @@ if (isset($_SESSION["error_requerimento"]) || isset($_SESSION["caracteres_requer
             //////// CIDADE
             if ($_SESSION["caracteres_requerimento"] == "cidade_pequeno") {
                 $titulo_erro = "Nome da cidade está com apenas " . $_SESSION["caracteres"] . " caracteres";
-                $texto_erro = "Informe o nome de uma cidade com, no mínimo, 3 caracteres.";
+                $texto_erro = "Informe o nome doa cidade com, no mínimo, 3 caracteres.";
             } elseif ($_SESSION["caracteres_requerimento"] == "cidade_grande") {
                 $titulo_erro = "Nome da cidade está com " . $_SESSION["caracteres"] . " caracteres";
-                $texto_erro = "Informe o nome de uma cidade com, no máximo, 150 caracteres.";
+                $texto_erro = "Informe o nome doa cidade com, no máximo, 150 caracteres.";
             } elseif ($_SESSION["caracteres_requerimento"] == "cidade_inadequada") {
                 $titulo_erro = "Cidade inadequada";
                 $texto_erro = "A cidade informada não atende ao formato necessário: <br> Apenas letras, espaços e caracteres acentuados";
@@ -438,10 +437,19 @@ if (isset($_SESSION["error_requerimento"]) || isset($_SESSION["caracteres_requer
             //////// EMAIL
             if ($_SESSION["caracteres_cadastro"] == "email_pequeno") {
                 $titulo_erro = "Email está com apenas " . $_SESSION["caracteres"] . " caracteres";
-                $texto_erro = "Informe seu nome com, no mínimo, 7 caracteres.";
+                $texto_erro = "Informe seu email com, no mínimo, 7 caracteres.";
             } elseif ($_SESSION["caracteres_cadastro"] == "email_grande") {
                 $titulo_erro = "Email está com " . $_SESSION["caracteres"] . " caracteres";
                 $texto_erro = "Informe seu email com, no máximo, 150 caracteres.";
+            }
+
+            //////// SENHA
+            if ($_SESSION["caracteres_cadastro"] == "senha_pequena") {
+                $titulo_erro = "Senha está com apenas " . $_SESSION["caracteres"] . " caracteres";
+                $texto_erro = "Informe sua senha com, no mínimo, 3 caracteres.";
+            } elseif ($_SESSION["caracteres_cadastro"] == "senha_grande") {
+                $titulo_erro = "Senha está com " . $_SESSION["caracteres"] . " caracteres";
+                $texto_erro = "Informe sua senha com, no máximo, 150 caracteres.";
             }
 
             if ($_SESSION["caracteres_cadastro"] == "senhas_diferentes") {
@@ -604,28 +612,34 @@ if (isset($_SESSION["error_requerimento"]) || isset($_SESSION["caracteres_requer
 
 ///////////////////////////  ERROS MANIPULAÇÃO REQUERIMENTOS  ////////////////////////////////////////////////
 if (isset($_SESSION["crud_requerimento"])) {
-    //////// VISULIZAR - ID NÃO EXISTE
+    //////// VISULIZAR - ID VAZIO
     if ($_SESSION["crud_requerimento"] == "visualizar_id") {
-        $titulo_erro = "O valor do identificador de um requerimento não foi instanciado";
+        $titulo_erro = "O identificador do requerimento não foi informado";
         $texto_erro = "Retorne à página de histórico e selecione um requerimento para visualizar seus detalhes";
     }
 
-    //////// EDITAR - ID NÃO EXISTE
-    if ($_SESSION["crud_requerimento"] == "editar_id") {
-        $titulo_erro = "O valor do identificador de um requerimento não foi instanciado";
+    //////// EDITAR - ID VAZIO
+    elseif ($_SESSION["crud_requerimento"] == "editar_id") {
+        $titulo_erro = "O identificador do requerimento não foi informado";
         $texto_erro = "Retorne à página de histórico e selecione um requerimento para editar suas informações";
     }
 
-    //////// ALTERAR - ID NÃO EXISTE
-    if ($_SESSION["crud_requerimento"] == "alterar_id") {
-        $titulo_erro = "O valor do identificador de um requerimento não foi instanciado";
+    //////// ALTERAR - ID VAZIO
+    elseif ($_SESSION["crud_requerimento"] == "alterar_id") {
+        $titulo_erro = "O identificador do requerimento não foi informado";
         $texto_erro = "Retorne à página de histórico e selecione um requerimento para alterar suas informações";
     }
 
-    //////// EXCLUIR - ID NÃO EXISTE
-    if ($_SESSION["crud_requerimento"] == "excluir_id") {
-        $titulo_erro = "O valor do identificador de um requerimento não foi instanciado";
+    //////// EXCLUIR - ID VAZIO
+    elseif ($_SESSION["crud_requerimento"] == "excluir_id") {
+        $titulo_erro = "O identificador do requerimento não foi informado";
         $texto_erro = "Retorne à página de histórico e selecione um requerimento para deletar suas informações";
+    }
+
+    //////// VISULIZAR - ADMINSTRADOR VAZIO
+    elseif ($_SESSION["crud_requerimento"] == "visualizar_administrador") {
+        $titulo_erro = "O identificador do administrador não foi informado";
+        $texto_erro = "Retorne à página de histórico e selecione novamente um administrador para visualizar suas informações";
     }
 ?>
 
@@ -643,6 +657,40 @@ if (isset($_SESSION["crud_requerimento"])) {
 
 <?php
     unset($_SESSION["crud_requerimento"]);
+}
+
+///////////////////////////   ID NÃO INT  ////////////////////////////////////////////////
+if (isset($_SESSION["id_not_numeric"])) {
+    //////// ADMINISTRADOR
+    if ($_SESSION["id_not_numeric"] == "administrador") {
+        $titulo_erro = "Identificador do administrador inválido!";
+        $texto_erro = "O valor do identificador informado não atende ao formado esperado (número inteiro)";
+    }
+    //////// TITULO
+    elseif ($_SESSION["id_not_numeric"] == "requerimento") {
+        $titulo_erro = "Identificador do requerimento inválido!";
+        $texto_erro = "O valor do identificador informado não atende ao formado esperado (número inteiro)";
+    }
+    //////// USUÁRIO
+    elseif ($_SESSION["id_not_numeric"] == "usuario") {
+        $titulo_erro = "Identificador do usuário inválido!";
+        $texto_erro = "O valor do identificador informado não atende ao formado esperado (número inteiro)";
+    }
+    ?>
+
+        <div class="alert alert-danger alert-dismissible fade show position-fixed bottom-0 end-0 py-auto" role="alert">
+        <h6 class="text-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
+                <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+            </svg>
+            <strong><?= $titulo_erro ?></strong>
+        </h6>
+        <?= $texto_erro ?>
+        <button type="button" class="btn-close my-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <?php
+    unset($_SESSION["id_not_numeric"]);
 }
 
 
@@ -671,13 +719,23 @@ if (isset($_SESSION["mostrar_imagem"]) && basename($_SERVER["PHP_SELF"]) == "mos
     unset($_SESSION["mostrar_imagem"]);
 }
 
-//////////////////////////////////////////////// ID INFORMADO NÃO ESTÁ NO BANCO DE DADOS 
-if (isset($_SESSION["id_requerimento_inexistente"])) {
+///////////// ID INFORMADO NÃO ESTÁ NO BANCO DE DADOS 
+if (isset($_SESSION["id_requerimento_inexistente"]) || isset($_SESSION["id_administrador_inexistente"])) {
+    if (isset($_SESSION["id_requerimento_inexistente"])) {
+        $texto_erro = "requerimento";
+        unset($_SESSION["id_requerimento_inexistente"]);
+    }
+    
+    elseif (isset($_SESSION["id_administrador_inexistente"])) {
+        $texto_erro = "administrador";
+        $id_requerimento = $_SESSION["id_administrador_inexistente"];
+        unset($_SESSION["id_administrador_inexistente"]);
+    }
 ?>
     <div class="row d-flex align-items-center ps-4 h-100">
         <div class="col-md-6 text-center">
-            <h1 class="mt-2 text-danger">Falha ao buscar pelo requerimento</h1>
-            <p class="fs-5s">Não foi econtrado nenhum requerimento com o ID = <?= $id_requerimento ?></p>
+            <h1 class="mt-2 text-danger">Falha ao buscar pelo <?= $texto_erro ?></h1>
+            <p class="fs-5s">Não foi econtrado nenhum <?= $texto_erro ?> com o ID = <?= $id_requerimento ?></p>
             <h2><a href="historico.php" class="btn btn-outline-info p-2 px-4 rounded-pill fs-3 mt-2">Retornar ao histórico</a></h2>
 
         </div>
@@ -686,7 +744,7 @@ if (isset($_SESSION["id_requerimento_inexistente"])) {
         </div>
 
     <?php
-    unset($_SESSION["id_requerimento_inexistente"]);
+    
 }
 
 ///////////////////////////   ERROS DE LOGIN  ////////////////////////////////////////////////

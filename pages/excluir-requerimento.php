@@ -1,7 +1,7 @@
 <?php
 include 'header.php';
 
-
+$id_requerimento = filter_input(INPUT_POST, "deletar", FILTER_SANITIZE_NUMBER_INT);
 $id_requerimento = filter_input(INPUT_POST, "deletar", FILTER_SANITIZE_NUMBER_INT);
 
 if (autenticado()) {
@@ -15,6 +15,12 @@ if (autenticado()) {
 if (empty($id_requerimento)) {
     $_SESSION["crud_requerimento"] = "excluir_id";
     include 'mensagens.php';
+    die();
+}
+
+if (!is_numeric($id_requerimento) || stripos($id_requerimento, "-")) {
+    $_SESSION["id_not_numeric"] = "requerimento";   
+    redireciona("historico.php");
     die();
 }
 

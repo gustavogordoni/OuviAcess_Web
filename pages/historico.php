@@ -7,7 +7,6 @@ if (!autenticado()) {
     $_SESSION["historico_anonimo"] = true;
     include 'mensagens.php';
     die();
-
 } elseif (autenticado()) {
     $id_usuario = $_SESSION["id_usuario"];
 
@@ -22,10 +21,10 @@ if (!autenticado()) {
             $ordem = "titulo";
         } elseif ($ordem == "data") {
             $ordem = "data";
-        } else{
+        } else {
             $ordem = "data";
         }
-    }else{
+    } else {
         $ordem = "data";
     }
 
@@ -50,26 +49,35 @@ if (!autenticado()) {
                     if ($ordem == "titulo") {
                     ?>
                         <th scope="col" style="width:5%;">
-                            <a href="?ordem=id"><strong class="modal-title">ID</strong></a>
+                            <strong class="modal-title"><a class="link-info link-offset-1" href="?ordem=id">ID</a></strong>
                         </th>
-                        <th scope="col" style="width:15%;"><strong class="modal-title cor_tema">Título</strong></th>
-                        <th scope="col" style="width:10%;"><strong class="modal-title cor_tema">Tipo</strong></th>
-                        <th scope="col" style="width:10%;"><strong class="modal-title cor_tema">Situação</strong></th>
+                        <th scope="col" style="width:15%;"><strong class="modal-title text-info">Título
+                                <svg xmlns="http://www.w3.org/2000/svg" class="m-0 p-0 text-info" width="12" height="12" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                                    <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+                                </svg>
+                            </strong></th>
+                        <th scope="col" style="width:10%;"><strong class="modal-title text-info">Tipo</strong></th>
+                        <th scope="col" style="width:10%;"><strong class="modal-title text-info">Situação</strong></th>
                         <th scope="col" style="width:10%;">
-                            <a href="?ordem=data"><strong class="modal-title cor_tema">Data</strong></a>
+                            <strong class="modal-title"><a class="link-info link-offset-1" href="?ordem=data">Data</a></strong>
                         </th>
                         <th scope="col" style="width:1%;" colspan="3"></th>
                     <?php
-                    } if ($ordem == "id_requerimento") {
+                    }
+                    if ($ordem == "id_requerimento") {
                     ?>
-                        <th scope="col" style="width:5%;"><strong class="modal-title cor_tema">ID</strong></th>
+                        <th scope="col" style="width:5%;"><strong class="modal-title text-info">ID
+                                <svg xmlns="http://www.w3.org/2000/svg" class="m-0 p-0 text-info" width="12" height="12" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                                    <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+                                </svg>
+                            </strong></th>
                         <th scope="col" style="width:15%;">
-                            <a href="?ordem=titulo"><strong class="modal-title cor_tema">Título</strong></a>
+                            <strong class="modal-title"><a class="link-info link-offset-1" href="?ordem=titulo">Título</a></strong>
                         </th>
-                        <th scope="col" style="width:10%;"><strong class="modal-title cor_tema">Tipo</strong></th>
-                        <th scope="col" style="width:10%;"><strong class="modal-title cor_tema">Situação</strong></th>
+                        <th scope="col" style="width:10%;"><strong class="modal-title text-info">Tipo</strong></th>
+                        <th scope="col" style="width:10%;"><strong class="modal-title text-info">Situação</strong></th>
                         <th scope="col" style="width:10%;">
-                            <a href="?ordem=data"><strong class="modal-title cor_tema">Data</strong></a>
+                            <strong class="modal-title"><a class="link-info link-offset-1" href="?ordem=data">Data</a></strong>
                         </th>
                         <th scope="col" style="width:1%;" colspan="3"></th>
                     <?php
@@ -77,14 +85,18 @@ if (!autenticado()) {
                     if ($ordem == "data") {
                     ?>
                         <th scope="col" style="width:5%;">
-                            <a href="?ordem=id"><strong class="modal-title">ID</strong></a>
+                            <strong class="modal-title"><a class="link-info link-offset-1" href="?ordem=id">ID</a></strong>
                         </th>
                         <th scope="col" style="width:15%;">
-                            <a href="?ordem=titulo"><strong class="modal-title cor_tema">Título</strong></a>
+                            <strong class="modal-title"><a class="link-info link-offset-1" href="?ordem=titulo">Título</a></strong>
                         </th>
-                        <th scope="col" style="width:10%;"><strong class="modal-title cor_tema">Tipo</strong></th>
-                        <th scope="col" style="width:10%;"><strong class="modal-title cor_tema">Situação</strong></th>
-                        <th scope="col" style="width:10%;"><strong class="modal-title cor_tema">Data</strong></th>
+                        <th scope="col" style="width:10%;"><strong class="modal-title text-info">Tipo</strong></th>
+                        <th scope="col" style="width:10%;"><strong class="modal-title text-info">Situação</strong></th>
+                        <th scope="col" style="width:10%;"><strong class="modal-title text-info">Data
+                                <svg xmlns="http://www.w3.org/2000/svg" class="m-0 p-0 text-info" width="12" height="12" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                                    <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+                                </svg>
+                            </strong></th>
                         <th scope="col" style="width:1%;" colspan="3"></th>
                     <?php
                     }
@@ -98,8 +110,22 @@ if (!autenticado()) {
                     <tr>
                         <td><?= $row["id_requerimento"] ?></td>
                         <td><?= $row["titulo"] ?></td>
-                        <td><?= $row["tipo"] ?></td>
-                        <td><?= $row["situacao"] ?></td>
+                        <td><?= $row["tipo"] ?></td>                        
+                        <?php
+                        if ($row["situacao"] == "Pendente") {
+                        ?> <td><strong class="text-secondary"><?= $row["situacao"] ?></strong></td>
+                        <?php
+                        } elseif ($row["situacao"] == "Em andamento") {
+                        ?> <td><strong class="text-primary"><?= $row["situacao"] ?></strong></td>
+                        <?php
+                        } elseif ($row["situacao"] == "Concluído") {
+                        ?> <td><strong class="text-success"><?= $row["situacao"] ?></strong></td>
+                        <?php
+                        } elseif ($row["situacao"] == "Recusado") {
+                        ?> <td><strong class="text-danger"><?= $row["situacao"] ?></strong></td>
+                        <?php
+                        }
+                        ?>
                         <td><?= $row["data"] ?></td>
                         <td>
                             <form action="visualizar-requerimento.php" method="GET" class="form my-auto">

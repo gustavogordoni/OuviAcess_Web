@@ -43,11 +43,13 @@ $result = $stmt->execute([$email]);
 $row = $stmt->fetch();
 $cont = $stmt->rowCount();
 
-
 if (password_verify($senha, $row['senha'])) {
+    $nome = explode(' ', $row['nome']);
+    $firstName = $nome[0];
+
     //DEU CERTO
     $_SESSION["id_usuario"] = $row["id_usuario"];
-    $_SESSION["nome"] = $row["nome"];
+    $_SESSION["nome"] = $firstName;
     $_SESSION["bem_vindo"] = true;
     redireciona("inicio.php");
     die();

@@ -1,7 +1,6 @@
 <?php
 include 'header.php';
 
-
 if (autenticado()) {
     $id_usuario = $_SESSION["id_usuario"];
 } elseif (!autenticado()) {
@@ -19,6 +18,9 @@ $result = $stmt->execute([$id_usuario]);
 $rowUsuario = $stmt->fetch();
 $cont =  $stmt->rowCount();
 
+$nome = explode(' ', $rowUsuario['nome']);
+$firstName = $nome[0];
+
 require 'navbar.php';
 ?>
 
@@ -26,7 +28,7 @@ require 'navbar.php';
     <main>
         <div class="py-3 text-center mt-4">
             <strong>
-                <h2>Olá <strong><?= $rowUsuario['nome'] ?></strong>  <span class="fs-2">&#128075;</span></h2>
+                <h2>Informações do seu perfil <strong> <br><?= $firstName ?></strong></h2>
             </strong>
         </div>
 

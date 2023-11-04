@@ -1,10 +1,7 @@
 <?php
 include 'header.php';
 
-
 $id_requerimento = filter_input(INPUT_POST, "alterar", FILTER_SANITIZE_NUMBER_INT);
-
-redireciona("login.php");
 
 if (autenticado()) {
     $id_usuario = $_SESSION["id_usuario"];
@@ -16,6 +13,27 @@ if (autenticado()) {
 
 if (empty($id_requerimento)) {
     $_SESSION["crud_requerimento"] = "alterar_id";
+    include 'mensagens.php';
+    die();
+}
+
+if (!is_numeric($id_requerimento) || stripos($id_requerimento, "-")) {
+    $_SESSION["id_not_numeric"] = "requerimento";   
+    redireciona("historico.php");
+    die();
+}
+
+require '../database/conexao.php';
+
+$sql = "SELECT * FROM requerimento WHERE id_requerimento = ? AND id_usuario = ?";
+
+$stmt = $conn->prepare($sql);
+$result = $stmt->execute([$id_requerimento, $id_usuario]);
+$rowRequeriemento = $stmt->fetch();
+$cont =  $stmt->rowCount();
+
+if ($cont == 0) {
+    $_SESSION["id_requerimento_inexistente"] = true;
     include 'mensagens.php';
     die();
 }
@@ -180,9 +198,6 @@ if (empty($descricao)) {
     validacaoEditar($id_requerimento);
     die();
 }
-
-
-require '../database/conexao.php';
 
 $sql = "UPDATE requerimento SET titulo = ?, tipo = ?, cidade = ?, cep = ?, bairro = ?, logradouro = ?, descricao = ?  WHERE id_requerimento = ? AND id_usuario = ?";
 

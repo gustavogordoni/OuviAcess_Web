@@ -17,6 +17,12 @@ if (empty($id_requerimento)) {
     die();
 }
 
+if (!is_numeric($id_requerimento) || stripos($id_requerimento, "-")) {
+    $_SESSION["id_not_numeric"] = "requerimento";
+    redireciona("historico.php");
+    die();
+}
+
 require '../database/conexao.php';
 
 $sql = "SELECT * FROM requerimento WHERE id_requerimento = ? AND id_usuario = ?";
@@ -24,11 +30,11 @@ $stmt = $conn->prepare($sql);
 $result = $stmt->execute([$id_requerimento, $id_usuario]);
 $rowAdministrador = $stmt->fetch();
 
-if(isset($rowAdministrador["id_administrador"]) && !empty($rowAdministrador["id_administrador"])){
-$sql = 'SELECT r.*, a.nome AS "administrador" FROM requerimento r
+if (isset($rowAdministrador["id_administrador"]) && !empty($rowAdministrador["id_administrador"])) {
+    $sql = 'SELECT r.*, a.nome AS "administrador" FROM requerimento r
         INNER JOIN administrador a ON r.id_administrador = a.id_administrador
         WHERE r.id_requerimento = ? AND r.id_usuario = ?';
-}else{
+} else {
     $sql = "SELECT * FROM requerimento WHERE id_requerimento = ? AND id_usuario = ?";
 }
 
@@ -82,7 +88,7 @@ require 'navbar.php';
 
                     <div class="col-md-8">
                         <label for="bairro" class="form-label"><strong>Situação: </strong></label>
-                        <input readonly type="text" class="form-control" id="bairro" name="bairro" value="<?= $rowRequeriemento['situacao'] ?>">
+                        <input readonly type="text" class="form-control" id="bairro" name="bairro" value="<?= strtoupper($rowRequeriemento['situacao']) ?>">
                     </div>
 
                     <div class="col-md-4">
@@ -148,16 +154,36 @@ require 'navbar.php';
                     <?php
                     if (isset($rowRequeriemento['id_administrador'])) {
                     ?>
-
                         <div class="col-12 border p-4 rounded-5 mt-5">
-                            <h3 class="mb-3">Administrador: <a class="cor_tema link-underline link-underline-opacity-0" href="visualizar-administrador.php?id=<?= $rowRequeriemento['id_administrador'] ?>"><?= $rowRequeriemento['administrador'] ?></a></h3>
+                            <h3 class="mb-3">Administrador: <a class="cor_tema link-underline link-underline-opacity-0" href="visualizar-administrador.php?id=<?= $rowRequeriemento['id_administrador'] ?>"><?= $rowRequeriemento['administrador'] ?>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>
+                                        <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path>
+                                    </svg>
+                                 </a>
+                            </h3>
 
-                            <label for="situacao_label" class="form-label"><strong>Situação definida como: </strong> <?= $rowRequeriemento['situacao'] ?></label>
+                            <label for="situacao_label" class="form-label"><strong>Situação definida como: </strong>
+                                <?php
+                                if ($rowRequeriemento['situacao'] == "Pendente") {
+                                ?> <strong class="text-secondary"><?= strtoupper($rowRequeriemento['situacao']) ?></strong>
+                                <?php
+                                } elseif ($rowRequeriemento['situacao'] == "Em andamento") {
+                                ?> <strong class="text-primary"><?= strtoupper($rowRequeriemento['situacao']) ?></strong>
+                                <?php
+                                } elseif ($rowRequeriemento['situacao'] == "Concluído") {
+                                ?> <strong class="text-success"><?= strtoupper($rowRequeriemento['situacao']) ?></strong>
+                                <?php
+                                } elseif ($rowRequeriemento['situacao'] == "Recusado") {
+                                ?> <strong class="text-danger"><?= strtoupper($rowRequeriemento['situacao']) ?></strong>
+                                <?php
+                                }
+                                ?>
+                            </label>
                             <br>
                             <label for="resposta" class="form-label"><strong>Resposta: </strong></label>
                             <textarea readonly class="form-control" id="resposta" style="height: 150px" name="resposta"><?= $rowRequeriemento['resposta'] ?></textarea>
                         </div>
-
                     <?php
                     }
                     ?>

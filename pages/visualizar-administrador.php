@@ -2,6 +2,7 @@
 include 'header.php';
 
 $id_administrador = filter_input(INPUT_GET, "id", FILTER_SANITIZE_NUMBER_INT);
+//$id_administrador = $_GET["id"];
 
 if (autenticado()) {
     $id_usuario = $_SESSION["id_usuario"];
@@ -12,13 +13,18 @@ elseif (!autenticado()) {
     die();
 }
 
-/*
 if (empty($id_administrador)) {
-    $_SESSION["crud_requerimento"] = "visualizar-administrador";
+    $_SESSION["crud_requerimento"] = "visualizar_administrador";
     include 'mensagens.php';
     die();
 }
-*/
+
+if (!is_numeric($id_administrador) || stripos($id_administrador, "-")) {
+    $_SESSION["id_not_numeric"] = "administrador";
+    //include 'mensagens.php';
+    redireciona("historico.php");
+    die();
+}
 
 require '../database/conexao.php';
 
@@ -29,6 +35,15 @@ $result = $stmt->execute([$id_administrador]);
 $rowAdministrador = $stmt->fetch();
 $cont =  $stmt->rowCount();
 
+if ($cont == 0) {
+    $_SESSION["id_administrador_inexistente"] = $id_administrador;
+    include 'mensagens.php';
+    die();
+}
+
+$nome = explode(' ', $rowAdministrador['nome']);
+$firstName = $nome[0];
+
 require 'navbar.php';
 ?>
 
@@ -37,7 +52,7 @@ require 'navbar.php';
         <div class="py-3 text-center mt-4">
             <strong>
                 <h2>Informações do Administrador  <br>
-                    <strong><?= $rowAdministrador['nome'] ?></strong> <span class="fs-2"></span>
+                    <strong><?= $firstName ?></strong> <span class="fs-2"></span>
                 </h2>
             </strong>
         </div>

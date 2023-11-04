@@ -105,7 +105,18 @@ if (empty($senha)) {
     $_SESSION["error_cadastro"] = "senha";
     redireciona("cadastro-usuario.php");
     die();
+}elseif (strlen($senha) < 3) {
+    $_SESSION["caracteres_cadastro"] = "senha_pequena";
+    $_SESSION["caracteres"] = strlen($senha);
+    redireciona("cadastro-usuario.php");
+    die();
+} elseif (strlen($senha) > 150) {
+    $_SESSION["caracteres_cadastro"] = "senha_grande";
+    $_SESSION["caracteres"] = strlen($senha);
+    redireciona("cadastro-usuario.php");
+    die();
 }
+
 /// CONFIRME
 if (empty($confirme)) {
     $_SESSION["error_cadastro"] = "confirme";
