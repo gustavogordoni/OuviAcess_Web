@@ -88,7 +88,7 @@ require 'navbar.php';
 
                     <div class="col-md-8">
                         <label for="bairro" class="form-label"><strong>Situação: </strong></label>
-                        <input readonly type="text" class="form-control" id="bairro" name="bairro" value="<?= strtoupper($rowRequeriemento['situacao']) ?>">
+                        <input readonly type="text" class="form-control" id="bairro" name="bairro" value="<?= $rowRequeriemento['situacao'] ?>">
                     </div>
 
                     <div class="col-md-4">
@@ -170,6 +170,9 @@ require 'navbar.php';
                                 <?php
                                 } elseif ($rowRequeriemento['situacao'] == "Em andamento") {
                                 ?> <strong class="text-primary"><?= strtoupper($rowRequeriemento['situacao']) ?></strong>
+                                <?php
+                                } elseif ($rowRequeriemento['situacao'] == "Informações incompletas") {
+                                ?> <strong class="text-warning"><?= strtoupper($rowRequeriemento['situacao']) ?></strong>
                                 <?php
                                 } elseif ($rowRequeriemento['situacao'] == "Concluído") {
                                 ?> <strong class="text-success"><?= strtoupper($rowRequeriemento['situacao']) ?></strong>

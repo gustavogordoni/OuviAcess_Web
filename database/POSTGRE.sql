@@ -4,7 +4,7 @@ CREATE TABLE usuario (
     ddd VARCHAR(4),
     telefone VARCHAR(10),
     email VARCHAR(150),
-    senha VARCHAR(150)
+    senha VARCHAR(500)
 );
 
 CREATE TABLE administrador (
@@ -13,7 +13,7 @@ CREATE TABLE administrador (
     ddd VARCHAR (4),
     telefone VARCHAR(10),
     email VARCHAR(150),
-    senha VARCHAR(150)
+    senha VARCHAR(500)
 );
 
 CREATE TABLE requerimento (
@@ -23,7 +23,7 @@ CREATE TABLE requerimento (
     tipo VARCHAR(8),
     situacao VARCHAR(150),
     data VARCHAR(10),
-    descricao VARCHAR(2000),
+    descricao TEXT,
     cep VARCHAR(10),
     cidade VARCHAR(150),
     bairro VARCHAR(150),

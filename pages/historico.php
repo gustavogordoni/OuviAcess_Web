@@ -110,13 +110,16 @@ if (!autenticado()) {
                     <tr>
                         <td><?= $row["id_requerimento"] ?></td>
                         <td><?= $row["titulo"] ?></td>
-                        <td><?= $row["tipo"] ?></td>                        
+                        <td><?= $row["tipo"] ?></td>
                         <?php
                         if ($row["situacao"] == "Pendente") {
                         ?> <td><strong class="text-secondary"><?= $row["situacao"] ?></strong></td>
                         <?php
                         } elseif ($row["situacao"] == "Em andamento") {
                         ?> <td><strong class="text-primary"><?= $row["situacao"] ?></strong></td>
+                        <?php
+                        } elseif ($row["situacao"] == "Informações incompletas") {
+                        ?> <td><strong class="text-warning"><?= $row["situacao"] ?></strong></td>
                         <?php
                         } elseif ($row["situacao"] == "Concluído") {
                         ?> <td><strong class="text-success"><?= $row["situacao"] ?></strong></td>
