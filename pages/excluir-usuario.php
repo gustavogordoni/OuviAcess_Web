@@ -1,8 +1,6 @@
 <?php
 include 'header.php';
 
-$id_requerimento = filter_input(INPUT_POST, "deletar", FILTER_SANITIZE_NUMBER_INT);
-
 if (autenticado()) {
     $id_usuario = $_SESSION["id_usuario"];
 } elseif (!autenticado()) {
@@ -11,40 +9,22 @@ if (autenticado()) {
     die();
 }
 
-if (empty($id_requerimento)) {
-    $_SESSION["crud_requerimento"] = "excluir_id";
-    include 'mensagens.php';
-    die();
-}
-
-if (!is_numeric($id_requerimento) || stripos($id_requerimento, "-")) {
-    $_SESSION["id_not_numeric"] = "requerimento";   
-    redireciona("historico.php");
-    die();
-}
-
 require '../database/conexao.php';
 
-// VERIFICAR SE HÁ IMAGEM DE UM REQUERIMENTO, ANTES DE EXCLUIR A TABELA REQUERIMENTO
-$sql = "SELECT id_requerimento FROM arquivo WHERE id_requerimento = ?";
-
+$sql = "DELETE FROM arquivo WHERE id_requerimento IN (SELECT id_requerimento FROM requerimento WHERE id_usuario = ?";
+echo $sql . "<br>";
 $stmt = $conn->prepare($sql);
-$result = $stmt->execute([$id_requerimento]);
-$cont = $stmt->rowCount();
+$result = $stmt->execute($id_usuario);
 
-if ($cont == 0) {
-} elseif ($cont >= 1) {
-    $sql = "DELETE FROM arquivo WHERE id_requerimento = ?";
-
-    $stmt = $conn->prepare($sql);
-    $result = $stmt->execute([$id_requerimento]);
-}
-
-$sql = "DELETE FROM requerimento WHERE id_requerimento = ? AND id_usuario = ?";
-
+$sql = "DELETE FROM requerimento WHERE id_usuario = ?";
+echo $sql . "<br>";
 $stmt = $conn->prepare($sql);
-$result = $stmt->execute([$id_requerimento, $id_usuario]);
-$cont =  $stmt->rowCount();
+$result = $stmt->execute($id_usuario);
+
+$sql = "DELETE FROM usuario WHERE id_usuario = ?";
+echo $sql . "<br>";
+$stmt = $conn->prepare($sql);
+$result = $stmt->execute($id_usuario);
 
 if ($result == true && $cont == 1) {
     $_SESSION["excluir_requerimento"] = true;

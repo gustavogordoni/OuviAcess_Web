@@ -85,7 +85,7 @@ require 'navbar.php';
                     </div>
 
                     <div class="mt-4 col-12 row">
-                        <a class="w-100 btn btn-secondary rounded-pill px-3 btn-lg" href="inicio.php">Voltar ao início</a>
+                        <a class="w-100 btn btn-secondary rounded-pill px-3 btn-lg" href="historico.php">Voltar ao histórico</a>
                     </div>
 
                 </div>

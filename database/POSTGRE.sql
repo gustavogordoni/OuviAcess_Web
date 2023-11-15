@@ -59,3 +59,39 @@ INSERT INTO requerimento VALUES
 (1, 1, 'Falta de rampas de acesso no IFSP Campus Votuporanga', 'Sugestão', 'Pendente', '12/10/2023', 'Labore officia eiusmod incididunt ut laboris eiusmod dolore. Aliquip fugiat irure aliqua dolore ut esse proident voluptate elit. Dolor consequat sint magna in quis occaecat tempor. Aute duis ipsum tempor occaecat nostrud velit eiusmod eiusmod laboris nisi ut culpa ex. Reprehenderit in ipsum magna ullamco veniam ad voluptate commodo voluptate quis. Adipisicing nisi labore eu sint mollit duis in.', '11.111-111', 'Votuporanga', 'Pozzobon', 'Avenida Jerônimo Figueira da Costa', DEFAULT, DEFAULT),
 (2, 1, 'Ausência de vagas dedicadas a pessoas com mobilidade reduzida', 'Sugestão', 'Pendente', '21/10/2023', 'Labore officia eiusmod incididunt ut laboris eiusmod dolore. Aliquip fugiat irure aliqua dolore ut esse proident voluptate elit. Dolor consequat sint magna in quis occaecat tempor. Aute duis ipsum tempor occaecat nostrud velit eiusmod eiusmod laboris nisi ut culpa ex. Reprehenderit in ipsum magna ullamco veniam ad voluptate commodo voluptate quis. Adipisicing nisi labore eu sint mollit duis in.', '22.222-222', 'Cardoso', 'Centro', 'Rua Joâo da Silva', DEFAULT, DEFAULT),
 (3, 2, 'Piso tátil danificado na Concha Acústica', 'Denúncia', 'Pendente', '01/10/2023', 'Labore officia eiusmod incididunt ut laboris eiusmod dolore. Aliquip fugiat irure aliqua dolore ut esse proident voluptate elit. Dolor consequat sint magna in quis occaecat tempor. Aute duis ipsum tempor occaecat nostrud velit eiusmod eiusmod laboris nisi ut culpa ex. Reprehenderit in ipsum magna ullamco veniam ad voluptate commodo voluptate quis. Adipisicing nisi labore eu sint mollit duis in.', '33.333-333', 'Votuporanga', 'Centro', 'Rua São Paulo', DEFAULT, DEFAULT);
+
+-- Requerimento 4
+INSERT INTO requerimento (id_requerimento, id_usuario, titulo, tipo, situacao, data, descricao, cep, cidade, bairro, logradouro, resposta, id_administrador)
+VALUES (4, 1, 'Falta de sinalização para deficientes visuais', 'Sugestão', 'Pendente', '05/11/2023', 'Falta de sinalização tátil para orientar pessoas com deficiência visual nos corredores do campus.', '11.111-111', 'Votuporanga', 'Pozzobon', 'Avenida Jerônimo Figueira da Costa', DEFAULT, DEFAULT);
+
+-- Requerimento 5
+INSERT INTO requerimento (id_requerimento, id_usuario, titulo, tipo, situacao, data, descricao, cep, cidade, bairro, logradouro, resposta, id_administrador)
+VALUES (5, 1, 'Banheiro sem acessibilidade para cadeirantes', 'Denúncia', 'Pendente', '07/11/2023', 'O banheiro no bloco C não possui estrutura adequada para cadeirantes, tornando-o inacessível.', '11.111-111', 'Votuporanga', 'Pozzobon', 'Avenida Jerônimo Figueira da Costa', DEFAULT, DEFAULT);
+
+-- Requerimento 6
+INSERT INTO requerimento (id_requerimento, id_usuario, titulo, tipo, situacao, data, descricao, cep, cidade, bairro, logradouro, resposta, id_administrador)
+VALUES (6, 1, 'Sugestão de instalação de elevadores', 'Sugestão', 'Pendente', '09/11/2023', 'Sugiro a instalação de elevadores nos prédios do campus para facilitar o acesso de todos.', '11.111-111', 'Votuporanga', 'Pozzobon', 'Avenida Jerônimo Figueira da Costa', DEFAULT, DEFAULT);
+
+-- Requerimento 7
+INSERT INTO requerimento (id_requerimento, id_usuario, titulo, tipo, situacao, data, descricao, cep, cidade, bairro, logradouro, resposta, id_administrador)
+VALUES (7, 1, 'Falta de vagas de estacionamento para portadores de deficiência', 'Denúncia', 'Pendente', '11/11/2023', 'Não há vagas de estacionamento reservadas para pessoas com deficiência no estacionamento do campus.', '11.111-111', 'Votuporanga', 'Pozzobon', 'Avenida Jerônimo Figueira da Costa', DEFAULT, DEFAULT);
+
+-- Requerimento 8
+INSERT INTO requerimento (id_requerimento, id_usuario, titulo, tipo, situacao, data, descricao, cep, cidade, bairro, logradouro, resposta, id_administrador)
+VALUES (8, 1, 'Sugestão de rampas de acesso em todas as entradas', 'Sugestão', 'Pendente', '13/11/2023', 'Sugiro a instalação de rampas de acesso em todas as entradas do campus para garantir a acessibilidade.', '11.111-111', 'Votuporanga', 'Pozzobon', 'Avenida Jerônimo Figueira da Costa', DEFAULT, DEFAULT);
+
+-- Requerimento 9 (Em andamento)
+INSERT INTO requerimento (id_requerimento, id_usuario, titulo, tipo, situacao, data, descricao, cep, cidade, bairro, logradouro, resposta, id_administrador)
+VALUES (9, 1, 'Instalação de piso tátil nas escadarias', 'Sugestão', 'Em andamento', '15/11/2023', 'Sugiro a instalação de piso tátil nas escadarias para facilitar a locomoção de pessoas com deficiência visual.', '11.111-111', 'Votuporanga', 'Pozzobon', 'Avenida Jerônimo Figueira da Costa', DEFAULT, DEFAULT);
+
+-- Requerimento 10 (Concluído)
+INSERT INTO requerimento (id_requerimento, id_usuario, titulo, tipo, situacao, data, descricao, cep, cidade, bairro, logradouro, resposta, id_administrador)
+VALUES (10, 1, 'Instalação de bebedouros acessíveis', 'Sugestão', 'Concluído', '18/11/2023', 'Sugiro a instalação de bebedouros acessíveis para pessoas com mobilidade reduzida.', '11.111-111', 'Votuporanga', 'Pozzobon', 'Avenida Jerônimo Figueira da Costa', 'O requerimento foi analisado e implementado. Agradecemos pela sugestão.', 2);
+
+-- Requerimento 11 (Recusado)
+INSERT INTO requerimento (id_requerimento, id_usuario, titulo, tipo, situacao, data, descricao, cep, cidade, bairro, logradouro, resposta, id_administrador)
+VALUES (11, 1, 'Solicitação de contratação de intérprete de Libras', 'Sugestão', 'Recusado', '20/11/2023', 'Sugiro a contratação de intérpretes de Libras para auxiliar alunos surdos.', '11.111-111', 'Votuporanga', 'Pozzobon', 'Avenida Jerônimo Figueira da Costa', 'A solicitação foi avaliada, mas não é viável no momento.', 2);
+
+-- Requerimento 12 (Informações incompletas)
+INSERT INTO requerimento (id_requerimento, id_usuario, titulo, tipo, situacao, data, descricao, cep, cidade, bairro, logradouro, resposta, id_administrador)
+VALUES (12, 1, 'Reclamação sobre mobiliário inadequado', 'Denúncia', 'Informações incompletas', '22/11/2023', 'Gostaria de reportar um problema com o mobiliário no prédio B, mas preciso de mais informações sobre a localização específica.', '11.111-111', 'Votuporanga', 'Pozzobon', 'Avenida Jerônimo Figueira da Costa', DEFAULT, DEFAULT);

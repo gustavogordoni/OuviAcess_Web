@@ -6,12 +6,14 @@ include 'navbar.php';
 if (!autenticado()) {
     $_SESSION["historico_anonimo"] = true;
     include 'mensagens.php';
+    include 'js.php';
     die();
 } elseif (autenticado()) {
     $id_usuario = $_SESSION["id_usuario"];
 
     require '../database/conexao.php';
 
+    /*
     if (isset($_GET["ordem"]) && !empty($_GET["ordem"])) {
         $ordem = filter_input(INPUT_GET, "ordem", FILTER_SANITIZE_SPECIAL_CHARS);
 
@@ -29,6 +31,29 @@ if (!autenticado()) {
     }
 
     $sql = "SELECT * FROM requerimento WHERE id_usuario = ? ORDER BY $ordem";
+    */
+
+    if (isset($_GET["ordem"]) && !empty($_GET["ordem"])) {
+        $ordem = filter_input(INPUT_GET, "ordem", FILTER_SANITIZE_SPECIAL_CHARS);
+
+        if ($ordem == "id") {
+            $ordem = "id_requerimento";
+        } elseif ($ordem == "titulo") {
+            $ordem = "titulo";
+        } elseif ($ordem == "data") {
+            $ordem = "substring(data, 7, 4) || '-' || substring(data, 4, 2) || '-' || substring(data, 1, 2)";
+        } else {
+            $ordem = "substring(data, 7, 4) || '-' || substring(data, 4, 2) || '-' || substring(data, 1, 2)";
+        }
+    } else {
+        $ordem = "substring(data, 7, 4) || '-' || substring(data, 4, 2) || '-' || substring(data, 1, 2)";
+    }
+
+    $sql = "SELECT * FROM requerimento WHERE id_usuario = ? ORDER BY $ordem";
+
+    if($ordem == "substring(data, 7, 4) || '-' || substring(data, 4, 2) || '-' || substring(data, 1, 2)"){
+        $ordem = "data";
+    }
 
     $stmt = $conn->prepare($sql);
     $result = $stmt->execute([$id_usuario]);

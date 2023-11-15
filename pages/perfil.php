@@ -67,6 +67,11 @@ require 'navbar.php';
                             <a href="editar-perfil.php" class="w-100 btn btn-warning rounded-pill px-3 btn-lg" value="<?= $id_usuario ?>">
                                 Alterar informações do perfil
                             </a>
+                        </div>                        
+                        <div class="col-md-12">
+                            <button type="button" class="w-100 btn btn-danger btn-lg rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                Deletar conta
+                            </button>
                         </div>
                     </div>
 
@@ -75,6 +80,31 @@ require 'navbar.php';
         </div>
 
     </main>
+</div>
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-dialog-centered">
+        <div class="modal-content">
+            <form action="excluir-usuario.php" method="POST" class="form my-auto">
+
+                <div class="modal-header">
+                    <p class="modal-title fs-4 text-center" id="staticBackdropLabel">Confirme sua senha atual, antes de realizar a exclusão da conta</p>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-12 mt-2">
+                        <label for="senha_atual" class="form-label text-center" id="label_atual"><strong>Senha atual: </strong></label>
+                        <input type="password" class="form-control" id="senha_atual" name="senha_atual" required maxlength="150">
+                    </div>
+                </div>
+                <div class="modal-footer mx-auto w-100 d-flex justify-content-center">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Voltar</button>
+                    <button type="submit" class="btn btn-danger" name="deletar">Excluir</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
 </div>
 
 <?php
