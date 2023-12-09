@@ -1,19 +1,12 @@
 <?php
 include 'header.php';
 
-
 if (autenticado()) {
     $id_usuario = $_SESSION["id_usuario"];
 } elseif (!autenticado()) {
     $_SESSION["realizar_login"] = "alterar-senha";
     redireciona("login.php");
     die();
-}
-
-function validacaoPerfil($pagina = null)
-{
-    $pagina = "editar-perfil.php";
-    header("Location: " . $pagina);
 }
 
 $senha_atual = trim(filter_input(INPUT_POST, "senha_atual", FILTER_SANITIZE_SPECIAL_CHARS));
@@ -28,31 +21,31 @@ if (
     empty($senha_confirmacao)
 ) {
     $_SESSION["erro_alterarSenha"] = "acesso_url";
-    validacaoPerfil();
+    redireciona("editar-perfil.php");
     die();
 }
 
 /// SENHA
 if (empty($senha_atual)) {
     $_SESSION["erro_alterarSenha"] = "senha_atual";
-    validacaoPerfil();
+    redireciona("editar-perfil.php");
     die();
 }
 /// NOVA
 if (empty($senha_nova)) {
     $_SESSION["erro_alterarSenha"] = "senha_nova";
-    validacaoPerfil();
+    redireciona("editar-perfil.php");
     die();
 }
 /// CONFIRME
 if (empty($senha_confirmacao)) {
     $_SESSION["erro_alterarSenha"] = "senha_confirmacao";
-    validacaoPerfil();  
+    redireciona("editar-perfil.php");  
 }
 /// CONFIRMAÇÃO DA SENHA - ESTÃO IGUAIS
 if ($senha_nova != $senha_confirmacao) {
     $_SESSION["erro_alterarSenha"] = "senhas_diferentes";
-    validacaoPerfil();
+    redireciona("editar-perfil.php");
     die();
 }
 
@@ -65,14 +58,14 @@ $result = $stmt->execute([$id_usuario]);
 $row = $stmt->fetch();
 $cont = $stmt->rowCount();
 
-if ($senha_atual == $senha_nova) {
-    // MESMA SENHA
-    $_SESSION["alterarSenha"] = "mesma";
-    redireciona("perfil.php");
-    die();
-}
-
 if (password_verify($senha_atual, $row['senha'])) {
+
+    if ($senha_atual == $senha_nova) {
+        // MESMA SENHA
+        $_SESSION["alterarSenha"] = "mesma";
+        redireciona("perfil.php");
+        die();
+    }
 
     $senha_hash = password_hash($senha_nova, PASSWORD_BCRYPT);
 
@@ -94,13 +87,13 @@ if (password_verify($senha_atual, $row['senha'])) {
     } else {
         // ERRO NO PROCESSO
         $_SESSION["erro_alterarSenha"] = "erro_nao_identificado";
-        validacaoPerfil();
+        redireciona("editar-perfil.php");
         die();
     }
 } else {
     // SENHAS DIFERENTES
     $_SESSION["erro_alterarSenha"] = "diferentes";
-    validacaoPerfil();
+    redireciona("editar-perfil.php");
     die();
 }
 

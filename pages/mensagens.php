@@ -513,7 +513,20 @@ if (isset($_SESSION["error_requerimento"]) || isset($_SESSION["caracteres_requer
             if ($_SESSION["error_perfil"] == "email_inexistente") {
                 $titulo_erro = "E-mail já existe";
                 $texto_erro = "O e-mail informado já está cadastrado em nosso sistema!";
+            }           
+
+            //////// SENHA
+            if ($_SESSION["error_perfil"] == "senha_deletar") {
+                $titulo_erro = "Senha está incorreta";
+                $texto_erro = "Informe a sua senha de autenticação (login) para que seu perfil seja excluído!";
             }
+
+            //////// EXCLUIR PERFIL - ERRO GENÉRICO
+            if ($_SESSION["error_perfil"] == "deletar_perfil") {
+                $titulo_erro = "Não foi possível excluir seu perfil";
+                $texto_erro = null;
+            }
+
             unset($_SESSION["error_perfil"]);
         }
 

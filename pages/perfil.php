@@ -60,19 +60,20 @@ require 'navbar.php';
                     </div>
 
                     <div class="mt-4 col-12 row">
-                        <div class="col-md-6 mb-3">
+                        <div class="col-lg-6 mb-3">
                             <a class="w-100 btn btn-secondary rounded-pill px-3 btn-lg" href="inicio.php">Voltar ao início</a>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-lg-6">
                             <a href="editar-perfil.php" class="w-100 btn btn-warning rounded-pill px-3 btn-lg" value="<?= $id_usuario ?>">
                                 Alterar informações do perfil
                             </a>
                         </div>                        
-                        <div class="col-md-12">
-                            <button type="button" class="w-100 btn btn-danger btn-lg rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                Deletar conta
-                            </button>
-                        </div>
+                        
+                    </div>
+                    <div class="mt-1 col-12 row">
+                        <button type="button" class="w-100 btn btn-danger btn-lg rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                            Deletar conta
+                        </button>
                     </div>
 
                 </div>

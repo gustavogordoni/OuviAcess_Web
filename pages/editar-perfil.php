@@ -65,7 +65,7 @@ require 'navbar.php';
                             <label for="email" class="form-label"><strong>E-mail: </strong></label>
                             <div class="input-group has-validation">
                                 <span class="input-group-text">@</span>
-                                <input type="email" class="form-control" id="email" name="email" placeholder="voce@exemplo.com" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" value="<?= $rowUsuario["email"] ?>" maxlength="150">
+                                <input readonly type="email" class="form-control" id="email" name="email" placeholder="voce@exemplo.com" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" value="<?= $rowUsuario["email"] ?>" maxlength="150">
                                 <div class="invalid-feedback">
                                     Por favor, insira um endereço de e-mail válido para efetuar login
                                 </div>
@@ -80,7 +80,10 @@ require 'navbar.php';
                             </div>
                             <div class="col-md-6">
                                 <button class="w-100 btn btn-primary btn-lg rounded-pill px-3" type="submit">Enviar</button>
-                            </div>
+                            </div>                            
+                        </div>
+                        <div class="mt-1 col-12 row">
+                            <a class="w-100 btn btn-secondary rounded-pill px-3 btn-lg" href="perfil.php">Voltar ao perfil</a>
                         </div>
 
                 </form>

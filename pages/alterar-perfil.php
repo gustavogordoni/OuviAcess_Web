@@ -15,7 +15,7 @@ if (autenticado()) {
 $nome = trim(filter_input(INPUT_POST, "nome", FILTER_SANITIZE_SPECIAL_CHARS));
 $ddd = trim(filter_input(INPUT_POST, "ddd", FILTER_SANITIZE_SPECIAL_CHARS));
 $telefone = trim(filter_input(INPUT_POST, "telefone", FILTER_SANITIZE_SPECIAL_CHARS));
-$email = trim(filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL));
+//$email = trim(filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL));
 
 ///////////////////////////////////// VALIDAÇÕES /////////////////////////////////////
 
@@ -73,6 +73,7 @@ if (empty($telefone)) {
     die();
 }
 
+/*
 /// EMAIL
 if (empty($email)) {
     $_SESSION["error_perfil"] = "email";
@@ -89,27 +90,29 @@ if (empty($email)) {
     redireciona("perfil.php");
     die();
 }
+*/
 
 require '../database/conexao.php';
 
 /*
-$sql = "SELECT id_usuario, email FROM usuario WHERE email = ?";
+$sql = "SELECT id_usuario, email FROM usuario WHERE email = ? AND id_usuario != ?";
 $stmt = $conn->prepare($sql);
-$result = $stmt->execute([$email]);
+$result = $stmt->execute([$email, $id_usuario]);
 $rowEmail = $stmt->fetch();
 $cont = $stmt->rowCount();
 
 if ($result == true && $cont >= 1) {
-    $_SESSION["error_perfil"] = "email_inexistente";
+    $_SESSION["error_cadastro"] = "email_inexistente";
     redireciona("perfil.php");
     die();
 }
 */
 
-$sql = "UPDATE usuario SET nome = ?, ddd = ?, telefone = ?, email = ? WHERE id_usuario = ?";
+//$sql = "UPDATE usuario SET nome = ?, ddd = ?, telefone = ?, email = ? WHERE id_usuario = ?";
+$sql = "UPDATE usuario SET nome = ?, ddd = ?, telefone = ? WHERE id_usuario = ?";
 
 $stmt = $conn->prepare($sql);
-$result = $stmt->execute([$nome, $ddd, $telefone, $email, $id_usuario]);
+$result = $stmt->execute([$nome, $ddd, $telefone, $id_usuario]);
 $cont =  $stmt->rowCount();
 
 if ($result == true && $cont >= 1) {
