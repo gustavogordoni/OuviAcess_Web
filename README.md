@@ -60,7 +60,7 @@ população forneça um feedback sobre os vários ambientes públicos, realizado
 requerimentos que abrangem denúncias ou sugestões, contribuindo, desta forma, para a
 organização e agilidade das respostas aos problemas e propostas realizados.</p>
 
-<h2>TRABALHOS FUTUROS</h2>
+<h2>3. TRABALHOS FUTUROS</h2>
 <p>Futuramente, planejamos continuar o desenvolvimento desse sistema, expandindo-o
 para além de uma ouvidoria, implementando, possivelmente, um fórum aberto para debates
 e/ou simples perguntas e respostas entre os usuários, enquanto mantemos a proposta
